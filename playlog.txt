@@ -1,0 +1,262 @@
+#####	20170504	#####
+
+Meeting with Brisk
+Testing: 
+person in front of car,
+Bus in multiple cells
+
+Prefer accuracy to speed 
+
+The actual camera height: 8 -10 meters high, like in montreal videos 
+
+In order to speed up the detection
+	1.Pruning
+	2.Decrease the number of classes
+
+
+#####	20170505	#####
+
+Input size (Pascal VOC): 
+
+	500*375 -> 4:3
+
+Output size:
+
+	416*416   FPS 13
+
+	1408*1056 FPS 2.4	Ratio: 4:3	  close to FullHD
+
+	1920*1080 FPS 1.6	Ratio: 16:9   FullHD
+
+	1920*1920 FPS 0.7
+
+	2240*2240 FPS 0.4
+
+
+#####	20170508	#####
+
+Data Association 
+
+Problem: 
+	Occlusion
+Solution: 
+	Compute optical flow 
+	motion infer
+	position infer
+
+
+Paper: Multiple Object Tracking A Review
+
+3.2 Appearance Model
+
+Optical Flow:
+
+1.Paper: Tracking in unstructed crowed scenes
+
+	link detection responses in continuous frames into short tracklets for further data association processing
+
+	Code: http://www.mikelrodriguez.com/crowd-tracking-matlab-application
+	http://www.mikelrodriguez.com/datasets-and-source-code/
+
+
+2.Paper: Multiple People Multiple Parts Tracker
+
+	directly use it for data association
+
+	Codes: None
+
+	https://www.youtube.com/watch?v=YhyMcWnJf9g
+
+3. Paper: Multi-target tracking by continuous energy minimization
+	
+	Used to complement HOG for observation model
+
+	Codes: http://research.milanton.de/contracking/	
+4. Paper: Floor fields for tracking in high density crowd scenes
+	Extremely crowded scenarios
+
+	Codes: None
+
+5. Paper: Data-driven crowd analysis in videos.
+	Extremely crowded scenarios
+
+	Codse: None
+
+
+3.3 Motion Model
+3.4 Interaction Model
+3.6 Occlusion Handeling
+
+
+1. Paper: Single and multiple object tracking using log Euclidean Riemannian subspace and block-division appearance model
+
+	Block Divison Model
+
+2. Paper: Global data association for multi-object tracking using network flows
+
+	Exploit Occlusion Model
+
+	https://www.youtube.com/watch?v=SgRSniLdpwk
+
+3. Paper: Multi person tracking with sparse detection and continuous segmentation
+	Level-set Trackers
+
+4. Paper: Real-Time Multi-Person Tracking with Detector Assisted Structure Propagation
+	Level-set Trackers
+
+5. Paper: Observe-and-explain A new approach for multiple hypotheses tracking of humans and objects
+
+	Observer and Explain Model
+
+6. Paper: Multiobject tracking as maximum weight independent set
+
+	Based on WMIS algorithm
+
+
+#####	20170509	#####
+read codes
+
+#####	20170510	#####
+set up eclipse
+change codes
+
+#####	20170511	#####
+meet souhail
+working on displaying the frame index and bounding box index
+
+
+#####	20170515	#####
+
+
+Need to find the anchors
+
+cell index 
+
+#####	Week of 20170515	#####
+
+The probs array used to be 845*(80+1)
+Now, the probs arrary is modified to be 845*(80+1+3)
+The total number of boxes: 845=13*13*5
+
+During the labeling step:
+	YOLO will start from box i=0 until 844, 
+	two objects with bigger n will be labeled later.
+	the scan will be in horizontal direction  
+
+Paper:
+	CS229FinalProjectReport
+
+	Student review on YOLO, perform tracking with image extraction and clustering
+	
+
+#####	Week of 20170522	#####
+
+Paper: 
+	Learning to Track at 100 FPS with Deep Regression Networks
+
+	code: http://davheld.github.io/GOTURN/GOTURN.html
+
+
+
+The current YOLO implementation does not have any object detection handling. It just uses the for loop to scan frame by frame. 
+
+1. We need to calculate the optical flow of the each bouding box. (Using edge information first)
+possibly need to talk to Gary
+
+2. Use the appearance information for the high level layers to select the correct bounding boxes
+
+3. Pedestrains will be hard to track just using the color histogram 
+
+
+
+Computed the optical flow of the entire frame
+
+Solved the run-out-of memory issues
+
+Represented the optical flow with Arrows
+
+
+#####	Week of 20170529	#####
+	
+plot the corners
+dense optical flow
+list the parameters
+
+solved the weird the optical flow due to the labels
+Solved the run-out-of memory issues
+
+Computed the optical flow of the bounding box
+
+worked on constructing the opticalvector object
+
+
+#####	Week of 20170605	#####
+
+1. Need to figure out how to merge the optical flow vector together
+Average, Gaussian?
+
+2. Match the bounding box together and three scenarios
+	memory of only two frames?
+	or multiple frames?
+	threshold values 
+	change points to degree?
+
+3. Objects can be detected multipled times. 
+
+4. Running speed drops to 0.5 fps
+
+Worked on Tracking
+Converted two CvPoints to degree
+Reorganized the code structure
+Reorganized the image display structure  
+
+#####	Week of 20170612 && Week of 20170619 	#####
+
+1. matching algorithm 
+	object class
+	optical flow in terms of degree
+
+	worked on decreasing the searching area
+	skiped the object that have been already matched
+
+	if a new object shows up, assign a new number 
+
+2. optical flow average not median 
+
+3. GPU and CPU for loop
+
+
+#####	Week of 20170626	#####
+
+COMPLETED: Implemented the method to average out optical flow vectors around any selected vector (Currently, median of median vector)
+
+COMPLETED: Implemented flow vector updating algorithm, iteratively update the previous optical flow based on the current optical flow degree. 
+
+COMPLETED: Fixed the dug that some vector have huge magnitude
+
+COMPLETED: Made the algorithm adaptive to any video resolutions
+
+
+THESIS: compare the accuracy improved by using the median number instead of average number
+THESIS: talk about the quicksort algorithm 
+
+READ: Kalmen filter  
+
+
+THESIS: Problem with median number, sometimes, the correct corresponding vectors lie behind or in front of the median value. It is important to implement a way that choose the correct optical flow vector from these vectors. Currently, we average out several optical flow vectors based on the median of median value.  
+
+THESIS: Instead of replacing the new optical flow with old optical flow, We can adjust it by some offset. 
+
+IDEA: what if we compare the optical flow first, if it falls in certain range, we adjust it. If we can not match it, but the location is the same, we match them based on the location index. 
+
+
+if possible, make picking up the pivot random 
+
+find the maixnume displacement after increaeing te resolution 
+look at the direction of the bb vanishes 
+
+add the tracking path 
+start and end of the boudning box when 
+trace fades away. 
+
+

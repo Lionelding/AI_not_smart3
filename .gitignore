@@ -40,5 +40,8 @@ $RECYCLE.BIN/
 .VolumeIcon.icns
 
 # Directories potentially created on remote AFP share
-others video
+other_videos
+good_videos
+
+
 
