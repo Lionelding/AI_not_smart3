@@ -232,7 +232,7 @@ COMPLETED: Implemented the method to average out optical flow vectors around any
 
 COMPLETED: Implemented flow vector updating algorithm, iteratively update the previous optical flow based on the current optical flow degree. 
 
-COMPLETED: Fixed the dug that some vector have huge magnitude
+COMPLETED: Fixed the bug that some vector have huge magnitude
 
 COMPLETED: Made the algorithm adaptive to any video resolutions
 
@@ -258,5 +258,77 @@ look at the direction of the bb vanishes
 add the tracking path 
 start and end of the boudning box when 
 trace fades away. 
+
+
+#####	Week of 20170703	#####
+
+
+Maximum Displacement based on different resolutions
+1. 416 12
+2. 832 30
+
+During the process of importing the Kalman filter from opencv library, I accidently messed up the lightnet3 project. Therefore, lightnet 4 is established. Later works would be on lightnet 4. 
+
+
+Found Kalman filter in opencv libary
+Implemented one quick demo
+Worked on the Kalman filter in our project
+
+
+THESIS: 
+
+	Process noise covariance matrix Q: The result will be smoother with lower values.
+	Measurement noise covariance matrix R: The result will be smoother with higher values.
+
+	The relation between those two matrices defines the amount and shape of filtering you are performing.
+
+	If Q is high, it will mean that the signal you are measuring varies quickly and you need the filter to be adaptable. If Q is low, then big variations will be attributed to noise in the measure.
+
+	If R is high (comparing to Q), it will indicate that the measuring is noisy so it will be filtered more.
+
+
+FACT(solved): when the prior state contains(measured x, measured y, 0, 0) and object moves in -x and -y direction
+
+	1. Process noise covariance matrix Q = (1e-5) && Measurement noise covariance matrix R = (1e-5), 
+	=> real state does not change, the predicted state follows/leads the measured state. 
+
+	2. Process noise covariance matrix Q= (1) && Measurement noise covariance matrix R =(1e-5),
+	=> real state increases positively both in x and y, the Predicted state follows/leads the measured state.
+
+
+
+#####	Week of 20170710	#####
+
+
+COMPLETED: 
+
+	1. Implemented a static hashtable. 
+
+	2. Applied Kalman filters on each object detected. Each kalman filter is saved in a static hashtable. When the same object get detected in the next frame, its unique object index is the key which is sent to the hashtable to get the respective element (the state in terms of the coordinates, and OpenCV kalman filter object) 
+
+THESIS: 
+
+	1. Explained the Kalman filter, variable setting: 4 parameters in the state variable, 2 parameters in measured state, 0 in control state. etc. 
+
+	2. Incooporate the optical flow vectors to make the kalman filter prediction more accurately. 
+
+	3. Importance for having a dynamic hashtable. If an object does no longer exist in the frame, after not being detected for a few frames, the object (the object number and its elements) should be discarded. Its respective kalman filter should be destoried to release the memory space. Otherwise, it will end up with the fact that only the last dozon of objects in the hashtable are active. 
+
+
+ISSUE: 
+
+	1. Kalman filter predictions are not always very accurate and smoothy. 
+	2. Need to figure out how to feed the predictions back. 
+
+Prediction can make the detection more smooth. Instead of the fact that the bounding boxes bounce around the actual objects, the bounding box can stay smoother and closer to the object. 
+
+If YOLO does not detect the object (especially when the object are close to boundaries of the videos), the prediction can tell the YOLO where to look at and give some weigths to certain areas. 
+
+If object is occluded, the YOLO is not supposed to detect the object then. The prediction can create a temporary bounding box around the possible areas where the object is supposed to move to. 
+
+
+
+
+
 
 
