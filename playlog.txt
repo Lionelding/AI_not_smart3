@@ -327,7 +327,24 @@ If YOLO does not detect the object (especially when the object are close to boun
 If object is occluded, the YOLO is not supposed to detect the object then. The prediction can create a temporary bounding box around the possible areas where the object is supposed to move to. 
 
 
+#####	Week of 20170717	#####
 
+Negotitated with Sohail, need to move to the Brisk Synergies new location
+
+
+
+THESIS: 
+
+	1. memcpy() is faster than the for loops or pointer increment.
+	REF: https://stackoverflow.com/questions/7776085/why-is-memcpy-and-memmove-faster-than-pointer-increments
+
+
+	2. The Kalman filter prediction is not very stable at first a few frames after every object is detected. However, the optical flow information could be leveraged to tell the algorithm which cell should be bumped (their probabilities). The current implementation is just to look for all 45 cells around the current cell. If none of the probs of the same class in these cells are higher than the one in the current cell by a threshold value. The prob in the current cell increases by a fixed amount, otherwise the possible cell probs increases. 
+
+
+	This is not a very stable choice, because sometimes the other cells' probs are increasing, meaning the object is moving to that cell. But this increase is not large enough to get over the threshold. 
+
+	3. Also, the increasing amount should be dynamic instead of static. Need to find a way to adjust the increment amount. 
 
 
 
