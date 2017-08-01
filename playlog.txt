@@ -310,9 +310,22 @@ THESIS:
 
 	1. Explained the Kalman filter, variable setting: 4 parameters in the state variable, 2 parameters in measured state, 0 in control state. etc. 
 
+		REF: https://stackoverflow.com/questions/3745348/opencv-kalman-filter
+		REF: http://www.marcad.com/cs584/Tracking.html
+
+	Example: 
+		REF: http://www.morethantechnical.com/2011/06/17/simple-kalman-filter-for-tracking-using-opencv-2-2-w-code/
+		REF: http://opencvexamples.blogspot.com/2014/01/kalman-filter-implementation-tracking.html
+
+
 	2. Incooporate the optical flow vectors to make the kalman filter prediction more accurately. 
 
 	3. Importance for having a dynamic hashtable. If an object does no longer exist in the frame, after not being detected for a few frames, the object (the object number and its elements) should be discarded. Its respective kalman filter should be destoried to release the memory space. Otherwise, it will end up with the fact that only the last dozon of objects in the hashtable are active. 
+
+
+	REF: http://www.cprogramming.com/tutorial/computersciencetheory/hash-table.html
+	REF: https://stackoverflow.com/questions/260915/how-can-i-create-a-dynamically-sized-array-of-structs
+	REF: https://cboard.cprogramming.com/c-programming/151272-dynamic-hash-table.html
 
 
 ISSUE: 
@@ -336,6 +349,9 @@ Negotitated with Sohail, need to move to the Brisk Synergies new location
 THESIS: 
 
 	1. memcpy() is faster than the for loops or pointer increment.
+
+	Because memcpy uses word pointers instead of byte pointers, also the memcpy implementations are often written with SIMD instructions which makes it possible to shuffle 128 bits at a time. SIMD instructions are assembly instructions that can perform the same operation on each element in a vector up to 16 bytes long. That includes load and store instructions.
+
 	REF: https://stackoverflow.com/questions/7776085/why-is-memcpy-and-memmove-faster-than-pointer-increments
 
 
@@ -347,5 +363,15 @@ THESIS:
 	3. Also, the increasing amount should be dynamic instead of static. Need to find a way to adjust the increment amount. 
 
 
+#####	Week of 20170724	#####
 
+Test: detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+	  detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+Train: detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
 
+THESIS: 
+Found the MIO-TCD Dataset: http://podoce.dinf.usherbrooke.ca/challenge/dataset/
+
+changed the last convol layer from 125 to 80
+change the last region layer from 20 classes to 11
+This should be a valid change because 5*(11+4+1)=80
