@@ -1,0 +1,15 @@
+kalman->process_noise_cov is the 'process noise covariance matrix' and it is often referred in the Kalman literature as Q. The result will be smoother with lower values.
+kalman->measurement_noise_cov is the 'measurement noise covariance matrix' and it is often referred in the Kalman literature as R. The result will be smoother with higher values.
+
+The relation between those two matrices defines the amount and shape of filtering you are performing.
+
+If the value of Q is high, it will mean that the signal you are measuring is varies quickly and you need the filter to be adaptable. If it is small, then big variations will be attributed to noise in the measure.
+
+If the value of R is high (comparing to Q), it will indicate that the measuring is noisy so it will be filtered more.
+
+
+https://stackoverflow.com/questions/3745348/opencv-kalman-filter
+
+
+
+
