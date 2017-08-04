@@ -1,0 +1,25 @@
+/*
+ * kalmanbox.h
+ *
+ *  Created on: Jul 12, 2017
+ *      Author: liqiang
+ */
+
+#ifndef SRC_KALMANBOX_H
+#define SRC_KALMANBOX_H
+
+typedef struct{
+
+	CvKalman* kalmanfilter; //ADDED: kalmanfilter to track and predict
+	CvMat* x_k;
+	CvMat* w_k;
+	CvMat* z_k;
+}kalmanbox;
+
+
+int initialize_kalmanfilter(int x);
+void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, int width, int height, CvMat* x_k);
+
+
+
+#endif /* SRC_KALMANBOX_H_ */

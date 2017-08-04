@@ -1,0 +1,96 @@
+#include "opencv2/core/types_c.h"
+#include "opencv2/video/tracking.hpp"
+#include "opencv2/legacy/compat.hpp"
+#include "opencv2/core/mat.hpp"
+
+#define CVX_YELLOW	CV_RGB(0xff,0xff,0x00)
+#define CVX_WHITE	CV_RGB(0xff,0xff,0xff)
+#define CVX_RED		CV_RGB(0xff,0x00,0x00)
+
+
+typedef struct kalmanbox{
+
+	CvKalman* kalmanfilter; //ADDED: kalmanfilter to track and predict
+	CvMat* x_k;
+	CvMat* w_k;
+	CvMat* z_k;
+}kalmanbox;
+
+
+kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
+//int create_kalmanfilter(int x){
+
+	kalmanbox* kalmanbox_out = (kalmanbox*)malloc(sizeof(kalmanbox));
+	kalmanbox_out->kalmanfilter=cvCreateKalman(4,2,0);
+
+	//CvKalman* kalmanfilterTemp=cvCreateKalman(4,2,0);
+
+
+	kalmanbox_out->x_k = cvCreateMat(4, 1, CV_32FC1 );
+
+    CvRandState rng;
+    cvRandInit( &rng, 0, 1, -1, CV_RAND_UNI );
+    cvRandSetRange( &rng, 0, 0, 0 );
+    rng.disttype = CV_RAND_NORMAL;
+
+    //float state[4]={boxcenter.x,boxcenter.y,0,0};
+    float state[4]={0,0,0,0};
+    memcpy( x_k->data.fl, state, sizeof(state));
+
+    //CvMat* w_k = cvCreateMat( 4, 1, CV_32FC1 );
+    CvMat* z_k = cvCreateMat( 2, 1, CV_32FC1 );
+    cvZero( z_k );
+
+
+
+    //TODO:modify the time
+    float dt=1;
+    const float trans_data[16]={1,0,dt,0,0,1,0,dt,0,0,1,0,0,0,0,1};
+    memcpy( kalmanbox_out->kalmanfilter->transition_matrix->data.fl, trans_data, sizeof(trans_data));
+
+    //memcpy( kalmanbox_out->kalmanfilter, kalmanfilterTemp, sizeof(kalmanfilterTemp));
+
+    kalmanbox_out->kalmanfilter->PosterState=state;
+    cvSetIdentity( kalmanbox_out->kalmanfilter->measurement_matrix, cvRealScalar(1) );
+    cvSetIdentity( kalmanbox_out->kalmanfilter->process_noise_cov, cvRealScalar(1e-4) ); //Q --> 'process noise covariance matrix
+    cvSetIdentity( kalmanbox_out->kalmanfilter->measurement_noise_cov, cvRealScalar(1e-5) ); //R --> measurement noise covariance matrix
+    cvSetIdentity( kalmanbox_out->kalmanfilter->error_cov_post, cvRealScalar(0.1));
+    cvRand(&rng, kalmanbox_out->kalmanfilter->state_post);
+
+
+    return kalmanbox_out;
+}
+
+void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, int width, int height){
+
+
+	const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
+	printf("Predicted Center x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
+	printf("State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
+
+//    CvMat* z_k = cvCreateMat( 2, 1, CV_32FC1 );
+//    cvZero(z_k );
+	float observed_position[2]={observedPt.x, observedPt.y};
+	memcpy(kalmanbox_out->z_k->data.fl, observed_position, sizeof(observed_position));
+
+
+	float px=CV_MAT_ELEM(*y_k, float, 0, 0);
+	float py=CV_MAT_ELEM(*y_k, float, 1, 0);
+	CvPoint predictedlefttop=cvPoint(px-width/2, py-height/2);
+	CvPoint predictedrightbot=cvPoint(px+width/2, py+height/2);
+	cvRectangle(im_frame, predictedlefttop, predictedrightbot, CVX_WHITE, 3, 8, 0 );
+
+
+	float rx=CV_MAT_ELEM(*(kalmanbox_out->x_k), float, 0, 0);
+	float ry=CV_MAT_ELEM(*(kalmanbox_out->x_k), float, 1, 0);
+	CvPoint reallefttop=cvPoint(rx-width/2, ry-height/2);
+	CvPoint realrightbot=cvPoint(rx+width/2, ry+height/2);
+	cvRectangle(im_frame, reallefttop, realrightbot, CVX_RED, 3, 8, 0 );
+
+
+	const CvMat* temp=cvKalmanCorrect(kalmanbox_out->kalmanfilter, kalmanbox_out->z_k );
+	memcpy(kalmanbox_out->x_k->data.fl, temp->data.fl, sizeof(temp));
+	printf("Updated State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
+
+	return;
+}
