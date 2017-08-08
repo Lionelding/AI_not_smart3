@@ -1,3 +1,5 @@
+Training finished at 20170807, fine-training on imagenet
+
 Region Avg IOU: 0.832306, Class: 0.885929, Obj: 0.742091, No Obj: 0.002223, Avg Recall: 0.888889,  count: 9
 Region Avg IOU: 0.776207, Class: 0.875941, Obj: 0.739094, No Obj: 0.002099, Avg Recall: 0.954545,  count: 22
 Region Avg IOU: 0.696915, Class: 0.853439, Obj: 0.629564, No Obj: 0.002338, Avg Recall: 0.809524,  count: 21
