@@ -365,19 +365,49 @@ THESIS:
 
 #####	Week of 20170724	#####
 
-Test: detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
-	  detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
-Train: detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
+Re-train YOLO:
+	Test: 
+		detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+
+		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+
+	Train: 
+		detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
+
+
+	yolo-mio.cfg:
+		changed the last convol layer from 125 to 80
+		change the last region layer from 20 classes to 11
+		This should be a valid change because 5*(11+4+1)=80
+
 
 THESIS: 
-Found the MIO-TCD Dataset: http://podoce.dinf.usherbrooke.ca/challenge/dataset/
+	MIO-TCD Dataset: http://podoce.dinf.usherbrooke.ca/challenge/dataset/
+	Problems: The number of examples in each category is not balanced, especially lacking of pedestrain images. Since there are mulitple categories in the dataset, it is hard to tell if it is overfitting. 
 
-changed the last convol layer from 125 to 80
-change the last region layer from 20 classes to 11
-This should be a valid change because 5*(11+4+1)=80
+	1. Data augumentaion methods:
+		a. Mirroring
+		b. Color Normalization
+		c. scaling
+	2. Find the labels for the testing images
+	3. Find pedestrain dataset
+	4. COCO Caltech Pedestrain Dataset
+
+
 
 #####	Week of 20170731	#####
 
-Installed the dependecies for Brisk Synergies
+Installed the cuda-7.5, cuDNN, opencv-3.1.0 for Brisk Synergies
+Able to run the orignial version of the code
 
+Generated: yolo-mio.weights
+	
+	100000 images for training 
+	10000  images for validation
+	80200 batches *64 images/batch=5132800 images=51.328 epochs
+
+
+
+
+#####	Week of 20170807	#####
 
