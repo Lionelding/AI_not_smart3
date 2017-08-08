@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;yolo4/src/kalman.c&apos; to &apos;kalmanbox.c&apos;" description="Rename resource &apos;kalman.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/kalman.c" name="kalmanbox.c" stamp="1499803367458" updateReferences="true"/>
+</session>

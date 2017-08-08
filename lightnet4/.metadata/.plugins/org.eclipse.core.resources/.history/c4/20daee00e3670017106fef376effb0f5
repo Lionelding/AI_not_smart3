@@ -1,0 +1,16 @@
+#ifndef SRC_KALMANBOX_H
+#define SRC_KALMANBOX_H
+
+typedef struct kalmanbox{
+
+	CvKalman* kalmanfilter;
+	CvMat* x_k;
+	CvMat* w_k;
+	CvMat* z_k;
+}kalmanbox;
+
+
+
+
+
+#endif /* SRC_KALMANBOX_H_ */
