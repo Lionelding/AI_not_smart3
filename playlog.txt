@@ -407,7 +407,38 @@ Generated: yolo-mio.weights
 	80200 batches *64 images/batch=5132800 images=51.328 epochs
 
 
-
-
 #####	Week of 20170807	#####
 
+Generate pedestrian images from Caltech dataset
+
+Use frame every 15 frame
+
+1. python generateklist.py (Select frames among 15 frames and get rid of anything else other than "person" class. Generate labels/ folder)
+
+
+Total annotation file 16697
+
+Total number of persons: 23150
+
+Valid label files: 8830 (52.88%)
+
+
+
+OPTIONAL: python moveImageToOneFolder.py (move everything from set/VID/*.jpg to images_one/*)
+
+2. python copyPic.py (Select images from images_one based on lables at labels folder. Generate images/ and train.txt)
+
+3. Migrate the train.txt to MIOTCD/train.txt (currently manually processed)
+
+4. python shuffle.py to shuffle the rows in the train.txt
+
+
+MIOTCD:
+Car/Pickup Truck/Work Wan
+bus
+bycicle
+articulated truck/single unit truck
+motorcycle
+pedestrian 
+motorized vehicle
+non-motorized vehicle 
