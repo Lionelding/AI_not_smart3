@@ -372,7 +372,7 @@ Re-train YOLO:
 		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
 
 	Train: 
-		detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
+		detector train cfg/mio.data cfg/yolo-mio.cfg darknet19_448.conv.23
 
 
 	yolo-mio.cfg:

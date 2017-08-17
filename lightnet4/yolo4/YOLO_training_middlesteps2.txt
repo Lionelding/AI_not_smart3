@@ -1,0 +1,923 @@
+Region Avg IOU: 0.728701, Class: 0.809624, Obj: 0.657667, No Obj: 0.003870, Avg Recall: 0.840000,  count: 25
+59095: 3.870370, 3.421821 avg, 0.000100 rate, 28.345936 seconds, 3782080 images
+Loaded: 0.000508 seconds
+Region Avg IOU: 0.630166, Class: 0.668966, Obj: 0.501410, No Obj: 0.002551, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.621488, Class: 0.858242, Obj: 0.610130, No Obj: 0.002184, Avg Recall: 0.666667,  count: 21
+Region Avg IOU: 0.825287, Class: 0.514578, Obj: 0.780533, No Obj: 0.001364, Avg Recall: 1.000000,  count: 6
+Region Avg IOU: 0.488330, Class: 0.889074, Obj: 0.469244, No Obj: 0.002246, Avg Recall: 0.523810,  count: 42
+Region Avg IOU: 0.631430, Class: 0.875796, Obj: 0.617281, No Obj: 0.001815, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.767285, Class: 0.832940, Obj: 0.637397, No Obj: 0.002120, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.691037, Class: 0.929605, Obj: 0.613356, No Obj: 0.002513, Avg Recall: 0.809524,  count: 21
+Region Avg IOU: 0.848220, Class: 0.977243, Obj: 0.762605, No Obj: 0.001708, Avg Recall: 1.000000,  count: 10
+59096: 3.522648, 3.431903 avg, 0.000100 rate, 27.884104 seconds, 3782144 images
+Loaded: 0.000413 seconds
+Region Avg IOU: 0.619283, Class: 0.914490, Obj: 0.590250, No Obj: 0.001974, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.717716, Class: 0.942729, Obj: 0.577227, No Obj: 0.002830, Avg Recall: 0.950000,  count: 20
+Region Avg IOU: 0.741611, Class: 0.865193, Obj: 0.694920, No Obj: 0.002078, Avg Recall: 0.882353,  count: 17
+Region Avg IOU: 0.708991, Class: 0.910505, Obj: 0.641945, No Obj: 0.002142, Avg Recall: 0.800000,  count: 10
+Region Avg IOU: 0.705844, Class: 0.881403, Obj: 0.560339, No Obj: 0.003540, Avg Recall: 0.809524,  count: 21
+Region Avg IOU: 0.710300, Class: 0.786983, Obj: 0.664500, No Obj: 0.002574, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.569909, Class: 0.832332, Obj: 0.515253, No Obj: 0.002364, Avg Recall: 0.608696,  count: 23
+Region Avg IOU: 0.786755, Class: 0.814041, Obj: 0.786682, No Obj: 0.002508, Avg Recall: 1.000000,  count: 12
+59097: 3.760719, 3.464785 avg, 0.000100 rate, 30.001896 seconds, 3782208 images
+Loaded: 0.000409 seconds
+Region Avg IOU: 0.773486, Class: 0.868385, Obj: 0.617917, No Obj: 0.003057, Avg Recall: 0.950000,  count: 20
+Region Avg IOU: 0.731075, Class: 0.795914, Obj: 0.620025, No Obj: 0.002582, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.710100, Class: 0.958401, Obj: 0.616961, No Obj: 0.001808, Avg Recall: 0.846154,  count: 13
+Region Avg IOU: 0.810404, Class: 0.914698, Obj: 0.635941, No Obj: 0.001796, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.659701, Class: 0.802301, Obj: 0.667635, No Obj: 0.003202, Avg Recall: 0.714286,  count: 21
+Region Avg IOU: 0.647638, Class: 0.747471, Obj: 0.602418, No Obj: 0.002763, Avg Recall: 0.761905,  count: 21
+Region Avg IOU: 0.529802, Class: 0.904525, Obj: 0.533567, No Obj: 0.001650, Avg Recall: 0.545455,  count: 11
+Region Avg IOU: 0.754015, Class: 0.727735, Obj: 0.613481, No Obj: 0.002597, Avg Recall: 0.933333,  count: 15
+59098: 3.884033, 3.506710 avg, 0.000100 rate, 28.729263 seconds, 3782272 images
+Loaded: 0.000439 seconds
+Region Avg IOU: 0.705735, Class: 0.743741, Obj: 0.654565, No Obj: 0.002163, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.701142, Class: 0.876511, Obj: 0.632452, No Obj: 0.002792, Avg Recall: 0.818182,  count: 22
+Region Avg IOU: 0.744691, Class: 0.895484, Obj: 0.647275, No Obj: 0.002535, Avg Recall: 0.857143,  count: 14
+Region Avg IOU: 0.568958, Class: 0.843873, Obj: 0.554523, No Obj: 0.002006, Avg Recall: 0.611111,  count: 18
+Region Avg IOU: 0.819174, Class: 0.757680, Obj: 0.778512, No Obj: 0.002335, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.678480, Class: 0.763886, Obj: 0.650972, No Obj: 0.003737, Avg Recall: 0.766667,  count: 30
+Region Avg IOU: 0.657702, Class: 0.855256, Obj: 0.630344, No Obj: 0.003128, Avg Recall: 0.777778,  count: 27
+Region Avg IOU: 0.727023, Class: 0.883384, Obj: 0.656765, No Obj: 0.002989, Avg Recall: 0.888889,  count: 27
+59099: 3.496131, 3.505652 avg, 0.000100 rate, 28.371616 seconds, 3782336 images
+Loaded: 0.000485 seconds
+Region Avg IOU: 0.785711, Class: 0.739110, Obj: 0.666741, No Obj: 0.002564, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.728119, Class: 0.811511, Obj: 0.644958, No Obj: 0.002119, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.667957, Class: 0.870654, Obj: 0.685758, No Obj: 0.002569, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.643797, Class: 0.922074, Obj: 0.581198, No Obj: 0.003747, Avg Recall: 0.714286,  count: 35
+Region Avg IOU: 0.743765, Class: 0.714788, Obj: 0.636176, No Obj: 0.002010, Avg Recall: 0.894737,  count: 19
+Region Avg IOU: 0.745211, Class: 0.808011, Obj: 0.704121, No Obj: 0.002731, Avg Recall: 0.863636,  count: 22
+Region Avg IOU: 0.725792, Class: 0.921289, Obj: 0.667662, No Obj: 0.002384, Avg Recall: 0.904762,  count: 21
+Region Avg IOU: 0.705499, Class: 0.808609, Obj: 0.605516, No Obj: 0.002658, Avg Recall: 0.739130,  count: 23
+59100: 3.654564, 3.520543 avg, 0.000100 rate, 28.511915 seconds, 3782400 images
+Resizing
+320
+Loaded: 4.397208 seconds
+Region Avg IOU: 0.782459, Class: 0.766366, Obj: 0.761776, No Obj: 0.004772, Avg Recall: 1.000000,  count: 11
+Region Avg IOU: 0.517751, Class: 0.828751, Obj: 0.559051, No Obj: 0.004138, Avg Recall: 0.600000,  count: 15
+Region Avg IOU: 0.669905, Class: 0.793295, Obj: 0.556345, No Obj: 0.005137, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.589847, Class: 0.612098, Obj: 0.538729, No Obj: 0.004627, Avg Recall: 0.666667,  count: 21
+Region Avg IOU: 0.464615, Class: 0.834261, Obj: 0.389492, No Obj: 0.005097, Avg Recall: 0.478261,  count: 23
+Region Avg IOU: 0.396586, Class: 0.922035, Obj: 0.331911, No Obj: 0.003788, Avg Recall: 0.266667,  count: 15
+Region Avg IOU: 0.629736, Class: 0.893169, Obj: 0.587644, No Obj: 0.005849, Avg Recall: 0.791667,  count: 24
+Region Avg IOU: 0.538887, Class: 0.815215, Obj: 0.573775, No Obj: 0.004890, Avg Recall: 0.615385,  count: 13
+59101: 3.272846, 3.495773 avg, 0.000100 rate, 10.688436 seconds, 3782464 images
+Loaded: 0.000505 seconds
+Region Avg IOU: 0.695814, Class: 0.943188, Obj: 0.644848, No Obj: 0.005487, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.390897, Class: 0.799905, Obj: 0.360948, No Obj: 0.003038, Avg Recall: 0.421053,  count: 19
+Region Avg IOU: 0.699896, Class: 0.847094, Obj: 0.666121, No Obj: 0.005444, Avg Recall: 0.882353,  count: 17
+Region Avg IOU: 0.562809, Class: 0.796404, Obj: 0.511184, No Obj: 0.005264, Avg Recall: 0.642857,  count: 28
+Region Avg IOU: 0.403560, Class: 0.867371, Obj: 0.380451, No Obj: 0.005510, Avg Recall: 0.435897,  count: 39
+Region Avg IOU: 0.571240, Class: 0.891994, Obj: 0.534478, No Obj: 0.004140, Avg Recall: 0.666667,  count: 15
+Region Avg IOU: 0.388859, Class: 0.875880, Obj: 0.381741, No Obj: 0.005703, Avg Recall: 0.363636,  count: 44
+Region Avg IOU: 0.544934, Class: 0.706374, Obj: 0.508333, No Obj: 0.004295, Avg Recall: 0.642857,  count: 14
+59102: 4.169307, 3.563127 avg, 0.000100 rate, 10.163958 seconds, 3782528 images
+Loaded: 0.000472 seconds
+Region Avg IOU: 0.620869, Class: 0.826859, Obj: 0.611525, No Obj: 0.004018, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.708745, Class: 0.911889, Obj: 0.590448, No Obj: 0.004588, Avg Recall: 0.875000,  count: 16
+Region Avg IOU: 0.778689, Class: 0.986514, Obj: 0.706207, No Obj: 0.004934, Avg Recall: 0.909091,  count: 11
+Region Avg IOU: 0.531280, Class: 0.808898, Obj: 0.465110, No Obj: 0.005828, Avg Recall: 0.575758,  count: 33
+Region Avg IOU: 0.542008, Class: 0.790632, Obj: 0.497046, No Obj: 0.003907, Avg Recall: 0.600000,  count: 15
+Region Avg IOU: 0.578655, Class: 0.631234, Obj: 0.526309, No Obj: 0.005199, Avg Recall: 0.714286,  count: 21
+Region Avg IOU: 0.428080, Class: 0.722560, Obj: 0.402719, No Obj: 0.004365, Avg Recall: 0.428571,  count: 14
+Region Avg IOU: 0.619883, Class: 0.957502, Obj: 0.418895, No Obj: 0.002986, Avg Recall: 0.727273,  count: 11
+59103: 2.154615, 3.422276 avg, 0.000100 rate, 10.600724 seconds, 3782592 images
+Loaded: 0.000430 seconds
+Region Avg IOU: 0.653635, Class: 0.901082, Obj: 0.552144, No Obj: 0.004738, Avg Recall: 0.785714,  count: 14
+Region Avg IOU: 0.658167, Class: 0.825523, Obj: 0.642935, No Obj: 0.005402, Avg Recall: 0.800000,  count: 20
+Region Avg IOU: 0.498605, Class: 0.731961, Obj: 0.438263, No Obj: 0.005403, Avg Recall: 0.583333,  count: 36
+Region Avg IOU: 0.430739, Class: 0.735568, Obj: 0.370454, No Obj: 0.004408, Avg Recall: 0.441176,  count: 34
+Region Avg IOU: 0.591402, Class: 0.824088, Obj: 0.556003, No Obj: 0.004613, Avg Recall: 0.695652,  count: 23
+Region Avg IOU: 0.797755, Class: 0.892897, Obj: 0.747813, No Obj: 0.005875, Avg Recall: 1.000000,  count: 14
+Region Avg IOU: 0.391805, Class: 0.805228, Obj: 0.345155, No Obj: 0.003606, Avg Recall: 0.333333,  count: 18
+Region Avg IOU: 0.694848, Class: 0.894675, Obj: 0.645545, No Obj: 0.004898, Avg Recall: 0.812500,  count: 16
+59104: 3.199137, 3.399962 avg, 0.000100 rate, 10.558270 seconds, 3782656 images
+Loaded: 0.000574 seconds
+Region Avg IOU: 0.453307, Class: 0.800191, Obj: 0.431014, No Obj: 0.003902, Avg Recall: 0.550000,  count: 20
+Region Avg IOU: 0.608513, Class: 0.824945, Obj: 0.497642, No Obj: 0.004445, Avg Recall: 0.687500,  count: 16
+Region Avg IOU: 0.384197, Class: 0.623976, Obj: 0.406506, No Obj: 0.004615, Avg Recall: 0.400000,  count: 25
+Region Avg IOU: 0.419026, Class: 0.922163, Obj: 0.474162, No Obj: 0.005011, Avg Recall: 0.500000,  count: 24
+Region Avg IOU: 0.529383, Class: 0.772769, Obj: 0.558042, No Obj: 0.004903, Avg Recall: 0.533333,  count: 15
+Region Avg IOU: 0.708070, Class: 0.986203, Obj: 0.656048, No Obj: 0.003846, Avg Recall: 0.785714,  count: 14
+Region Avg IOU: 0.501005, Class: 0.719231, Obj: 0.451444, No Obj: 0.005001, Avg Recall: 0.400000,  count: 20
+Region Avg IOU: 0.562373, Class: 0.807139, Obj: 0.506722, No Obj: 0.005354, Avg Recall: 0.666667,  count: 21
+59105: 2.675006, 3.327466 avg, 0.000100 rate, 11.596075 seconds, 3782720 images
+Loaded: 0.000542 seconds
+Region Avg IOU: 0.703498, Class: 0.812296, Obj: 0.645924, No Obj: 0.005868, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.598634, Class: 0.818075, Obj: 0.586406, No Obj: 0.005427, Avg Recall: 0.650000,  count: 20
+Region Avg IOU: 0.568258, Class: 0.691353, Obj: 0.484898, No Obj: 0.004064, Avg Recall: 0.666667,  count: 12
+Region Avg IOU: 0.748414, Class: 0.911195, Obj: 0.681876, No Obj: 0.005488, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.619923, Class: 0.861133, Obj: 0.576026, No Obj: 0.005175, Avg Recall: 0.666667,  count: 15
+Region Avg IOU: 0.721323, Class: 0.892518, Obj: 0.692891, No Obj: 0.003840, Avg Recall: 0.857143,  count: 7
+Region Avg IOU: 0.573152, Class: 0.785451, Obj: 0.490299, No Obj: 0.005046, Avg Recall: 0.666667,  count: 21
+Region Avg IOU: 0.773515, Class: 0.796880, Obj: 0.729547, No Obj: 0.004923, Avg Recall: 0.923077,  count: 13
+59106: 2.056608, 3.200380 avg, 0.000100 rate, 10.862224 seconds, 3782784 images
+Loaded: 0.000546 seconds
+Region Avg IOU: 0.524093, Class: 0.772495, Obj: 0.478610, No Obj: 0.003291, Avg Recall: 0.583333,  count: 12
+Region Avg IOU: 0.741890, Class: 0.862363, Obj: 0.648209, No Obj: 0.004273, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.682187, Class: 0.818453, Obj: 0.651437, No Obj: 0.005049, Avg Recall: 0.944444,  count: 18
+Region Avg IOU: 0.623220, Class: 0.809574, Obj: 0.557532, No Obj: 0.004410, Avg Recall: 0.666667,  count: 15
+Region Avg IOU: 0.540277, Class: 0.827426, Obj: 0.534113, No Obj: 0.004918, Avg Recall: 0.576923,  count: 26
+Region Avg IOU: 0.548703, Class: 0.861540, Obj: 0.541275, No Obj: 0.004321, Avg Recall: 0.714286,  count: 28
+Region Avg IOU: 0.460749, Class: 0.672616, Obj: 0.460546, No Obj: 0.003106, Avg Recall: 0.500000,  count: 10
+Region Avg IOU: 0.601429, Class: 0.777472, Obj: 0.601102, No Obj: 0.004139, Avg Recall: 0.600000,  count: 15
+59107: 2.329597, 3.113302 avg, 0.000100 rate, 10.129290 seconds, 3782848 images
+Loaded: 0.000466 seconds
+Region Avg IOU: 0.577594, Class: 0.735583, Obj: 0.555610, No Obj: 0.005549, Avg Recall: 0.608696,  count: 23
+Region Avg IOU: 0.232814, Class: 0.957282, Obj: 0.219934, No Obj: 0.004058, Avg Recall: 0.280000,  count: 25
+Region Avg IOU: 0.770226, Class: 0.911112, Obj: 0.645518, No Obj: 0.003748, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.402318, Class: 0.657495, Obj: 0.313790, No Obj: 0.005461, Avg Recall: 0.476190,  count: 21
+Region Avg IOU: 0.348853, Class: 0.721788, Obj: 0.348376, No Obj: 0.005295, Avg Recall: 0.351351,  count: 37
+Region Avg IOU: 0.341572, Class: 0.636634, Obj: 0.323452, No Obj: 0.003531, Avg Recall: 0.333333,  count: 21
+Region Avg IOU: 0.592615, Class: 0.688465, Obj: 0.602124, No Obj: 0.005115, Avg Recall: 0.583333,  count: 12
+Region Avg IOU: 0.720915, Class: 0.836753, Obj: 0.558891, No Obj: 0.004339, Avg Recall: 0.846154,  count: 13
+59108: 3.568288, 3.158801 avg, 0.000100 rate, 10.348303 seconds, 3782912 images
+Loaded: 0.000228 seconds
+Region Avg IOU: 0.519511, Class: 0.827637, Obj: 0.480832, No Obj: 0.005368, Avg Recall: 0.571429,  count: 28
+Region Avg IOU: 0.424710, Class: 0.796068, Obj: 0.372419, No Obj: 0.003964, Avg Recall: 0.300000,  count: 20
+Region Avg IOU: 0.340304, Class: 0.770248, Obj: 0.393759, No Obj: 0.005116, Avg Recall: 0.324324,  count: 37
+Region Avg IOU: 0.624890, Class: 0.760300, Obj: 0.562623, No Obj: 0.005554, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.743276, Class: 0.885441, Obj: 0.633994, No Obj: 0.005098, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.503069, Class: 0.786900, Obj: 0.449891, No Obj: 0.004442, Avg Recall: 0.482759,  count: 29
+Region Avg IOU: 0.450779, Class: 0.639492, Obj: 0.451460, No Obj: 0.003019, Avg Recall: 0.476190,  count: 21
+Region Avg IOU: 0.602655, Class: 0.928545, Obj: 0.487839, No Obj: 0.004955, Avg Recall: 0.571429,  count: 7
+59109: 4.155367, 3.258457 avg, 0.000100 rate, 10.845528 seconds, 3782976 images
+Loaded: 0.000461 seconds
+Region Avg IOU: 0.831882, Class: 0.794929, Obj: 0.769988, No Obj: 0.005517, Avg Recall: 1.000000,  count: 6
+Region Avg IOU: 0.554506, Class: 0.738092, Obj: 0.566239, No Obj: 0.003949, Avg Recall: 0.636364,  count: 11
+Region Avg IOU: 0.524195, Class: 0.758478, Obj: 0.510161, No Obj: 0.006979, Avg Recall: 0.607143,  count: 28
+Region Avg IOU: 0.536213, Class: 0.792932, Obj: 0.422240, No Obj: 0.004118, Avg Recall: 0.600000,  count: 20
+Region Avg IOU: 0.715546, Class: 0.795968, Obj: 0.712559, No Obj: 0.006376, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.608772, Class: 0.792904, Obj: 0.610274, No Obj: 0.004547, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.563792, Class: 0.811399, Obj: 0.500885, No Obj: 0.005790, Avg Recall: 0.653846,  count: 26
+Region Avg IOU: 0.690259, Class: 0.915312, Obj: 0.670150, No Obj: 0.004255, Avg Recall: 0.700000,  count: 10
+59110: 3.355796, 3.268191 avg, 0.000100 rate, 10.756974 seconds, 3783040 images
+Resizing
+544
+Loaded: 12.351688 seconds
+Region Avg IOU: 0.739667, Class: 0.904981, Obj: 0.711262, No Obj: 0.003170, Avg Recall: 0.904762,  count: 21
+Region Avg IOU: 0.591498, Class: 0.786368, Obj: 0.518238, No Obj: 0.002202, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.717852, Class: 0.823495, Obj: 0.616137, No Obj: 0.002804, Avg Recall: 0.888889,  count: 27
+Region Avg IOU: 0.668199, Class: 0.914596, Obj: 0.535788, No Obj: 0.002861, Avg Recall: 0.777778,  count: 27
+Region Avg IOU: 0.763899, Class: 0.908725, Obj: 0.742366, No Obj: 0.002451, Avg Recall: 0.850000,  count: 20
+Region Avg IOU: 0.672870, Class: 0.824557, Obj: 0.616834, No Obj: 0.003376, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.558359, Class: 0.789373, Obj: 0.488115, No Obj: 0.002785, Avg Recall: 0.666667,  count: 27
+Region Avg IOU: 0.566909, Class: 0.884172, Obj: 0.518614, No Obj: 0.002917, Avg Recall: 0.589744,  count: 39
+59111: 3.320006, 3.273373 avg, 0.000100 rate, 24.493675 seconds, 3783104 images
+Loaded: 0.000436 seconds
+Region Avg IOU: 0.724262, Class: 0.688756, Obj: 0.615170, No Obj: 0.002026, Avg Recall: 0.846154,  count: 13
+Region Avg IOU: 0.735631, Class: 0.941860, Obj: 0.651161, No Obj: 0.002667, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.668246, Class: 0.927261, Obj: 0.619600, No Obj: 0.003254, Avg Recall: 0.812500,  count: 32
+Region Avg IOU: 0.566434, Class: 0.948565, Obj: 0.562881, No Obj: 0.002321, Avg Recall: 0.612903,  count: 31
+Region Avg IOU: 0.638636, Class: 0.787333, Obj: 0.617098, No Obj: 0.002525, Avg Recall: 0.708333,  count: 24
+Region Avg IOU: 0.805123, Class: 0.940038, Obj: 0.731627, No Obj: 0.002003, Avg Recall: 1.000000,  count: 11
+Region Avg IOU: 0.614649, Class: 0.819034, Obj: 0.585450, No Obj: 0.003123, Avg Recall: 0.760000,  count: 25
+Region Avg IOU: 0.711064, Class: 0.821736, Obj: 0.671596, No Obj: 0.002116, Avg Recall: 0.833333,  count: 12
+59112: 3.065136, 3.252549 avg, 0.000100 rate, 24.577185 seconds, 3783168 images
+Loaded: 0.000485 seconds
+Region Avg IOU: 0.718458, Class: 0.908628, Obj: 0.618535, No Obj: 0.001656, Avg Recall: 0.888889,  count: 9
+Region Avg IOU: 0.691224, Class: 0.854979, Obj: 0.616047, No Obj: 0.002862, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.777617, Class: 0.886579, Obj: 0.678373, No Obj: 0.002854, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.610091, Class: 0.843683, Obj: 0.575769, No Obj: 0.002887, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.572223, Class: 0.751251, Obj: 0.558636, No Obj: 0.002785, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.640487, Class: 0.904783, Obj: 0.586496, No Obj: 0.002352, Avg Recall: 0.714286,  count: 21
+Region Avg IOU: 0.569012, Class: 0.774881, Obj: 0.585333, No Obj: 0.001829, Avg Recall: 0.611111,  count: 18
+Region Avg IOU: 0.696334, Class: 0.901593, Obj: 0.674492, No Obj: 0.002364, Avg Recall: 0.823529,  count: 17
+59113: 2.226904, 3.149984 avg, 0.000100 rate, 24.957451 seconds, 3783232 images
+Loaded: 0.000402 seconds
+Region Avg IOU: 0.676251, Class: 0.826335, Obj: 0.633977, No Obj: 0.002289, Avg Recall: 0.761905,  count: 21
+Region Avg IOU: 0.682648, Class: 0.839492, Obj: 0.675089, No Obj: 0.003687, Avg Recall: 0.769231,  count: 26
+Region Avg IOU: 0.712894, Class: 0.756382, Obj: 0.547373, No Obj: 0.001972, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.640274, Class: 0.849396, Obj: 0.523806, No Obj: 0.003684, Avg Recall: 0.800000,  count: 35
+Region Avg IOU: 0.678770, Class: 0.861485, Obj: 0.620994, No Obj: 0.002745, Avg Recall: 0.869565,  count: 23
+Region Avg IOU: 0.681748, Class: 0.781611, Obj: 0.639735, No Obj: 0.002143, Avg Recall: 0.823529,  count: 17
+Region Avg IOU: 0.716637, Class: 0.846690, Obj: 0.636404, No Obj: 0.002542, Avg Recall: 0.900000,  count: 20
+Region Avg IOU: 0.713349, Class: 0.897278, Obj: 0.668482, No Obj: 0.002339, Avg Recall: 0.785714,  count: 14
+59114: 3.937781, 3.228764 avg, 0.000100 rate, 29.019970 seconds, 3783296 images
+Loaded: 0.000462 seconds
+Region Avg IOU: 0.779968, Class: 0.694371, Obj: 0.662929, No Obj: 0.002923, Avg Recall: 0.933333,  count: 15
+Region Avg IOU: 0.590961, Class: 0.632781, Obj: 0.571606, No Obj: 0.002462, Avg Recall: 0.681818,  count: 22
+Region Avg IOU: 0.706611, Class: 0.834713, Obj: 0.610543, No Obj: 0.001809, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.822091, Class: 0.862409, Obj: 0.661471, No Obj: 0.001997, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.520501, Class: 0.910426, Obj: 0.479070, No Obj: 0.002484, Avg Recall: 0.576923,  count: 26
+Region Avg IOU: 0.693481, Class: 0.926562, Obj: 0.594652, No Obj: 0.002630, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.769616, Class: 0.800089, Obj: 0.683357, No Obj: 0.002270, Avg Recall: 0.888889,  count: 18
+Region Avg IOU: 0.677476, Class: 0.880782, Obj: 0.613051, No Obj: 0.002047, Avg Recall: 0.800000,  count: 15
+59115: 3.529582, 3.258846 avg, 0.000100 rate, 25.365942 seconds, 3783360 images
+Loaded: 0.000395 seconds
+Region Avg IOU: 0.756257, Class: 0.844265, Obj: 0.659737, No Obj: 0.002494, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.508486, Class: 0.865809, Obj: 0.511457, No Obj: 0.002550, Avg Recall: 0.552632,  count: 38
+Region Avg IOU: 0.645260, Class: 0.719400, Obj: 0.542998, No Obj: 0.001598, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.572347, Class: 0.726819, Obj: 0.499253, No Obj: 0.001676, Avg Recall: 0.631579,  count: 19
+Region Avg IOU: 0.474974, Class: 0.878230, Obj: 0.430715, No Obj: 0.002799, Avg Recall: 0.525000,  count: 40
+Region Avg IOU: 0.552452, Class: 0.874885, Obj: 0.559675, No Obj: 0.003031, Avg Recall: 0.485714,  count: 35
+Region Avg IOU: 0.770110, Class: 0.959525, Obj: 0.771425, No Obj: 0.001732, Avg Recall: 0.900000,  count: 10
+Region Avg IOU: 0.586829, Class: 0.747607, Obj: 0.497129, No Obj: 0.002602, Avg Recall: 0.700000,  count: 20
+59116: 4.941186, 3.427080 avg, 0.000100 rate, 25.549192 seconds, 3783424 images
+Loaded: 0.000522 seconds
+Region Avg IOU: 0.870996, Class: 0.941412, Obj: 0.792423, No Obj: 0.002407, Avg Recall: 1.000000,  count: 12
+Region Avg IOU: 0.717382, Class: 0.855799, Obj: 0.667292, No Obj: 0.003337, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.726257, Class: 0.951691, Obj: 0.693104, No Obj: 0.001896, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.713288, Class: 0.722281, Obj: 0.660577, No Obj: 0.002107, Avg Recall: 0.875000,  count: 16
+Region Avg IOU: 0.811773, Class: 0.927678, Obj: 0.672844, No Obj: 0.003749, Avg Recall: 0.933333,  count: 15
+Region Avg IOU: 0.628521, Class: 0.846997, Obj: 0.584637, No Obj: 0.002209, Avg Recall: 0.681818,  count: 22
+Region Avg IOU: 0.490575, Class: 0.864917, Obj: 0.425853, No Obj: 0.002691, Avg Recall: 0.542857,  count: 35
+Region Avg IOU: 0.654362, Class: 0.815843, Obj: 0.557487, No Obj: 0.002548, Avg Recall: 0.842105,  count: 19
+59117: 3.322051, 3.416577 avg, 0.000100 rate, 24.500738 seconds, 3783488 images
+Loaded: 0.000453 seconds
+Region Avg IOU: 0.628034, Class: 0.558040, Obj: 0.595677, No Obj: 0.003311, Avg Recall: 0.785714,  count: 28
+Region Avg IOU: 0.610726, Class: 0.738985, Obj: 0.511417, No Obj: 0.002277, Avg Recall: 0.700000,  count: 10
+Region Avg IOU: 0.564774, Class: 0.860244, Obj: 0.573067, No Obj: 0.003448, Avg Recall: 0.593750,  count: 32
+Region Avg IOU: 0.733165, Class: 0.859451, Obj: 0.712309, No Obj: 0.002527, Avg Recall: 0.857143,  count: 14
+Region Avg IOU: 0.547392, Class: 0.732849, Obj: 0.523135, No Obj: 0.002875, Avg Recall: 0.619048,  count: 21
+Region Avg IOU: 0.855885, Class: 0.994057, Obj: 0.759683, No Obj: 0.002513, Avg Recall: 1.000000,  count: 15
+Region Avg IOU: 0.660154, Class: 0.812288, Obj: 0.551874, No Obj: 0.001415, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.464034, Class: 0.834124, Obj: 0.431279, No Obj: 0.002248, Avg Recall: 0.500000,  count: 18
+59118: 3.552429, 3.430162 avg, 0.000100 rate, 25.595797 seconds, 3783552 images
+Loaded: 0.000407 seconds
+Region Avg IOU: 0.689646, Class: 0.896945, Obj: 0.625212, No Obj: 0.002963, Avg Recall: 0.857143,  count: 14
+Region Avg IOU: 0.780291, Class: 0.827974, Obj: 0.693333, No Obj: 0.002496, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.675284, Class: 0.787228, Obj: 0.643720, No Obj: 0.002998, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.577731, Class: 0.802048, Obj: 0.586529, No Obj: 0.002379, Avg Recall: 0.571429,  count: 21
+Region Avg IOU: 0.702663, Class: 0.924747, Obj: 0.592950, No Obj: 0.003424, Avg Recall: 0.750000,  count: 28
+Region Avg IOU: 0.531119, Class: 0.812157, Obj: 0.488437, No Obj: 0.002848, Avg Recall: 0.583333,  count: 36
+Region Avg IOU: 0.662360, Class: 0.924717, Obj: 0.667195, No Obj: 0.002381, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.685049, Class: 0.757666, Obj: 0.613695, No Obj: 0.001680, Avg Recall: 0.769231,  count: 13
+59119: 3.799575, 3.467104 avg, 0.000100 rate, 26.749786 seconds, 3783616 images
+Loaded: 0.000430 seconds
+Region Avg IOU: 0.689373, Class: 0.869738, Obj: 0.658432, No Obj: 0.002064, Avg Recall: 0.809524,  count: 21
+Region Avg IOU: 0.721953, Class: 0.889006, Obj: 0.640689, No Obj: 0.001986, Avg Recall: 0.900000,  count: 10
+Region Avg IOU: 0.705196, Class: 0.747446, Obj: 0.643314, No Obj: 0.003005, Avg Recall: 0.840000,  count: 25
+Region Avg IOU: 0.808014, Class: 0.830804, Obj: 0.695358, No Obj: 0.002933, Avg Recall: 1.000000,  count: 18
+Region Avg IOU: 0.662432, Class: 0.967323, Obj: 0.597917, No Obj: 0.003888, Avg Recall: 0.823529,  count: 34
+Region Avg IOU: 0.639725, Class: 0.774371, Obj: 0.534539, No Obj: 0.003592, Avg Recall: 0.777778,  count: 27
+Region Avg IOU: 0.699258, Class: 0.801835, Obj: 0.638274, No Obj: 0.002670, Avg Recall: 0.842105,  count: 19
+Region Avg IOU: 0.684459, Class: 0.872396, Obj: 0.585183, No Obj: 0.002962, Avg Recall: 0.827586,  count: 29
+59120: 4.035292, 3.523922 avg, 0.000100 rate, 25.769585 seconds, 3783680 images
+Resizing
+384
+Loaded: 5.824391 seconds
+Region Avg IOU: 0.729641, Class: 0.794408, Obj: 0.701035, No Obj: 0.004755, Avg Recall: 0.888889,  count: 27
+Region Avg IOU: 0.813163, Class: 0.891638, Obj: 0.832135, No Obj: 0.002885, Avg Recall: 1.000000,  count: 11
+Region Avg IOU: 0.530766, Class: 0.762919, Obj: 0.497780, No Obj: 0.003697, Avg Recall: 0.578947,  count: 19
+Region Avg IOU: 0.613127, Class: 0.774166, Obj: 0.587409, No Obj: 0.003249, Avg Recall: 0.687500,  count: 16
+Region Avg IOU: 0.646128, Class: 0.800947, Obj: 0.630274, No Obj: 0.003731, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.616760, Class: 0.844242, Obj: 0.547658, No Obj: 0.004692, Avg Recall: 0.680000,  count: 25
+Region Avg IOU: 0.658108, Class: 0.808244, Obj: 0.565622, No Obj: 0.005525, Avg Recall: 0.833333,  count: 24
+Region Avg IOU: 0.575727, Class: 0.860867, Obj: 0.556879, No Obj: 0.004173, Avg Recall: 0.615385,  count: 26
+59121: 2.890585, 3.460589 avg, 0.000100 rate, 14.947403 seconds, 3783744 images
+Loaded: 0.000515 seconds
+Region Avg IOU: 0.790849, Class: 0.812938, Obj: 0.749401, No Obj: 0.004005, Avg Recall: 1.000000,  count: 14
+Region Avg IOU: 0.762155, Class: 0.975185, Obj: 0.705751, No Obj: 0.004153, Avg Recall: 0.882353,  count: 17
+Region Avg IOU: 0.449875, Class: 0.885924, Obj: 0.438063, No Obj: 0.005121, Avg Recall: 0.468750,  count: 32
+Region Avg IOU: 0.592550, Class: 0.846326, Obj: 0.570352, No Obj: 0.004474, Avg Recall: 0.709677,  count: 31
+Region Avg IOU: 0.580507, Class: 0.770120, Obj: 0.565139, No Obj: 0.004023, Avg Recall: 0.619048,  count: 21
+Region Avg IOU: 0.855907, Class: 0.959671, Obj: 0.807271, No Obj: 0.003995, Avg Recall: 1.000000,  count: 12
+Region Avg IOU: 0.644994, Class: 0.897559, Obj: 0.476723, No Obj: 0.003834, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.707710, Class: 0.920425, Obj: 0.650289, No Obj: 0.003053, Avg Recall: 0.800000,  count: 15
+59122: 2.326786, 3.347208 avg, 0.000100 rate, 14.739101 seconds, 3783808 images
+Loaded: 0.000507 seconds
+Region Avg IOU: 0.609184, Class: 0.796267, Obj: 0.606244, No Obj: 0.003234, Avg Recall: 0.692308,  count: 13
+Region Avg IOU: 0.698735, Class: 0.730968, Obj: 0.611051, No Obj: 0.003550, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.778456, Class: 0.954080, Obj: 0.755260, No Obj: 0.003332, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.716250, Class: 0.809422, Obj: 0.626012, No Obj: 0.002549, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.656015, Class: 0.809815, Obj: 0.540730, No Obj: 0.005639, Avg Recall: 0.696970,  count: 33
+Region Avg IOU: 0.463125, Class: 0.837634, Obj: 0.384738, No Obj: 0.003665, Avg Recall: 0.500000,  count: 18
+Region Avg IOU: 0.535691, Class: 0.934558, Obj: 0.532978, No Obj: 0.003553, Avg Recall: 0.687500,  count: 16
+Region Avg IOU: 0.748524, Class: 0.872601, Obj: 0.687134, No Obj: 0.004604, Avg Recall: 0.904762,  count: 21
+59123: 2.919330, 3.304421 avg, 0.000100 rate, 14.090994 seconds, 3783872 images
+Loaded: 0.000479 seconds
+Region Avg IOU: 0.676517, Class: 0.851765, Obj: 0.587057, No Obj: 0.005408, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.634567, Class: 0.787177, Obj: 0.597949, No Obj: 0.003557, Avg Recall: 0.666667,  count: 18
+Region Avg IOU: 0.737478, Class: 0.985110, Obj: 0.614011, No Obj: 0.004201, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.615558, Class: 0.822993, Obj: 0.558313, No Obj: 0.003200, Avg Recall: 0.800000,  count: 20
+Region Avg IOU: 0.531534, Class: 0.915994, Obj: 0.497361, No Obj: 0.005635, Avg Recall: 0.551724,  count: 29
+Region Avg IOU: 0.502592, Class: 0.841206, Obj: 0.538204, No Obj: 0.003777, Avg Recall: 0.590909,  count: 22
+Region Avg IOU: 0.627241, Class: 0.906993, Obj: 0.550492, No Obj: 0.002254, Avg Recall: 0.700000,  count: 10
+Region Avg IOU: 0.678923, Class: 0.878190, Obj: 0.640533, No Obj: 0.003778, Avg Recall: 0.769231,  count: 13
+59124: 2.639476, 3.237926 avg, 0.000100 rate, 14.252440 seconds, 3783936 images
+Loaded: 0.000553 seconds
+Region Avg IOU: 0.492929, Class: 0.711411, Obj: 0.498608, No Obj: 0.003519, Avg Recall: 0.576923,  count: 26
+Region Avg IOU: 0.590340, Class: 0.793779, Obj: 0.554807, No Obj: 0.005602, Avg Recall: 0.677419,  count: 31
+Region Avg IOU: 0.525755, Class: 0.793854, Obj: 0.415888, No Obj: 0.003364, Avg Recall: 0.611111,  count: 18
+Region Avg IOU: 0.382649, Class: 0.687705, Obj: 0.381517, No Obj: 0.003074, Avg Recall: 0.382353,  count: 34
+Region Avg IOU: 0.706408, Class: 0.935734, Obj: 0.610732, No Obj: 0.003434, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.619797, Class: 0.881077, Obj: 0.576816, No Obj: 0.004770, Avg Recall: 0.750000,  count: 32
+Region Avg IOU: 0.865799, Class: 0.884331, Obj: 0.815973, No Obj: 0.003956, Avg Recall: 1.000000,  count: 9
+Region Avg IOU: 0.498334, Class: 0.907115, Obj: 0.514441, No Obj: 0.004133, Avg Recall: 0.482759,  count: 29
+59125: 4.236699, 3.337803 avg, 0.000100 rate, 15.259543 seconds, 3784000 images
+Loaded: 0.000478 seconds
+Region Avg IOU: 0.651474, Class: 0.755319, Obj: 0.676151, No Obj: 0.002842, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.485555, Class: 0.794742, Obj: 0.457205, No Obj: 0.003184, Avg Recall: 0.476190,  count: 21
+Region Avg IOU: 0.609490, Class: 0.874375, Obj: 0.621188, No Obj: 0.004033, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.593849, Class: 0.934088, Obj: 0.497299, No Obj: 0.004786, Avg Recall: 0.714286,  count: 21
+Region Avg IOU: 0.729691, Class: 0.811688, Obj: 0.639634, No Obj: 0.004521, Avg Recall: 0.944444,  count: 18
+Region Avg IOU: 0.658658, Class: 0.928265, Obj: 0.507983, No Obj: 0.003627, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.620670, Class: 0.806558, Obj: 0.501865, No Obj: 0.003164, Avg Recall: 0.714286,  count: 7
+Region Avg IOU: 0.470404, Class: 0.949543, Obj: 0.406612, No Obj: 0.003105, Avg Recall: 0.526316,  count: 19
+59126: 3.514377, 3.355461 avg, 0.000100 rate, 14.189135 seconds, 3784064 images
+Loaded: 0.000516 seconds
+Region Avg IOU: 0.623423, Class: 0.940140, Obj: 0.596725, No Obj: 0.003462, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.619631, Class: 0.828013, Obj: 0.622740, No Obj: 0.002993, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.517815, Class: 0.936206, Obj: 0.516248, No Obj: 0.003856, Avg Recall: 0.600000,  count: 20
+Region Avg IOU: 0.690170, Class: 0.768878, Obj: 0.675287, No Obj: 0.005357, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.475199, Class: 0.919772, Obj: 0.438703, No Obj: 0.004937, Avg Recall: 0.548387,  count: 31
+Region Avg IOU: 0.574900, Class: 0.849660, Obj: 0.592722, No Obj: 0.003108, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.660791, Class: 0.821531, Obj: 0.662584, No Obj: 0.002971, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.696805, Class: 0.861726, Obj: 0.659205, No Obj: 0.003271, Avg Recall: 0.818182,  count: 11
+59127: 2.909035, 3.310818 avg, 0.000100 rate, 13.903947 seconds, 3784128 images
+Loaded: 0.000534 seconds
+Region Avg IOU: 0.596386, Class: 0.918789, Obj: 0.527138, No Obj: 0.004265, Avg Recall: 0.750000,  count: 24
+Region Avg IOU: 0.596263, Class: 0.610745, Obj: 0.471497, No Obj: 0.003722, Avg Recall: 0.692308,  count: 13
+Region Avg IOU: 0.721659, Class: 0.945200, Obj: 0.748725, No Obj: 0.004177, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.516746, Class: 0.901882, Obj: 0.438964, No Obj: 0.003433, Avg Recall: 0.590909,  count: 22
+Region Avg IOU: 0.567122, Class: 0.762615, Obj: 0.517681, No Obj: 0.004692, Avg Recall: 0.615385,  count: 26
+Region Avg IOU: 0.750277, Class: 0.865623, Obj: 0.682998, No Obj: 0.004600, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.685649, Class: 0.959281, Obj: 0.722574, No Obj: 0.002940, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.357016, Class: 0.868233, Obj: 0.326203, No Obj: 0.004955, Avg Recall: 0.375000,  count: 64
+59128: 3.715239, 3.351260 avg, 0.000100 rate, 13.913397 seconds, 3784192 images
+Loaded: 0.000502 seconds
+Region Avg IOU: 0.768213, Class: 0.895983, Obj: 0.675821, No Obj: 0.006018, Avg Recall: 0.923077,  count: 26
+Region Avg IOU: 0.418157, Class: 0.773583, Obj: 0.430277, No Obj: 0.002618, Avg Recall: 0.461538,  count: 13
+Region Avg IOU: 0.471409, Class: 0.869783, Obj: 0.425201, No Obj: 0.003291, Avg Recall: 0.464286,  count: 28
+Region Avg IOU: 0.666562, Class: 0.849391, Obj: 0.651376, No Obj: 0.004506, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.589460, Class: 0.826880, Obj: 0.503411, No Obj: 0.004987, Avg Recall: 0.709677,  count: 31
+Region Avg IOU: 0.646100, Class: 0.828102, Obj: 0.484699, No Obj: 0.003154, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.533140, Class: 0.812319, Obj: 0.466916, No Obj: 0.003965, Avg Recall: 0.608696,  count: 23
+Region Avg IOU: 0.655069, Class: 0.874452, Obj: 0.619981, No Obj: 0.004178, Avg Recall: 0.789474,  count: 19
+59129: 3.594484, 3.375582 avg, 0.000100 rate, 14.505820 seconds, 3784256 images
+Loaded: 0.000219 seconds
+Region Avg IOU: 0.579070, Class: 0.961201, Obj: 0.624952, No Obj: 0.004476, Avg Recall: 0.642857,  count: 14
+Region Avg IOU: 0.496564, Class: 0.679029, Obj: 0.424223, No Obj: 0.003726, Avg Recall: 0.526316,  count: 19
+Region Avg IOU: 0.740287, Class: 0.848044, Obj: 0.699237, No Obj: 0.003670, Avg Recall: 0.888889,  count: 18
+Region Avg IOU: 0.730939, Class: 0.933342, Obj: 0.706741, No Obj: 0.005635, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.810607, Class: 0.951292, Obj: 0.734309, No Obj: 0.004682, Avg Recall: 1.000000,  count: 16
+Region Avg IOU: 0.644257, Class: 0.830940, Obj: 0.572029, No Obj: 0.004079, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.647999, Class: 0.739566, Obj: 0.536474, No Obj: 0.004185, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.399334, Class: 0.692773, Obj: 0.503706, No Obj: 0.001832, Avg Recall: 0.500000,  count: 8
+59130: 3.219277, 3.359952 avg, 0.000100 rate, 14.270881 seconds, 3784320 images
+Resizing
+384
+Loaded: 7.472419 seconds
+Region Avg IOU: 0.658105, Class: 0.803082, Obj: 0.666792, No Obj: 0.003127, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.687048, Class: 0.821933, Obj: 0.612175, No Obj: 0.004329, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.730084, Class: 0.754357, Obj: 0.662641, No Obj: 0.003716, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.685103, Class: 0.787852, Obj: 0.623253, No Obj: 0.002826, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.459812, Class: 0.760279, Obj: 0.414484, No Obj: 0.005548, Avg Recall: 0.500000,  count: 38
+Region Avg IOU: 0.601553, Class: 0.890954, Obj: 0.662911, No Obj: 0.003308, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.652598, Class: 0.897622, Obj: 0.608022, No Obj: 0.002958, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.752299, Class: 0.892892, Obj: 0.749062, No Obj: 0.004412, Avg Recall: 0.944444,  count: 18
+59131: 2.651721, 3.289129 avg, 0.000100 rate, 14.555029 seconds, 3784384 images
+Loaded: 0.000418 seconds
+Region Avg IOU: 0.574444, Class: 0.856167, Obj: 0.534610, No Obj: 0.004292, Avg Recall: 0.625000,  count: 16
+Region Avg IOU: 0.433494, Class: 0.723858, Obj: 0.409846, No Obj: 0.003715, Avg Recall: 0.433333,  count: 30
+Region Avg IOU: 0.873292, Class: 0.936135, Obj: 0.791405, No Obj: 0.003912, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.686497, Class: 0.779739, Obj: 0.581788, No Obj: 0.003597, Avg Recall: 0.875000,  count: 16
+Region Avg IOU: 0.550351, Class: 0.796350, Obj: 0.661919, No Obj: 0.003490, Avg Recall: 0.571429,  count: 14
+Region Avg IOU: 0.478161, Class: 0.884180, Obj: 0.445960, No Obj: 0.004811, Avg Recall: 0.525000,  count: 40
+Region Avg IOU: 0.297315, Class: 0.876918, Obj: 0.266774, No Obj: 0.003737, Avg Recall: 0.351351,  count: 37
+Region Avg IOU: 0.586841, Class: 0.868465, Obj: 0.573253, No Obj: 0.003926, Avg Recall: 0.578947,  count: 19
+59132: 3.494288, 3.309645 avg, 0.000100 rate, 14.520285 seconds, 3784448 images
+Loaded: 0.000557 seconds
+Region Avg IOU: 0.700321, Class: 0.861157, Obj: 0.670574, No Obj: 0.003013, Avg Recall: 0.888889,  count: 9
+Region Avg IOU: 0.619699, Class: 0.788990, Obj: 0.546979, No Obj: 0.004104, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.509211, Class: 0.850716, Obj: 0.457202, No Obj: 0.002805, Avg Recall: 0.666667,  count: 9
+Region Avg IOU: 0.629264, Class: 0.841888, Obj: 0.528842, No Obj: 0.003777, Avg Recall: 0.708333,  count: 24
+Region Avg IOU: 0.517045, Class: 0.838080, Obj: 0.430375, No Obj: 0.003464, Avg Recall: 0.666667,  count: 24
+Region Avg IOU: 0.590355, Class: 0.956018, Obj: 0.574960, No Obj: 0.002211, Avg Recall: 0.666667,  count: 12
+Region Avg IOU: 0.670418, Class: 0.843192, Obj: 0.465655, No Obj: 0.003828, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.516013, Class: 0.824881, Obj: 0.490202, No Obj: 0.002755, Avg Recall: 0.529412,  count: 17
+59133: 2.476534, 3.226334 avg, 0.000100 rate, 14.142188 seconds, 3784512 images
+Loaded: 0.000538 seconds
+Region Avg IOU: 0.476790, Class: 0.819815, Obj: 0.466707, No Obj: 0.003614, Avg Recall: 0.434783,  count: 23
+Region Avg IOU: 0.555619, Class: 0.894600, Obj: 0.491445, No Obj: 0.004081, Avg Recall: 0.600000,  count: 35
+Region Avg IOU: 0.529748, Class: 0.853901, Obj: 0.497484, No Obj: 0.002817, Avg Recall: 0.625000,  count: 16
+Region Avg IOU: 0.620257, Class: 0.813887, Obj: 0.614506, No Obj: 0.003065, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.620424, Class: 0.744938, Obj: 0.620813, No Obj: 0.003086, Avg Recall: 0.636364,  count: 11
+Region Avg IOU: 0.552176, Class: 0.707481, Obj: 0.550290, No Obj: 0.004396, Avg Recall: 0.625000,  count: 24
+Region Avg IOU: 0.733252, Class: 0.815685, Obj: 0.591909, No Obj: 0.003749, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.794670, Class: 0.944333, Obj: 0.700573, No Obj: 0.003739, Avg Recall: 0.941176,  count: 17
+59134: 3.116285, 3.215329 avg, 0.000100 rate, 14.475027 seconds, 3784576 images
+Loaded: 0.000538 seconds
+Region Avg IOU: 0.771802, Class: 0.710948, Obj: 0.692913, No Obj: 0.004015, Avg Recall: 1.000000,  count: 12
+Region Avg IOU: 0.553731, Class: 0.856971, Obj: 0.562617, No Obj: 0.004752, Avg Recall: 0.642857,  count: 28
+Region Avg IOU: 0.524669, Class: 0.721790, Obj: 0.481841, No Obj: 0.004979, Avg Recall: 0.592593,  count: 27
+Region Avg IOU: 0.699166, Class: 0.801619, Obj: 0.635310, No Obj: 0.005833, Avg Recall: 0.760000,  count: 25
+Region Avg IOU: 0.597445, Class: 0.841865, Obj: 0.583318, No Obj: 0.003727, Avg Recall: 0.615385,  count: 26
+Region Avg IOU: 0.819588, Class: 0.731751, Obj: 0.788074, No Obj: 0.002659, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.601861, Class: 0.748170, Obj: 0.571609, No Obj: 0.002940, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.596839, Class: 0.802151, Obj: 0.623241, No Obj: 0.003057, Avg Recall: 0.666667,  count: 15
+59135: 2.708273, 3.164623 avg, 0.000100 rate, 14.725387 seconds, 3784640 images
+Loaded: 0.000355 seconds
+Region Avg IOU: 0.776721, Class: 0.876169, Obj: 0.633173, No Obj: 0.002802, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.766990, Class: 0.894806, Obj: 0.667793, No Obj: 0.004936, Avg Recall: 0.923077,  count: 13
+Region Avg IOU: 0.520258, Class: 0.936692, Obj: 0.454549, No Obj: 0.003166, Avg Recall: 0.600000,  count: 20
+Region Avg IOU: 0.631452, Class: 0.901859, Obj: 0.630297, No Obj: 0.004759, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.606001, Class: 0.944152, Obj: 0.595860, No Obj: 0.004278, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.433220, Class: 0.815168, Obj: 0.390027, No Obj: 0.004245, Avg Recall: 0.411765,  count: 34
+Region Avg IOU: 0.576039, Class: 0.879990, Obj: 0.588182, No Obj: 0.003340, Avg Recall: 0.571429,  count: 7
+Region Avg IOU: 0.656953, Class: 0.869767, Obj: 0.613362, No Obj: 0.003390, Avg Recall: 0.764706,  count: 17
+59136: 2.955493, 3.143710 avg, 0.000100 rate, 14.221984 seconds, 3784704 images
+Loaded: 0.000455 seconds
+Region Avg IOU: 0.476801, Class: 0.869726, Obj: 0.407665, No Obj: 0.004340, Avg Recall: 0.500000,  count: 40
+Region Avg IOU: 0.570626, Class: 0.704966, Obj: 0.518296, No Obj: 0.003519, Avg Recall: 0.631579,  count: 19
+Region Avg IOU: 0.470105, Class: 0.772734, Obj: 0.467765, No Obj: 0.003515, Avg Recall: 0.421053,  count: 19
+Region Avg IOU: 0.625978, Class: 0.691820, Obj: 0.495355, No Obj: 0.002987, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.697725, Class: 0.917328, Obj: 0.627596, No Obj: 0.003685, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.774669, Class: 0.868939, Obj: 0.744296, No Obj: 0.003306, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.642803, Class: 0.818145, Obj: 0.571876, No Obj: 0.004350, Avg Recall: 0.647059,  count: 17
+Region Avg IOU: 0.414356, Class: 0.770019, Obj: 0.385497, No Obj: 0.003389, Avg Recall: 0.468750,  count: 32
+59137: 4.520133, 3.281353 avg, 0.000100 rate, 14.406248 seconds, 3784768 images
+Loaded: 0.000438 seconds
+Region Avg IOU: 0.428594, Class: 0.771738, Obj: 0.422325, No Obj: 0.002739, Avg Recall: 0.461538,  count: 13
+Region Avg IOU: 0.759299, Class: 0.881736, Obj: 0.665534, No Obj: 0.003561, Avg Recall: 0.888889,  count: 18
+Region Avg IOU: 0.591241, Class: 0.846335, Obj: 0.545780, No Obj: 0.004721, Avg Recall: 0.689655,  count: 29
+Region Avg IOU: 0.836644, Class: 0.906118, Obj: 0.770635, No Obj: 0.004204, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.636286, Class: 0.749214, Obj: 0.622543, No Obj: 0.003249, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.535366, Class: 0.863275, Obj: 0.515433, No Obj: 0.003058, Avg Recall: 0.555556,  count: 27
+Region Avg IOU: 0.551389, Class: 0.834741, Obj: 0.483615, No Obj: 0.002595, Avg Recall: 0.500000,  count: 14
+Region Avg IOU: 0.733927, Class: 0.802540, Obj: 0.731335, No Obj: 0.003629, Avg Recall: 0.785714,  count: 14
+59138: 2.311528, 3.184370 avg, 0.000100 rate, 14.825409 seconds, 3784832 images
+Loaded: 0.000508 seconds
+Region Avg IOU: 0.657354, Class: 0.722137, Obj: 0.541804, No Obj: 0.002574, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.700196, Class: 0.775986, Obj: 0.644365, No Obj: 0.004504, Avg Recall: 0.750000,  count: 20
+Region Avg IOU: 0.599190, Class: 0.953422, Obj: 0.518086, No Obj: 0.002650, Avg Recall: 0.588235,  count: 17
+Region Avg IOU: 0.689957, Class: 0.962907, Obj: 0.566121, No Obj: 0.002433, Avg Recall: 0.777778,  count: 9
+Region Avg IOU: 0.644821, Class: 0.824823, Obj: 0.596313, No Obj: 0.003847, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.689094, Class: 0.839853, Obj: 0.655761, No Obj: 0.003921, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.612718, Class: 0.763226, Obj: 0.542856, No Obj: 0.003271, Avg Recall: 0.642857,  count: 14
+Region Avg IOU: 0.637991, Class: 0.879071, Obj: 0.636366, No Obj: 0.003847, Avg Recall: 0.818182,  count: 22
+59139: 2.457418, 3.111675 avg, 0.000100 rate, 14.188839 seconds, 3784896 images
+Loaded: 0.000437 seconds
+Region Avg IOU: 0.435408, Class: 0.839206, Obj: 0.401736, No Obj: 0.003214, Avg Recall: 0.480000,  count: 25
+Region Avg IOU: 0.690215, Class: 0.856196, Obj: 0.679134, No Obj: 0.003536, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.677714, Class: 0.799340, Obj: 0.572852, No Obj: 0.003309, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.624203, Class: 0.751730, Obj: 0.558181, No Obj: 0.003545, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.564561, Class: 0.714898, Obj: 0.525688, No Obj: 0.004379, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.391427, Class: 0.679382, Obj: 0.353292, No Obj: 0.002938, Avg Recall: 0.450000,  count: 20
+Region Avg IOU: 0.740394, Class: 0.888525, Obj: 0.676491, No Obj: 0.005858, Avg Recall: 0.960000,  count: 25
+Region Avg IOU: 0.559650, Class: 0.847468, Obj: 0.477523, No Obj: 0.004455, Avg Recall: 0.625000,  count: 24
+59140: 3.509919, 3.151499 avg, 0.000100 rate, 14.943941 seconds, 3784960 images
+Resizing
+480
+Loaded: 9.473009 seconds
+Region Avg IOU: 0.742814, Class: 0.881933, Obj: 0.714388, No Obj: 0.002617, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.391512, Class: 0.720464, Obj: 0.339648, No Obj: 0.001650, Avg Recall: 0.400000,  count: 15
+Region Avg IOU: 0.685769, Class: 0.905032, Obj: 0.587155, No Obj: 0.003412, Avg Recall: 0.818182,  count: 22
+Region Avg IOU: 0.539669, Class: 0.813797, Obj: 0.545993, No Obj: 0.003490, Avg Recall: 0.583333,  count: 36
+Region Avg IOU: 0.721717, Class: 0.814690, Obj: 0.547379, No Obj: 0.003161, Avg Recall: 0.850000,  count: 20
+Region Avg IOU: 0.670338, Class: 0.895121, Obj: 0.666479, No Obj: 0.004048, Avg Recall: 0.769231,  count: 26
+Region Avg IOU: 0.742976, Class: 0.679235, Obj: 0.770509, No Obj: 0.002730, Avg Recall: 0.909091,  count: 11
+Region Avg IOU: 0.696676, Class: 0.866197, Obj: 0.499142, No Obj: 0.003534, Avg Recall: 0.846154,  count: 26
+59141: 3.739742, 3.210324 avg, 0.000100 rate, 21.879135 seconds, 3785024 images
+Loaded: 0.000412 seconds
+Region Avg IOU: 0.652632, Class: 0.911192, Obj: 0.541913, No Obj: 0.003154, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.625984, Class: 0.875047, Obj: 0.532434, No Obj: 0.003401, Avg Recall: 0.642857,  count: 14
+Region Avg IOU: 0.618326, Class: 0.833480, Obj: 0.572242, No Obj: 0.002831, Avg Recall: 0.619048,  count: 21
+Region Avg IOU: 0.514688, Class: 0.890013, Obj: 0.486582, No Obj: 0.003082, Avg Recall: 0.483871,  count: 31
+Region Avg IOU: 0.722163, Class: 0.886259, Obj: 0.667107, No Obj: 0.003583, Avg Recall: 0.833333,  count: 24
+Region Avg IOU: 0.656431, Class: 0.926000, Obj: 0.646838, No Obj: 0.002623, Avg Recall: 0.705882,  count: 17
+Region Avg IOU: 0.679595, Class: 0.885410, Obj: 0.617209, No Obj: 0.003785, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.800103, Class: 0.871687, Obj: 0.735882, No Obj: 0.002830, Avg Recall: 1.000000,  count: 14
+59142: 2.936982, 3.182989 avg, 0.000100 rate, 22.691525 seconds, 3785088 images
+Loaded: 0.000442 seconds
+Region Avg IOU: 0.727720, Class: 0.923718, Obj: 0.677392, No Obj: 0.003646, Avg Recall: 0.842105,  count: 19
+Region Avg IOU: 0.562190, Class: 0.774421, Obj: 0.531858, No Obj: 0.002073, Avg Recall: 0.555556,  count: 9
+Region Avg IOU: 0.757496, Class: 0.846369, Obj: 0.601746, No Obj: 0.003184, Avg Recall: 0.882353,  count: 17
+Region Avg IOU: 0.603693, Class: 0.826402, Obj: 0.540721, No Obj: 0.002700, Avg Recall: 0.772727,  count: 22
+Region Avg IOU: 0.774979, Class: 0.867366, Obj: 0.626340, No Obj: 0.001663, Avg Recall: 0.909091,  count: 11
+Region Avg IOU: 0.516429, Class: 0.810999, Obj: 0.527098, No Obj: 0.002401, Avg Recall: 0.571429,  count: 14
+Region Avg IOU: 0.692172, Class: 0.897371, Obj: 0.611110, No Obj: 0.003373, Avg Recall: 0.863636,  count: 22
+Region Avg IOU: 0.416100, Class: 0.663400, Obj: 0.419360, No Obj: 0.002489, Avg Recall: 0.423077,  count: 26
+59143: 3.531617, 3.217852 avg, 0.000100 rate, 20.122908 seconds, 3785152 images
+Loaded: 0.000479 seconds
+Region Avg IOU: 0.670715, Class: 0.864211, Obj: 0.625916, No Obj: 0.002223, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.765236, Class: 0.898798, Obj: 0.702420, No Obj: 0.002696, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.591901, Class: 0.729824, Obj: 0.588667, No Obj: 0.002833, Avg Recall: 0.615385,  count: 26
+Region Avg IOU: 0.640689, Class: 0.898389, Obj: 0.616719, No Obj: 0.003937, Avg Recall: 0.771429,  count: 35
+Region Avg IOU: 0.667258, Class: 0.855813, Obj: 0.570190, No Obj: 0.003733, Avg Recall: 0.800000,  count: 10
+Region Avg IOU: 0.789945, Class: 0.919491, Obj: 0.757279, No Obj: 0.003830, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.786924, Class: 0.944405, Obj: 0.783267, No Obj: 0.001388, Avg Recall: 1.000000,  count: 8
+Region Avg IOU: 0.652330, Class: 0.922180, Obj: 0.585738, No Obj: 0.003136, Avg Recall: 0.761905,  count: 21
+59144: 2.232228, 3.119290 avg, 0.000100 rate, 20.670059 seconds, 3785216 images
+Loaded: 0.000546 seconds
+Region Avg IOU: 0.621060, Class: 0.912724, Obj: 0.562700, No Obj: 0.004398, Avg Recall: 0.724138,  count: 29
+Region Avg IOU: 0.517632, Class: 0.846283, Obj: 0.469051, No Obj: 0.003259, Avg Recall: 0.542857,  count: 35
+Region Avg IOU: 0.662647, Class: 0.927683, Obj: 0.594422, No Obj: 0.003616, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.749428, Class: 0.909228, Obj: 0.695846, No Obj: 0.003118, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.598811, Class: 0.810433, Obj: 0.562660, No Obj: 0.002828, Avg Recall: 0.615385,  count: 13
+Region Avg IOU: 0.796591, Class: 0.765342, Obj: 0.649435, No Obj: 0.003543, Avg Recall: 1.000000,  count: 15
+Region Avg IOU: 0.416696, Class: 0.815039, Obj: 0.419160, No Obj: 0.003449, Avg Recall: 0.475000,  count: 40
+Region Avg IOU: 0.566555, Class: 0.854831, Obj: 0.561853, No Obj: 0.004858, Avg Recall: 0.638298,  count: 47
+59145: 4.242108, 3.231571 avg, 0.000100 rate, 22.784176 seconds, 3785280 images
+Loaded: 0.000537 seconds
+Region Avg IOU: 0.696762, Class: 0.859753, Obj: 0.433818, No Obj: 0.001961, Avg Recall: 0.750000,  count: 8
+Region Avg IOU: 0.612957, Class: 0.882876, Obj: 0.513208, No Obj: 0.002448, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.769757, Class: 0.847024, Obj: 0.722831, No Obj: 0.003751, Avg Recall: 0.894737,  count: 19
+Region Avg IOU: 0.580462, Class: 0.859665, Obj: 0.498814, No Obj: 0.002210, Avg Recall: 0.500000,  count: 10
+Region Avg IOU: 0.592726, Class: 0.831689, Obj: 0.565421, No Obj: 0.003001, Avg Recall: 0.600000,  count: 20
+Region Avg IOU: 0.822558, Class: 0.879720, Obj: 0.752130, No Obj: 0.002547, Avg Recall: 1.000000,  count: 12
+Region Avg IOU: 0.735291, Class: 0.888088, Obj: 0.583020, No Obj: 0.003978, Avg Recall: 0.863636,  count: 22
+Region Avg IOU: 0.806753, Class: 0.879384, Obj: 0.733659, No Obj: 0.002634, Avg Recall: 0.916667,  count: 12
+59146: 2.851326, 3.193547 avg, 0.000100 rate, 22.103016 seconds, 3785344 images
+Loaded: 0.000442 seconds
+Region Avg IOU: 0.674859, Class: 0.936801, Obj: 0.618986, No Obj: 0.002511, Avg Recall: 0.800000,  count: 20
+Region Avg IOU: 0.492208, Class: 0.926597, Obj: 0.397848, No Obj: 0.002593, Avg Recall: 0.555556,  count: 18
+Region Avg IOU: 0.741635, Class: 0.871954, Obj: 0.586293, No Obj: 0.002954, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.476438, Class: 0.862718, Obj: 0.413677, No Obj: 0.003300, Avg Recall: 0.566667,  count: 30
+Region Avg IOU: 0.758621, Class: 0.833785, Obj: 0.709286, No Obj: 0.003528, Avg Recall: 0.944444,  count: 18
+Region Avg IOU: 0.767487, Class: 0.909701, Obj: 0.667483, No Obj: 0.003924, Avg Recall: 0.888889,  count: 18
+Region Avg IOU: 0.653179, Class: 0.910587, Obj: 0.584664, No Obj: 0.002635, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.746655, Class: 0.860369, Obj: 0.637035, No Obj: 0.003613, Avg Recall: 0.857143,  count: 21
+59147: 4.167961, 3.290988 avg, 0.000100 rate, 21.453611 seconds, 3785408 images
+Loaded: 0.000568 seconds
+Region Avg IOU: 0.719219, Class: 0.860685, Obj: 0.687916, No Obj: 0.002900, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.780170, Class: 0.739942, Obj: 0.722977, No Obj: 0.003282, Avg Recall: 0.909091,  count: 11
+Region Avg IOU: 0.495580, Class: 0.833714, Obj: 0.455748, No Obj: 0.002258, Avg Recall: 0.619048,  count: 21
+Region Avg IOU: 0.869943, Class: 0.924603, Obj: 0.791811, No Obj: 0.002353, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.618540, Class: 0.938629, Obj: 0.580777, No Obj: 0.003783, Avg Recall: 0.740741,  count: 27
+Region Avg IOU: 0.803755, Class: 0.924232, Obj: 0.692950, No Obj: 0.003218, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.618084, Class: 0.699800, Obj: 0.537632, No Obj: 0.003368, Avg Recall: 0.666667,  count: 21
+Region Avg IOU: 0.744371, Class: 0.880595, Obj: 0.695928, No Obj: 0.003572, Avg Recall: 0.937500,  count: 16
+59148: 3.001868, 3.262076 avg, 0.000100 rate, 21.072632 seconds, 3785472 images
+Loaded: 0.000455 seconds
+Region Avg IOU: 0.542399, Class: 0.839245, Obj: 0.475853, No Obj: 0.003118, Avg Recall: 0.619048,  count: 21
+Region Avg IOU: 0.644316, Class: 0.828265, Obj: 0.535950, No Obj: 0.003382, Avg Recall: 0.777778,  count: 27
+Region Avg IOU: 0.517102, Class: 0.826081, Obj: 0.535376, No Obj: 0.003228, Avg Recall: 0.555556,  count: 27
+Region Avg IOU: 0.807194, Class: 0.940735, Obj: 0.804234, No Obj: 0.003402, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.477872, Class: 0.913363, Obj: 0.429869, No Obj: 0.003432, Avg Recall: 0.481481,  count: 27
+Region Avg IOU: 0.583514, Class: 0.864113, Obj: 0.507433, No Obj: 0.002379, Avg Recall: 0.650000,  count: 20
+Region Avg IOU: 0.711825, Class: 0.793348, Obj: 0.633485, No Obj: 0.003201, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.704291, Class: 0.611436, Obj: 0.603937, No Obj: 0.002566, Avg Recall: 0.818182,  count: 11
+59149: 3.591722, 3.295041 avg, 0.000100 rate, 20.260302 seconds, 3785536 images
+Loaded: 0.000456 seconds
+Region Avg IOU: 0.653923, Class: 0.809179, Obj: 0.567417, No Obj: 0.002847, Avg Recall: 0.642857,  count: 14
+Region Avg IOU: 0.612729, Class: 0.829682, Obj: 0.501449, No Obj: 0.002266, Avg Recall: 0.647059,  count: 17
+Region Avg IOU: 0.703658, Class: 0.796475, Obj: 0.684519, No Obj: 0.003340, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.726066, Class: 0.902332, Obj: 0.517148, No Obj: 0.002116, Avg Recall: 0.800000,  count: 10
+Region Avg IOU: 0.632717, Class: 0.820027, Obj: 0.639549, No Obj: 0.002071, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.740403, Class: 0.952195, Obj: 0.785943, No Obj: 0.002838, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.651350, Class: 0.863881, Obj: 0.624752, No Obj: 0.002892, Avg Recall: 0.750000,  count: 20
+Region Avg IOU: 0.735585, Class: 0.882081, Obj: 0.670834, No Obj: 0.003566, Avg Recall: 0.812500,  count: 16
+59150: 2.589999, 3.224537 avg, 0.000100 rate, 22.084660 seconds, 3785600 images
+Resizing
+608
+Loaded: 13.494108 seconds
+Region Avg IOU: 0.710951, Class: 0.812011, Obj: 0.716609, No Obj: 0.001579, Avg Recall: 0.785714,  count: 14
+Region Avg IOU: 0.709884, Class: 0.883920, Obj: 0.693523, No Obj: 0.002331, Avg Recall: 0.826087,  count: 23
+Region Avg IOU: 0.709001, Class: 0.974534, Obj: 0.753653, No Obj: 0.002046, Avg Recall: 0.846154,  count: 13
+Region Avg IOU: 0.817782, Class: 0.844668, Obj: 0.757476, No Obj: 0.002530, Avg Recall: 0.923077,  count: 13
+Region Avg IOU: 0.735895, Class: 0.885446, Obj: 0.623220, No Obj: 0.002462, Avg Recall: 0.863636,  count: 22
+Region Avg IOU: 0.718332, Class: 0.885163, Obj: 0.712385, No Obj: 0.001439, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.759128, Class: 0.926765, Obj: 0.699033, No Obj: 0.002368, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.845114, Class: 0.816763, Obj: 0.773948, No Obj: 0.002787, Avg Recall: 1.000000,  count: 17
+59151: 1.834493, 3.085532 avg, 0.000100 rate, 31.155396 seconds, 3785664 images
+Loaded: 0.000506 seconds
+Region Avg IOU: 0.760105, Class: 0.912832, Obj: 0.662651, No Obj: 0.002289, Avg Recall: 0.950000,  count: 20
+Region Avg IOU: 0.770549, Class: 0.799042, Obj: 0.680485, No Obj: 0.001721, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.800439, Class: 0.928182, Obj: 0.744327, No Obj: 0.002114, Avg Recall: 1.000000,  count: 18
+Region Avg IOU: 0.689555, Class: 0.820149, Obj: 0.624158, No Obj: 0.002376, Avg Recall: 0.761905,  count: 21
+Region Avg IOU: 0.779921, Class: 0.852435, Obj: 0.670480, No Obj: 0.003097, Avg Recall: 0.888889,  count: 27
+Region Avg IOU: 0.722199, Class: 0.700108, Obj: 0.641532, No Obj: 0.002192, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.676873, Class: 0.922529, Obj: 0.632733, No Obj: 0.001708, Avg Recall: 0.666667,  count: 12
+Region Avg IOU: 0.663179, Class: 0.877576, Obj: 0.524004, No Obj: 0.001934, Avg Recall: 0.750000,  count: 20
+59152: 2.852190, 3.062198 avg, 0.000100 rate, 31.972534 seconds, 3785728 images
+Loaded: 0.000534 seconds
+Region Avg IOU: 0.675368, Class: 0.706820, Obj: 0.618629, No Obj: 0.003339, Avg Recall: 0.794118,  count: 34
+Region Avg IOU: 0.805825, Class: 0.898301, Obj: 0.710532, No Obj: 0.002040, Avg Recall: 1.000000,  count: 18
+Region Avg IOU: 0.801756, Class: 0.855092, Obj: 0.730828, No Obj: 0.002024, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.693136, Class: 0.852116, Obj: 0.643981, No Obj: 0.001372, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.751036, Class: 0.956316, Obj: 0.682037, No Obj: 0.002639, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.413270, Class: 0.831316, Obj: 0.424024, No Obj: 0.002395, Avg Recall: 0.433333,  count: 60
+Region Avg IOU: 0.758504, Class: 0.853962, Obj: 0.669162, No Obj: 0.002664, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.539407, Class: 0.800509, Obj: 0.467521, No Obj: 0.003159, Avg Recall: 0.590909,  count: 44
+59153: 4.871788, 3.243157 avg, 0.000100 rate, 31.178242 seconds, 3785792 images
+Loaded: 0.000423 seconds
+Region Avg IOU: 0.750133, Class: 0.693110, Obj: 0.618581, No Obj: 0.001883, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.710509, Class: 0.749745, Obj: 0.684069, No Obj: 0.002118, Avg Recall: 0.823529,  count: 17
+Region Avg IOU: 0.840177, Class: 0.840094, Obj: 0.793016, No Obj: 0.001692, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.727524, Class: 0.828623, Obj: 0.548396, No Obj: 0.002090, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.705130, Class: 0.897994, Obj: 0.688799, No Obj: 0.002897, Avg Recall: 0.793103,  count: 29
+Region Avg IOU: 0.679421, Class: 0.761890, Obj: 0.606289, No Obj: 0.001797, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.754164, Class: 0.843719, Obj: 0.733947, No Obj: 0.002442, Avg Recall: 0.875000,  count: 16
+Region Avg IOU: 0.797798, Class: 0.872025, Obj: 0.654497, No Obj: 0.002206, Avg Recall: 0.875000,  count: 16
+59154: 3.167066, 3.235548 avg, 0.000100 rate, 32.085747 seconds, 3785856 images
+Loaded: 0.000522 seconds
+Region Avg IOU: 0.712895, Class: 0.925422, Obj: 0.657737, No Obj: 0.002489, Avg Recall: 0.909091,  count: 22
+Region Avg IOU: 0.799726, Class: 0.906735, Obj: 0.731376, No Obj: 0.002753, Avg Recall: 0.944444,  count: 18
+Region Avg IOU: 0.619954, Class: 0.779382, Obj: 0.517282, No Obj: 0.002273, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.770033, Class: 0.871101, Obj: 0.660731, No Obj: 0.002718, Avg Recall: 0.850000,  count: 20
+Region Avg IOU: 0.740100, Class: 0.837477, Obj: 0.644285, No Obj: 0.002296, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.791867, Class: 0.875086, Obj: 0.744906, No Obj: 0.001825, Avg Recall: 0.941176,  count: 17
+Region Avg IOU: 0.805903, Class: 0.921088, Obj: 0.757594, No Obj: 0.002945, Avg Recall: 0.909091,  count: 22
+Region Avg IOU: 0.600613, Class: 0.803846, Obj: 0.480231, No Obj: 0.001525, Avg Recall: 0.750000,  count: 12
+59155: 3.447693, 3.256763 avg, 0.000100 rate, 30.212885 seconds, 3785920 images
+Loaded: 0.000512 seconds
+Region Avg IOU: 0.739348, Class: 0.945883, Obj: 0.603814, No Obj: 0.002606, Avg Recall: 0.869565,  count: 23
+Region Avg IOU: 0.567996, Class: 0.810375, Obj: 0.561785, No Obj: 0.001596, Avg Recall: 0.705882,  count: 17
+Region Avg IOU: 0.698467, Class: 0.718963, Obj: 0.555320, No Obj: 0.001628, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.738813, Class: 0.787575, Obj: 0.721766, No Obj: 0.002383, Avg Recall: 0.875000,  count: 24
+Region Avg IOU: 0.846371, Class: 0.926186, Obj: 0.731399, No Obj: 0.002414, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.807514, Class: 0.845368, Obj: 0.710188, No Obj: 0.001938, Avg Recall: 1.000000,  count: 14
+Region Avg IOU: 0.807128, Class: 0.918228, Obj: 0.764250, No Obj: 0.002161, Avg Recall: 1.000000,  count: 17
+Region Avg IOU: 0.679888, Class: 0.892443, Obj: 0.625123, No Obj: 0.002479, Avg Recall: 0.782609,  count: 23
+59156: 3.127001, 3.243786 avg, 0.000100 rate, 30.914814 seconds, 3785984 images
+Loaded: 0.000447 seconds
+Region Avg IOU: 0.813954, Class: 0.877632, Obj: 0.737843, No Obj: 0.002271, Avg Recall: 0.947368,  count: 19
+Region Avg IOU: 0.716551, Class: 0.857137, Obj: 0.679144, No Obj: 0.001847, Avg Recall: 0.857143,  count: 14
+Region Avg IOU: 0.501052, Class: 0.610859, Obj: 0.422938, No Obj: 0.002626, Avg Recall: 0.560000,  count: 25
+Region Avg IOU: 0.647320, Class: 0.849001, Obj: 0.528790, No Obj: 0.002326, Avg Recall: 0.750000,  count: 24
+Region Avg IOU: 0.867390, Class: 0.899666, Obj: 0.816634, No Obj: 0.002125, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.753298, Class: 0.842426, Obj: 0.645812, No Obj: 0.002551, Avg Recall: 0.869565,  count: 23
+Region Avg IOU: 0.733553, Class: 0.840086, Obj: 0.644676, No Obj: 0.001707, Avg Recall: 0.933333,  count: 15
+Region Avg IOU: 0.563887, Class: 0.823380, Obj: 0.572441, No Obj: 0.002157, Avg Recall: 0.696970,  count: 33
+59157: 4.194744, 3.338882 avg, 0.000100 rate, 31.478136 seconds, 3786048 images
+Loaded: 0.000471 seconds
+Region Avg IOU: 0.508354, Class: 0.878113, Obj: 0.506218, No Obj: 0.002295, Avg Recall: 0.515152,  count: 33
+Region Avg IOU: 0.613667, Class: 0.749218, Obj: 0.570054, No Obj: 0.002462, Avg Recall: 0.692308,  count: 26
+Region Avg IOU: 0.719227, Class: 0.912910, Obj: 0.614340, No Obj: 0.001516, Avg Recall: 0.818182,  count: 11
+Region Avg IOU: 0.581704, Class: 0.938760, Obj: 0.451692, No Obj: 0.002213, Avg Recall: 0.642857,  count: 28
+Region Avg IOU: 0.659008, Class: 0.841138, Obj: 0.578559, No Obj: 0.001861, Avg Recall: 0.750000,  count: 20
+Region Avg IOU: 0.619630, Class: 0.708833, Obj: 0.494842, No Obj: 0.002143, Avg Recall: 0.736842,  count: 19
+Region Avg IOU: 0.805582, Class: 0.967500, Obj: 0.622491, No Obj: 0.001581, Avg Recall: 1.000000,  count: 7
+Region Avg IOU: 0.573918, Class: 0.848453, Obj: 0.513417, No Obj: 0.002474, Avg Recall: 0.666667,  count: 12
+59158: 4.079446, 3.412939 avg, 0.000100 rate, 33.045113 seconds, 3786112 images
+Loaded: 0.000407 seconds
+Region Avg IOU: 0.801108, Class: 0.799538, Obj: 0.771675, No Obj: 0.001886, Avg Recall: 0.923077,  count: 13
+Region Avg IOU: 0.695616, Class: 0.964526, Obj: 0.656530, No Obj: 0.001717, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.768199, Class: 0.796187, Obj: 0.648011, No Obj: 0.001999, Avg Recall: 0.923077,  count: 13
+Region Avg IOU: 0.788153, Class: 0.948936, Obj: 0.718260, No Obj: 0.002385, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.760376, Class: 0.865689, Obj: 0.686418, No Obj: 0.002519, Avg Recall: 0.818182,  count: 22
+Region Avg IOU: 0.593469, Class: 0.839245, Obj: 0.485955, No Obj: 0.002555, Avg Recall: 0.666667,  count: 24
+Region Avg IOU: 0.652090, Class: 0.824607, Obj: 0.567420, No Obj: 0.002498, Avg Recall: 0.733333,  count: 30
+Region Avg IOU: 0.514894, Class: 0.841650, Obj: 0.474835, No Obj: 0.001558, Avg Recall: 0.545455,  count: 11
+59159: 3.303800, 3.402025 avg, 0.000100 rate, 34.097809 seconds, 3786176 images
+Loaded: 0.000350 seconds
+Region Avg IOU: 0.520743, Class: 0.838799, Obj: 0.477692, No Obj: 0.001962, Avg Recall: 0.666667,  count: 18
+Region Avg IOU: 0.650996, Class: 0.916692, Obj: 0.631685, No Obj: 0.001799, Avg Recall: 0.823529,  count: 17
+Region Avg IOU: 0.836416, Class: 0.731403, Obj: 0.743294, No Obj: 0.001888, Avg Recall: 1.000000,  count: 11
+Region Avg IOU: 0.672255, Class: 0.767263, Obj: 0.580158, No Obj: 0.002967, Avg Recall: 0.843750,  count: 32
+Region Avg IOU: 0.773648, Class: 0.891422, Obj: 0.719792, No Obj: 0.002954, Avg Recall: 0.950000,  count: 20
+Region Avg IOU: 0.614903, Class: 0.815881, Obj: 0.551682, No Obj: 0.002117, Avg Recall: 0.692308,  count: 26
+Region Avg IOU: 0.668464, Class: 0.899110, Obj: 0.561176, No Obj: 0.003200, Avg Recall: 0.787879,  count: 33
+Region Avg IOU: 0.741943, Class: 0.953531, Obj: 0.718837, No Obj: 0.001914, Avg Recall: 0.750000,  count: 8
+59160: 3.863128, 3.448135 avg, 0.000100 rate, 32.389469 seconds, 3786240 images
+Resizing
+384
+Loaded: 5.963943 seconds
+Region Avg IOU: 0.865815, Class: 0.929954, Obj: 0.756406, No Obj: 0.003398, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.596036, Class: 0.816756, Obj: 0.555533, No Obj: 0.003821, Avg Recall: 0.764706,  count: 17
+Region Avg IOU: 0.601236, Class: 0.815998, Obj: 0.533246, No Obj: 0.004352, Avg Recall: 0.678571,  count: 28
+Region Avg IOU: 0.640319, Class: 0.855013, Obj: 0.584073, No Obj: 0.004070, Avg Recall: 0.666667,  count: 21
+Region Avg IOU: 0.529020, Class: 0.916177, Obj: 0.529386, No Obj: 0.002888, Avg Recall: 0.538462,  count: 13
+Region Avg IOU: 0.448923, Class: 0.814684, Obj: 0.427995, No Obj: 0.004596, Avg Recall: 0.489362,  count: 47
+Region Avg IOU: 0.648825, Class: 0.857769, Obj: 0.618854, No Obj: 0.003627, Avg Recall: 0.818182,  count: 22
+Region Avg IOU: 0.540564, Class: 0.819075, Obj: 0.466850, No Obj: 0.003905, Avg Recall: 0.636364,  count: 22
+59161: 3.269243, 3.430246 avg, 0.000100 rate, 13.930871 seconds, 3786304 images
+Loaded: 0.000537 seconds
+Region Avg IOU: 0.726696, Class: 0.772660, Obj: 0.660521, No Obj: 0.005035, Avg Recall: 0.894737,  count: 19
+Region Avg IOU: 0.741286, Class: 0.873546, Obj: 0.697791, No Obj: 0.005187, Avg Recall: 0.925926,  count: 27
+Region Avg IOU: 0.668091, Class: 0.851820, Obj: 0.623075, No Obj: 0.004474, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.373723, Class: 0.822614, Obj: 0.348450, No Obj: 0.004842, Avg Recall: 0.396226,  count: 53
+Region Avg IOU: 0.534969, Class: 0.731335, Obj: 0.505047, No Obj: 0.003979, Avg Recall: 0.565217,  count: 23
+Region Avg IOU: 0.692834, Class: 0.885610, Obj: 0.642982, No Obj: 0.004481, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.551381, Class: 0.703205, Obj: 0.515087, No Obj: 0.004617, Avg Recall: 0.571429,  count: 28
+Region Avg IOU: 0.752880, Class: 0.909394, Obj: 0.739168, No Obj: 0.003646, Avg Recall: 0.923077,  count: 13
+59162: 3.452924, 3.432514 avg, 0.000100 rate, 14.655108 seconds, 3786368 images
+Loaded: 0.000441 seconds
+Region Avg IOU: 0.710644, Class: 0.936323, Obj: 0.636712, No Obj: 0.003494, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.487376, Class: 0.820573, Obj: 0.506896, No Obj: 0.003955, Avg Recall: 0.433333,  count: 30
+Region Avg IOU: 0.295710, Class: 0.766788, Obj: 0.355704, No Obj: 0.002187, Avg Recall: 0.235294,  count: 17
+Region Avg IOU: 0.528096, Class: 0.860113, Obj: 0.505863, No Obj: 0.002692, Avg Recall: 0.600000,  count: 15
+Region Avg IOU: 0.661472, Class: 0.888685, Obj: 0.608522, No Obj: 0.003563, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.382353, Class: 0.728955, Obj: 0.387251, No Obj: 0.002984, Avg Recall: 0.450000,  count: 20
+Region Avg IOU: 0.833138, Class: 0.864795, Obj: 0.735973, No Obj: 0.004087, Avg Recall: 0.933333,  count: 15
+Region Avg IOU: 0.548338, Class: 0.777729, Obj: 0.527884, No Obj: 0.004237, Avg Recall: 0.689655,  count: 29
+59163: 2.069280, 3.296190 avg, 0.000100 rate, 13.874915 seconds, 3786432 images
+Loaded: 0.000449 seconds
+Region Avg IOU: 0.557676, Class: 0.765816, Obj: 0.528683, No Obj: 0.004394, Avg Recall: 0.600000,  count: 25
+Region Avg IOU: 0.613811, Class: 0.932994, Obj: 0.612526, No Obj: 0.002637, Avg Recall: 0.666667,  count: 9
+Region Avg IOU: 0.664595, Class: 0.846118, Obj: 0.622720, No Obj: 0.003712, Avg Recall: 0.750000,  count: 16
+Region Avg IOU: 0.776551, Class: 0.933963, Obj: 0.706017, No Obj: 0.003638, Avg Recall: 0.875000,  count: 16
+Region Avg IOU: 0.622978, Class: 0.841291, Obj: 0.582637, No Obj: 0.004301, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.691313, Class: 0.797326, Obj: 0.722417, No Obj: 0.004133, Avg Recall: 0.846154,  count: 13
+Region Avg IOU: 0.637026, Class: 0.846089, Obj: 0.618322, No Obj: 0.003276, Avg Recall: 0.800000,  count: 20
+Region Avg IOU: 0.405334, Class: 0.840821, Obj: 0.442747, No Obj: 0.003535, Avg Recall: 0.428571,  count: 21
+59164: 2.910749, 3.257646 avg, 0.000100 rate, 14.079673 seconds, 3786496 images
+Loaded: 0.000471 seconds
+Region Avg IOU: 0.514310, Class: 0.742098, Obj: 0.547292, No Obj: 0.002779, Avg Recall: 0.590909,  count: 22
+Region Avg IOU: 0.825822, Class: 0.902817, Obj: 0.760144, No Obj: 0.003616, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.505803, Class: 0.864165, Obj: 0.473346, No Obj: 0.004563, Avg Recall: 0.523810,  count: 42
+Region Avg IOU: 0.566521, Class: 0.858219, Obj: 0.539151, No Obj: 0.006126, Avg Recall: 0.657143,  count: 35
+Region Avg IOU: 0.620832, Class: 0.887102, Obj: 0.573758, No Obj: 0.005446, Avg Recall: 0.647059,  count: 34
+Region Avg IOU: 0.752122, Class: 0.762156, Obj: 0.665108, No Obj: 0.004369, Avg Recall: 1.000000,  count: 15
+Region Avg IOU: 0.579856, Class: 0.737076, Obj: 0.491669, No Obj: 0.003163, Avg Recall: 0.680000,  count: 25
+Region Avg IOU: 0.793351, Class: 0.699605, Obj: 0.728514, No Obj: 0.002833, Avg Recall: 1.000000,  count: 10
+59165: 3.093407, 3.241222 avg, 0.000100 rate, 14.534899 seconds, 3786560 images
+Loaded: 0.000420 seconds
+Region Avg IOU: 0.525430, Class: 0.773903, Obj: 0.474311, No Obj: 0.003515, Avg Recall: 0.500000,  count: 20
+Region Avg IOU: 0.698875, Class: 0.776424, Obj: 0.627716, No Obj: 0.004844, Avg Recall: 0.842105,  count: 19
+Region Avg IOU: 0.620947, Class: 0.737030, Obj: 0.588435, No Obj: 0.005008, Avg Recall: 0.850000,  count: 20
+Region Avg IOU: 0.528069, Class: 0.843048, Obj: 0.430385, No Obj: 0.003408, Avg Recall: 0.633333,  count: 30
+Region Avg IOU: 0.770682, Class: 0.867248, Obj: 0.718197, No Obj: 0.004198, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.705756, Class: 0.885566, Obj: 0.694922, No Obj: 0.004618, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.654951, Class: 0.656493, Obj: 0.478511, No Obj: 0.002179, Avg Recall: 0.666667,  count: 12
+Region Avg IOU: 0.562796, Class: 0.910830, Obj: 0.586521, No Obj: 0.004232, Avg Recall: 0.631579,  count: 19
+59166: 2.902720, 3.207372 avg, 0.000100 rate, 14.415715 seconds, 3786624 images
+Loaded: 0.000460 seconds
+Region Avg IOU: 0.607711, Class: 0.875073, Obj: 0.599398, No Obj: 0.003951, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.628182, Class: 0.878059, Obj: 0.533557, No Obj: 0.003134, Avg Recall: 0.714286,  count: 14
+Region Avg IOU: 0.522883, Class: 0.857481, Obj: 0.494359, No Obj: 0.005518, Avg Recall: 0.558140,  count: 43
+Region Avg IOU: 0.698821, Class: 0.860794, Obj: 0.518006, No Obj: 0.003875, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.644313, Class: 0.862069, Obj: 0.628987, No Obj: 0.003203, Avg Recall: 0.777778,  count: 18
+Region Avg IOU: 0.739185, Class: 0.775276, Obj: 0.630817, No Obj: 0.004024, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.600692, Class: 0.864241, Obj: 0.572003, No Obj: 0.002897, Avg Recall: 0.714286,  count: 14
+Region Avg IOU: 0.663686, Class: 0.778637, Obj: 0.487664, No Obj: 0.004317, Avg Recall: 0.850000,  count: 20
+59167: 3.783946, 3.265029 avg, 0.000100 rate, 13.962051 seconds, 3786688 images
+Loaded: 0.000454 seconds
+Region Avg IOU: 0.523120, Class: 0.819767, Obj: 0.520219, No Obj: 0.003619, Avg Recall: 0.571429,  count: 14
+Region Avg IOU: 0.667033, Class: 0.971339, Obj: 0.622656, No Obj: 0.004174, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.776244, Class: 0.667830, Obj: 0.683423, No Obj: 0.004051, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.593640, Class: 0.819477, Obj: 0.558746, No Obj: 0.004342, Avg Recall: 0.681818,  count: 22
+Region Avg IOU: 0.567583, Class: 0.847991, Obj: 0.456994, No Obj: 0.003995, Avg Recall: 0.631579,  count: 19
+Region Avg IOU: 0.747250, Class: 0.660065, Obj: 0.707544, No Obj: 0.002998, Avg Recall: 0.900000,  count: 10
+Region Avg IOU: 0.619226, Class: 0.930876, Obj: 0.582106, No Obj: 0.004955, Avg Recall: 0.727273,  count: 22
+Region Avg IOU: 0.469083, Class: 0.882300, Obj: 0.494323, No Obj: 0.003718, Avg Recall: 0.571429,  count: 28
+59168: 3.498420, 3.288368 avg, 0.000100 rate, 15.438372 seconds, 3786752 images
+Loaded: 0.000493 seconds
+Region Avg IOU: 0.586155, Class: 0.718189, Obj: 0.531541, No Obj: 0.003109, Avg Recall: 0.647059,  count: 17
+Region Avg IOU: 0.541674, Class: 0.897266, Obj: 0.499902, No Obj: 0.003335, Avg Recall: 0.615385,  count: 13
+Region Avg IOU: 0.672407, Class: 0.876874, Obj: 0.652451, No Obj: 0.003452, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.351895, Class: 0.565470, Obj: 0.355236, No Obj: 0.002761, Avg Recall: 0.461538,  count: 13
+Region Avg IOU: 0.548737, Class: 0.956899, Obj: 0.540595, No Obj: 0.004355, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.722861, Class: 0.882596, Obj: 0.716390, No Obj: 0.004474, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.528192, Class: 0.929414, Obj: 0.447657, No Obj: 0.004453, Avg Recall: 0.473684,  count: 19
+Region Avg IOU: 0.487877, Class: 0.816125, Obj: 0.569158, No Obj: 0.003811, Avg Recall: 0.529412,  count: 17
+59169: 3.276500, 3.287182 avg, 0.000100 rate, 13.943275 seconds, 3786816 images
+Loaded: 0.000448 seconds
+Region Avg IOU: 0.633427, Class: 0.787546, Obj: 0.563706, No Obj: 0.004342, Avg Recall: 0.769231,  count: 26
+Region Avg IOU: 0.492058, Class: 0.790462, Obj: 0.434486, No Obj: 0.004369, Avg Recall: 0.533333,  count: 30
+Region Avg IOU: 0.652702, Class: 0.730044, Obj: 0.593954, No Obj: 0.003867, Avg Recall: 0.705882,  count: 17
+Region Avg IOU: 0.666247, Class: 0.959814, Obj: 0.637012, No Obj: 0.003338, Avg Recall: 0.812500,  count: 16
+Region Avg IOU: 0.725155, Class: 0.886207, Obj: 0.652501, No Obj: 0.004743, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.513430, Class: 0.861373, Obj: 0.487291, No Obj: 0.004078, Avg Recall: 0.592593,  count: 27
+Region Avg IOU: 0.605075, Class: 0.689048, Obj: 0.636988, No Obj: 0.002438, Avg Recall: 0.642857,  count: 14
+Region Avg IOU: 0.661712, Class: 0.935900, Obj: 0.669376, No Obj: 0.004293, Avg Recall: 0.736842,  count: 19
+59170: 3.136764, 3.272140 avg, 0.000100 rate, 14.630148 seconds, 3786880 images
+Resizing
+320
+Loaded: 4.532456 seconds
+Region Avg IOU: 0.556789, Class: 0.877347, Obj: 0.548587, No Obj: 0.005237, Avg Recall: 0.578947,  count: 19
+Region Avg IOU: 0.412370, Class: 0.800443, Obj: 0.393742, No Obj: 0.004770, Avg Recall: 0.515152,  count: 33
+Region Avg IOU: 0.505462, Class: 0.913191, Obj: 0.473461, No Obj: 0.004431, Avg Recall: 0.500000,  count: 12
+Region Avg IOU: 0.485945, Class: 0.803915, Obj: 0.466943, No Obj: 0.004131, Avg Recall: 0.437500,  count: 16
+Region Avg IOU: 0.763131, Class: 0.919694, Obj: 0.738212, No Obj: 0.005330, Avg Recall: 0.937500,  count: 16
+Region Avg IOU: 0.701462, Class: 0.907321, Obj: 0.681834, No Obj: 0.006072, Avg Recall: 0.809524,  count: 21
+Region Avg IOU: 0.326847, Class: 0.945236, Obj: 0.211650, No Obj: 0.003124, Avg Recall: 0.375000,  count: 24
+Region Avg IOU: 0.580257, Class: 0.666727, Obj: 0.599960, No Obj: 0.003537, Avg Recall: 0.727273,  count: 11
+59171: 2.721027, 3.217028 avg, 0.000100 rate, 9.906067 seconds, 3786944 images
+Loaded: 0.000394 seconds
+Region Avg IOU: 0.788440, Class: 0.906740, Obj: 0.754271, No Obj: 0.005244, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.565319, Class: 0.696960, Obj: 0.484937, No Obj: 0.005416, Avg Recall: 0.653846,  count: 26
+Region Avg IOU: 0.504269, Class: 0.907788, Obj: 0.489264, No Obj: 0.003196, Avg Recall: 0.470588,  count: 17
+Region Avg IOU: 0.258242, Class: 0.703947, Obj: 0.288508, No Obj: 0.005160, Avg Recall: 0.255319,  count: 47
+Region Avg IOU: 0.597128, Class: 0.909408, Obj: 0.530859, No Obj: 0.005276, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.611427, Class: 0.812608, Obj: 0.631186, No Obj: 0.005599, Avg Recall: 0.631579,  count: 19
+Region Avg IOU: 0.698127, Class: 0.963566, Obj: 0.610842, No Obj: 0.004651, Avg Recall: 0.700000,  count: 10
+Region Avg IOU: 0.497953, Class: 0.900645, Obj: 0.493392, No Obj: 0.003769, Avg Recall: 0.529412,  count: 17
+59172: 2.769540, 3.172280 avg, 0.000100 rate, 10.286980 seconds, 3787008 images
+Loaded: 0.000510 seconds
+Region Avg IOU: 0.317712, Class: 0.707570, Obj: 0.363355, No Obj: 0.003190, Avg Recall: 0.285714,  count: 14
+Region Avg IOU: 0.681578, Class: 0.760448, Obj: 0.598685, No Obj: 0.005188, Avg Recall: 0.785714,  count: 14
+Region Avg IOU: 0.539648, Class: 0.826071, Obj: 0.553013, No Obj: 0.005677, Avg Recall: 0.583333,  count: 24
+Region Avg IOU: 0.605441, Class: 0.787429, Obj: 0.530785, No Obj: 0.003622, Avg Recall: 0.750000,  count: 12
+Region Avg IOU: 0.540450, Class: 0.741550, Obj: 0.589158, No Obj: 0.004940, Avg Recall: 0.611111,  count: 18
+Region Avg IOU: 0.353133, Class: 0.741244, Obj: 0.385411, No Obj: 0.002839, Avg Recall: 0.350000,  count: 20
+Region Avg IOU: 0.720090, Class: 0.788311, Obj: 0.635159, No Obj: 0.007235, Avg Recall: 0.857143,  count: 21
+Region Avg IOU: 0.561398, Class: 0.772611, Obj: 0.515430, No Obj: 0.004701, Avg Recall: 0.578947,  count: 19
+59173: 3.319272, 3.186979 avg, 0.000100 rate, 11.019990 seconds, 3787072 images
+Loaded: 0.000514 seconds
+Region Avg IOU: 0.467411, Class: 0.877426, Obj: 0.479071, No Obj: 0.004478, Avg Recall: 0.473684,  count: 19
+Region Avg IOU: 0.543260, Class: 0.722252, Obj: 0.572653, No Obj: 0.005972, Avg Recall: 0.590909,  count: 22
+Region Avg IOU: 0.797909, Class: 0.840013, Obj: 0.722167, No Obj: 0.003824, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.346049, Class: 0.819056, Obj: 0.329350, No Obj: 0.004244, Avg Recall: 0.318182,  count: 22
+Region Avg IOU: 0.715098, Class: 0.796197, Obj: 0.685008, No Obj: 0.004281, Avg Recall: 0.900000,  count: 10
+Region Avg IOU: 0.720865, Class: 0.854897, Obj: 0.638501, No Obj: 0.006058, Avg Recall: 0.850000,  count: 20
+Region Avg IOU: 0.342616, Class: 0.728028, Obj: 0.299058, No Obj: 0.004638, Avg Recall: 0.363636,  count: 22
+Region Avg IOU: 0.214466, Class: 0.620247, Obj: 0.297818, No Obj: 0.001916, Avg Recall: 0.181818,  count: 22
+59174: 3.522123, 3.220493 avg, 0.000100 rate, 10.990722 seconds, 3787136 images
+Loaded: 0.000414 seconds
+Region Avg IOU: 0.523490, Class: 0.579277, Obj: 0.532016, No Obj: 0.002441, Avg Recall: 0.583333,  count: 12
+Region Avg IOU: 0.671171, Class: 0.799439, Obj: 0.601898, No Obj: 0.004058, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.625204, Class: 0.809043, Obj: 0.515505, No Obj: 0.007668, Avg Recall: 0.666667,  count: 27
+Region Avg IOU: 0.357273, Class: 0.650646, Obj: 0.411186, No Obj: 0.004028, Avg Recall: 0.434783,  count: 23
+Region Avg IOU: 0.618209, Class: 0.788359, Obj: 0.570027, No Obj: 0.003703, Avg Recall: 0.714286,  count: 14
+Region Avg IOU: 0.699310, Class: 0.691552, Obj: 0.707978, No Obj: 0.004219, Avg Recall: 0.857143,  count: 14
+Region Avg IOU: 0.614970, Class: 0.764284, Obj: 0.606250, No Obj: 0.004101, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.572298, Class: 0.987001, Obj: 0.504808, No Obj: 0.002835, Avg Recall: 0.625000,  count: 8
+59175: 2.235622, 3.122006 avg, 0.000100 rate, 10.785735 seconds, 3787200 images
+Loaded: 0.000441 seconds
+Region Avg IOU: 0.533992, Class: 0.840515, Obj: 0.515472, No Obj: 0.003806, Avg Recall: 0.473684,  count: 19
+Region Avg IOU: 0.456120, Class: 0.686509, Obj: 0.453025, No Obj: 0.002961, Avg Recall: 0.500000,  count: 12
+Region Avg IOU: 0.746799, Class: 0.888145, Obj: 0.677115, No Obj: 0.003813, Avg Recall: 0.909091,  count: 11
+Region Avg IOU: 0.760747, Class: 0.904216, Obj: 0.735808, No Obj: 0.004666, Avg Recall: 1.000000,  count: 14
+Region Avg IOU: 0.802840, Class: 0.879696, Obj: 0.704003, No Obj: 0.004509, Avg Recall: 1.000000,  count: 14
+Region Avg IOU: 0.699655, Class: 0.775517, Obj: 0.656464, No Obj: 0.004318, Avg Recall: 0.727273,  count: 11
+Region Avg IOU: 0.611212, Class: 0.784955, Obj: 0.587466, No Obj: 0.006397, Avg Recall: 0.700000,  count: 20
+Region Avg IOU: 0.716350, Class: 0.764158, Obj: 0.694892, No Obj: 0.004176, Avg Recall: 0.833333,  count: 12
+59176: 2.164862, 3.026292 avg, 0.000100 rate, 11.017654 seconds, 3787264 images
+Loaded: 0.000520 seconds
+Region Avg IOU: 0.661819, Class: 0.788749, Obj: 0.623174, No Obj: 0.004094, Avg Recall: 0.769231,  count: 13
+Region Avg IOU: 0.716612, Class: 0.873087, Obj: 0.676289, No Obj: 0.005306, Avg Recall: 0.785714,  count: 14
+Region Avg IOU: 0.503838, Class: 0.824726, Obj: 0.486207, No Obj: 0.005269, Avg Recall: 0.592593,  count: 27
+Region Avg IOU: 0.492236, Class: 0.850964, Obj: 0.453263, No Obj: 0.004343, Avg Recall: 0.523810,  count: 21
+Region Avg IOU: 0.705348, Class: 0.920231, Obj: 0.641671, No Obj: 0.006738, Avg Recall: 0.900000,  count: 20
+Region Avg IOU: 0.767770, Class: 0.849309, Obj: 0.710157, No Obj: 0.004981, Avg Recall: 1.000000,  count: 9
+Region Avg IOU: 0.619461, Class: 0.774584, Obj: 0.608140, No Obj: 0.005096, Avg Recall: 0.733333,  count: 15
+Region Avg IOU: 0.531809, Class: 0.695889, Obj: 0.501111, No Obj: 0.004672, Avg Recall: 0.625000,  count: 24
+59177: 1.796149, 2.903278 avg, 0.000100 rate, 10.982508 seconds, 3787328 images
+Loaded: 0.000468 seconds
+Region Avg IOU: 0.508453, Class: 0.765170, Obj: 0.508524, No Obj: 0.003847, Avg Recall: 0.476190,  count: 21
+Region Avg IOU: 0.611394, Class: 0.734622, Obj: 0.578980, No Obj: 0.004239, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.550921, Class: 0.758080, Obj: 0.537189, No Obj: 0.004821, Avg Recall: 0.526316,  count: 19
+Region Avg IOU: 0.538570, Class: 0.754392, Obj: 0.528256, No Obj: 0.005390, Avg Recall: 0.533333,  count: 15
+Region Avg IOU: 0.841360, Class: 0.860927, Obj: 0.793433, No Obj: 0.004142, Avg Recall: 1.000000,  count: 11
+Region Avg IOU: 0.492886, Class: 0.748382, Obj: 0.420045, No Obj: 0.005560, Avg Recall: 0.533333,  count: 15
+Region Avg IOU: 0.596749, Class: 0.910254, Obj: 0.450842, No Obj: 0.003864, Avg Recall: 0.666667,  count: 15
+Region Avg IOU: 0.601226, Class: 0.902888, Obj: 0.536668, No Obj: 0.003929, Avg Recall: 0.722222,  count: 18
+59178: 2.797297, 2.892679 avg, 0.000100 rate, 10.721098 seconds, 3787392 images
+Loaded: 0.000528 seconds
+Region Avg IOU: 0.679536, Class: 0.751593, Obj: 0.690226, No Obj: 0.003471, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.604190, Class: 0.789840, Obj: 0.573287, No Obj: 0.004678, Avg Recall: 0.761905,  count: 21
+Region Avg IOU: 0.645132, Class: 0.766277, Obj: 0.629505, No Obj: 0.004614, Avg Recall: 0.700000,  count: 10
+Region Avg IOU: 0.482322, Class: 0.849481, Obj: 0.486196, No Obj: 0.004839, Avg Recall: 0.478261,  count: 23
+Region Avg IOU: 0.682169, Class: 0.849963, Obj: 0.595198, No Obj: 0.004088, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.657166, Class: 0.904575, Obj: 0.590584, No Obj: 0.005447, Avg Recall: 0.826087,  count: 23
+Region Avg IOU: 0.492216, Class: 0.699378, Obj: 0.458542, No Obj: 0.004181, Avg Recall: 0.550000,  count: 20
+Region Avg IOU: 0.396353, Class: 0.653385, Obj: 0.348261, No Obj: 0.003771, Avg Recall: 0.382353,  count: 34
+59179: 3.986268, 3.002038 avg, 0.000100 rate, 10.571873 seconds, 3787456 images
+Loaded: 0.000514 seconds
+Region Avg IOU: 0.635274, Class: 0.871964, Obj: 0.539362, No Obj: 0.005372, Avg Recall: 0.692308,  count: 13
+Region Avg IOU: 0.600479, Class: 0.668443, Obj: 0.510452, No Obj: 0.003369, Avg Recall: 0.625000,  count: 16
+Region Avg IOU: 0.507701, Class: 0.722868, Obj: 0.461388, No Obj: 0.004919, Avg Recall: 0.521739,  count: 23
+Region Avg IOU: 0.465910, Class: 0.904857, Obj: 0.393157, No Obj: 0.004820, Avg Recall: 0.500000,  count: 20
+Region Avg IOU: 0.521694, Class: 0.843294, Obj: 0.439492, No Obj: 0.006885, Avg Recall: 0.604651,  count: 43
+Region Avg IOU: 0.616073, Class: 0.869332, Obj: 0.534749, No Obj: 0.005774, Avg Recall: 0.636364,  count: 22
+Region Avg IOU: 0.803328, Class: 0.925105, Obj: 0.768480, No Obj: 0.004228, Avg Recall: 1.000000,  count: 7
+Region Avg IOU: 0.371809, Class: 0.832228, Obj: 0.384123, No Obj: 0.005592, Avg Recall: 0.347826,  count: 46
+59180: 3.506438, 3.052478 avg, 0.000100 rate, 11.278365 seconds, 3787520 images
+Resizing
+608
+Loaded: 16.765368 seconds
+Region Avg IOU: 0.737191, Class: 0.830975, Obj: 0.634497, No Obj: 0.002491, Avg Recall: 0.842105,  count: 19
+Region Avg IOU: 0.768211, Class: 0.751432, Obj: 0.691594, No Obj: 0.002285, Avg Recall: 0.928571,  count: 14
+Region Avg IOU: 0.635346, Class: 0.731847, Obj: 0.570749, No Obj: 0.003084, Avg Recall: 0.757576,  count: 33
+Region Avg IOU: 0.747526, Class: 0.896410, Obj: 0.600597, No Obj: 0.002809, Avg Recall: 0.916667,  count: 24
+Region Avg IOU: 0.769032, Class: 0.896318, Obj: 0.722770, No Obj: 0.002231, Avg Recall: 0.954545,  count: 22
+Region Avg IOU: 0.746636, Class: 0.783658, Obj: 0.618201, No Obj: 0.002298, Avg Recall: 0.894737,  count: 19
+Region Avg IOU: 0.620849, Class: 0.892905, Obj: 0.600602, No Obj: 0.001701, Avg Recall: 0.722222,  count: 18
+Region Avg IOU: 0.719826, Class: 0.841618, Obj: 0.719490, No Obj: 0.002667, Avg Recall: 0.900000,  count: 20
+59181: 3.911196, 3.138350 avg, 0.000100 rate, 32.239643 seconds, 3787584 images
+Loaded: 0.000274 seconds
+Region Avg IOU: 0.821391, Class: 0.792475, Obj: 0.822553, No Obj: 0.001773, Avg Recall: 1.000000,  count: 9
+Region Avg IOU: 0.786307, Class: 0.690808, Obj: 0.661220, No Obj: 0.002498, Avg Recall: 0.947368,  count: 19
+Region Avg IOU: 0.678752, Class: 0.952144, Obj: 0.582958, No Obj: 0.002558, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.889893, Class: 0.972301, Obj: 0.812024, No Obj: 0.001945, Avg Recall: 1.000000,  count: 4
+Region Avg IOU: 0.729734, Class: 0.868355, Obj: 0.551564, No Obj: 0.002742, Avg Recall: 0.800000,  count: 15
+Region Avg IOU: 0.767433, Class: 0.937205, Obj: 0.693068, No Obj: 0.001891, Avg Recall: 0.904762,  count: 21
+Region Avg IOU: 0.641607, Class: 0.831777, Obj: 0.649459, No Obj: 0.002074, Avg Recall: 0.772727,  count: 22
+Region Avg IOU: 0.604125, Class: 0.877963, Obj: 0.494163, No Obj: 0.002276, Avg Recall: 0.666667,  count: 21
+59182: 3.338285, 3.158344 avg, 0.000100 rate, 34.146072 seconds, 3787648 images
+Loaded: 0.830819 seconds
+Region Avg IOU: 0.722740, Class: 0.777935, Obj: 0.648911, No Obj: 0.002000, Avg Recall: 0.866667,  count: 15
+Region Avg IOU: 0.826111, Class: 0.785757, Obj: 0.724489, No Obj: 0.001766, Avg Recall: 1.000000,  count: 16
+Region Avg IOU: 0.755156, Class: 0.907183, Obj: 0.720995, No Obj: 0.002087, Avg Recall: 0.833333,  count: 18
+Region Avg IOU: 0.818248, Class: 0.804665, Obj: 0.613482, No Obj: 0.002613, Avg Recall: 1.000000,  count: 18
+Region Avg IOU: 0.696086, Class: 0.862446, Obj: 0.626955, No Obj: 0.002079, Avg Recall: 0.789474,  count: 19
+Region Avg IOU: 0.812851, Class: 0.891751, Obj: 0.712098, No Obj: 0.001598, Avg Recall: 1.000000,  count: 9
+Region Avg IOU: 0.597462, Class: 0.768541, Obj: 0.556234, No Obj: 0.001686, Avg Recall: 0.625000,  count: 16
+Region Avg IOU: 0.647528, Class: 0.977625, Obj: 0.595372, No Obj: 0.002291, Avg Recall: 0.791667,  count: 24
+59183: 2.610737, 3.103583 avg, 0.000100 rate, 30.153160 seconds, 3787712 images
+Loaded: 0.000500 seconds
+Region Avg IOU: 0.689276, Class: 0.817598, Obj: 0.639106, No Obj: 0.002228, Avg Recall: 0.833333,  count: 12
+Region Avg IOU: 0.839968, Class: 0.957605, Obj: 0.752514, No Obj: 0.001890, Avg Recall: 1.000000,  count: 13
+Region Avg IOU: 0.832523, Class: 0.822874, Obj: 0.676860, No Obj: 0.002044, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.766619, Class: 0.879476, Obj: 0.749563, No Obj: 0.001810, Avg Recall: 0.916667,  count: 12
+Region Avg IOU: 0.730769, Class: 0.857578, Obj: 0.609534, No Obj: 0.002284, Avg Recall: 0.827586,  count: 29
+Region Avg IOU: 0.676426, Class: 0.853854, Obj: 0.599722, No Obj: 0.003400, Avg Recall: 0.790698,  count: 43
+Region Avg IOU: 0.818828, Class: 0.873520, Obj: 0.692035, No Obj: 0.001917, Avg Recall: 1.000000,  count: 10
+Region Avg IOU: 0.743908, Class: 0.844974, Obj: 0.596528, No Obj: 0.002627, Avg Recall: 0.913043,  count: 23
+59184: 4.472078, 3.240432 avg, 0.000100 rate, 32.723324 seconds, 3787776 images
+Loaded: 0.000552 seconds
+Region Avg IOU: 0.688996, Class: 0.853432, Obj: 0.603705, No Obj: 0.002686, Avg Recall: 0.800000,  count: 25
+Region Avg IOU: 0.850741, Class: 0.921564, Obj: 0.797209, No Obj: 0.003166, Avg Recall: 0.956522,  count: 23
+Region Avg IOU: 0.609061, Class: 0.987691, Obj: 0.533837, No Obj: 0.001914, Avg Recall: 0.500000,  count: 8
+Region Avg IOU: 0.679648, Class: 0.904255, Obj: 0.499493, No Obj: 0.002373, Avg Recall: 0.750000,  count: 24
+Region Avg IOU: 0.627916, Class: 0.900971, Obj: 0.524090, No Obj: 0.002035, Avg Recall: 0.800000,  count: 20
+Region Avg IOU: 0.646473, Class: 0.884498, Obj: 0.665502, No Obj: 0.001362, Avg Recall: 0.666667,  count: 12
+Region Avg IOU: 0.625343, Class: 0.754985, Obj: 0.574326, No Obj: 0.002720, Avg Recall: 0.692308,  count: 13
+Region Avg IOU: 0.757795, Class: 0.829464, Obj: 0.612135, No Obj: 0.002361, Avg Recall: 0.823529,  count: 17
+59185: 3.559664, 3.272356 avg, 0.000100 rate, 32.363735 seconds, 3787840 images
+Loaded: 0.000478 seconds
+Region Avg IOU: 0.743655, Class: 0.895335, Obj: 0.703189, No Obj: 0.001946, Avg Recall: 0.900000,  count: 20
+Region Avg IOU: 0.629790, Class: 0.835862, Obj: 0.585063, No Obj: 0.002235, Avg Recall: 0.666667,  count: 21

@@ -21,7 +21,7 @@
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
 <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="main"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_ARGUMENTS" value="detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/Topview/Brisk/Montreal_20160908_084200.mp4"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_ARGUMENTS" value="detector train cfg/mio.data cfg/yolo-mio.cfg darknet19_448.conv.23"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="darknet"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="yolo4"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
