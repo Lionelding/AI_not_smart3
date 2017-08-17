@@ -409,36 +409,62 @@ Generated: yolo-mio.weights
 
 #####	Week of 20170807	#####
 
-Generate pedestrian images from Caltech dataset
+Caltech Dataset:
 
-Use frame every 15 frame
+	Use frame every 15 frame (Could try with different number to increase number of images)
 
-1. python generateklist.py (Select frames among 15 frames and get rid of anything else other than "person" class. Generate labels/ folder)
+	1. python generateklist.py (Select frames among 15 frames and get rid of anything else other than "person" class. Generate labels/ folder)
 
+	Total annotation file 16697
 
-Total annotation file 16697
+	Total number of persons: 23150
 
-Total number of persons: 23150
-
-Valid label files: 8830 (52.88%)
-
+	Valid label files: 8830 (52.88%)
 
 
-OPTIONAL: python moveImageToOneFolder.py (move everything from set/VID/*.jpg to images_one/*)
 
-2. python copyPic.py (Select images from images_one based on lables at labels folder. Generate images/ and train.txt)
+	OPTIONAL: python moveImageToOneFolder.py (move everything from set/VID/*.jpg to images_one/*)
 
-3. Migrate the train.txt to MIOTCD/train.txt (currently manually processed)
+	2. python copyPic.py (Select images from images_one based on lables at labels folder. Generate images/ and train.txt)
 
-4. python shuffle.py to shuffle the rows in the train.txt
+	3. Migrate the train.txt to MIOTCD/train.txt (currently manually processed)
+
+	4. python shuffle.py to shuffle the rows in the train.txt
 
 
-MIOTCD:
-Car/Pickup Truck/Work Wan
-bus
-bycicle
-articulated truck/single unit truck
-motorcycle
-pedestrian 
-motorized vehicle
-non-motorized vehicle 
+SPID:
+
+	14550 training images and 15439 test images, 
+	29989 original images and 110069 labeled pedestrians
+	cyclists get mislabeled 
+
+PASCAL VOC:
+
+	Bus class: Can be used for additional bus dataset
+	People: different viewpoints
+
+
+
+
+MIOTCD class migration: 
+
+	Car/Pickup Truck/Work Wan
+	bus
+	bycicle
+	articulated truck/single unit truck
+	motorcycle
+	pedestrian 
+	motorized vehicle
+	non-motorized vehicle 
+
+Data Augumentation (THESIS): 
+
+	1. YOLO V2 randomly change the input size every 10 batch, resulting a sampling range between {320, ..., 608}. Thus, the smallest input size is {320, 320} and the largest is {608, 608}
+
+
+#####	Week of 20170814	#####
+
+1. Class migration 
+2. Additional Bus class (too few examples)
+3. SPID dataset
+4. 
