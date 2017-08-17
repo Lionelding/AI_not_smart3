@@ -1,4 +1,4 @@
-classes= 8
+classes= 9
 train  = /usr/local/data/vmrl/liqiang/Topview/Localization_MIOTCD/MIO-TCD-Localization/train.txt
 valid  = /usr/local/data/vmrl/liqiang/Topview/Localization_MIOTCD/MIO-TCD-Localization/test.txt
 names = data/mio.names
