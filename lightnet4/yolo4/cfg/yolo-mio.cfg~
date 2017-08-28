@@ -16,7 +16,7 @@ exposure = 1.5
 hue=.1
 
 learning_rate=0.001
-burn_in=1000
+burn_in=2000
 max_batches = 80200
 policy=steps
 steps=40000,60000
@@ -234,7 +234,7 @@ activation=leaky
 size=1
 stride=1
 pad=1
-filters=80
+filters=65
 activation=linear
 
 
