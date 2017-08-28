@@ -1,6 +1,6 @@
-09:31:06 **** Incremental Build of configuration Default for project yolo4 ****
+12:20:31 **** Incremental Build of configuration Default for project yolo4 ****
 make all 
 make: Nothing to be done for `all'.
 
-09:31:06 Build Finished (took 73ms)
+12:20:31 Build Finished (took 120ms)
 
