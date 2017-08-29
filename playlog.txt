@@ -467,4 +467,13 @@ Data Augumentation (THESIS):
 1. Class migration 
 2. Additional Bus class (too few examples)
 3. SPID dataset
-4. 
+
+
+1st training: MIO (11 classes)
+2nd training: MIO+Caltech 
+3rd training: MIO (8 classed)+SPID (899 images)
+
+Read Faster RCNN paper about anchor box 
+
+
+#####	Week of 20170828	#####
