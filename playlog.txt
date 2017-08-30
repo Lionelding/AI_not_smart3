@@ -1,0 +1,489 @@
+#####	20170504	#####
+
+Meeting with Brisk
+Testing: 
+person in front of car,
+Bus in multiple cells
+
+Prefer accuracy to speed 
+
+The actual camera height: 8 -10 meters high, like in montreal videos 
+
+In order to speed up the detection
+	1.Pruning
+	2.Decrease the number of classes
+
+
+#####	20170505	#####
+
+Input size (Pascal VOC): 
+
+	500*375 -> 4:3
+
+Output size:
+
+	416*416   FPS 13
+
+	1408*1056 FPS 2.4	Ratio: 4:3	  close to FullHD
+
+	1920*1080 FPS 1.6	Ratio: 16:9   FullHD
+
+	1920*1920 FPS 0.7
+
+	2240*2240 FPS 0.4
+
+
+#####	20170508	#####
+
+Data Association 
+
+Problem: 
+	Occlusion
+Solution: 
+	Compute optical flow 
+	motion infer
+	position infer
+
+
+Paper: Multiple Object Tracking A Review
+
+3.2 Appearance Model
+
+Optical Flow:
+
+1.Paper: Tracking in unstructed crowed scenes
+
+	link detection responses in continuous frames into short tracklets for further data association processing
+
+	Code: http://www.mikelrodriguez.com/crowd-tracking-matlab-application
+	http://www.mikelrodriguez.com/datasets-and-source-code/
+
+
+2.Paper: Multiple People Multiple Parts Tracker
+
+	directly use it for data association
+
+	Codes: None
+
+	https://www.youtube.com/watch?v=YhyMcWnJf9g
+
+3. Paper: Multi-target tracking by continuous energy minimization
+	
+	Used to complement HOG for observation model
+
+	Codes: http://research.milanton.de/contracking/	
+4. Paper: Floor fields for tracking in high density crowd scenes
+	Extremely crowded scenarios
+
+	Codes: None
+
+5. Paper: Data-driven crowd analysis in videos.
+	Extremely crowded scenarios
+
+	Codse: None
+
+
+3.3 Motion Model
+3.4 Interaction Model
+3.6 Occlusion Handeling
+
+
+1. Paper: Single and multiple object tracking using log Euclidean Riemannian subspace and block-division appearance model
+
+	Block Divison Model
+
+2. Paper: Global data association for multi-object tracking using network flows
+
+	Exploit Occlusion Model
+
+	https://www.youtube.com/watch?v=SgRSniLdpwk
+
+3. Paper: Multi person tracking with sparse detection and continuous segmentation
+	Level-set Trackers
+
+4. Paper: Real-Time Multi-Person Tracking with Detector Assisted Structure Propagation
+	Level-set Trackers
+
+5. Paper: Observe-and-explain A new approach for multiple hypotheses tracking of humans and objects
+
+	Observer and Explain Model
+
+6. Paper: Multiobject tracking as maximum weight independent set
+
+	Based on WMIS algorithm
+
+
+#####	20170509	#####
+read codes
+
+#####	20170510	#####
+set up eclipse
+change codes
+
+#####	20170511	#####
+meet souhail
+working on displaying the frame index and bounding box index
+
+
+#####	20170515	#####
+
+
+Need to find the anchors
+
+cell index 
+
+#####	Week of 20170515	#####
+
+The probs array used to be 845*(80+1)
+Now, the probs arrary is modified to be 845*(80+1+3)
+The total number of boxes: 845=13*13*5
+
+During the labeling step:
+	YOLO will start from box i=0 until 844, 
+	two objects with bigger n will be labeled later.
+	the scan will be in horizontal direction  
+
+Paper:
+	CS229FinalProjectReport
+
+	Student review on YOLO, perform tracking with image extraction and clustering
+	
+
+#####	Week of 20170522	#####
+
+Paper: 
+	Learning to Track at 100 FPS with Deep Regression Networks
+
+	code: http://davheld.github.io/GOTURN/GOTURN.html
+
+
+
+The current YOLO implementation does not have any object detection handling. It just uses the for loop to scan frame by frame. 
+
+1. We need to calculate the optical flow of the each bouding box. (Using edge information first)
+possibly need to talk to Gary
+
+2. Use the appearance information for the high level layers to select the correct bounding boxes
+
+3. Pedestrains will be hard to track just using the color histogram 
+
+
+
+Computed the optical flow of the entire frame
+
+Solved the run-out-of memory issues
+
+Represented the optical flow with Arrows
+
+
+#####	Week of 20170529	#####
+	
+plot the corners
+dense optical flow
+list the parameters
+
+solved the weird the optical flow due to the labels
+Solved the run-out-of memory issues
+
+Computed the optical flow of the bounding box
+
+worked on constructing the opticalvector object
+
+
+#####	Week of 20170605	#####
+
+1. Need to figure out how to merge the optical flow vector together
+Average, Gaussian?
+
+2. Match the bounding box together and three scenarios
+	memory of only two frames?
+	or multiple frames?
+	threshold values 
+	change points to degree?
+
+3. Objects can be detected multipled times. 
+
+4. Running speed drops to 0.5 fps
+
+Worked on Tracking
+Converted two CvPoints to degree
+Reorganized the code structure
+Reorganized the image display structure  
+
+#####	Week of 20170612 && Week of 20170619 	#####
+
+1. matching algorithm 
+	object class
+	optical flow in terms of degree
+
+	worked on decreasing the searching area
+	skiped the object that have been already matched
+
+	if a new object shows up, assign a new number 
+
+2. optical flow average not median 
+
+3. GPU and CPU for loop
+
+
+#####	Week of 20170626	#####
+
+COMPLETED: Implemented the method to average out optical flow vectors around any selected vector (Currently, median of median vector)
+
+COMPLETED: Implemented flow vector updating algorithm, iteratively update the previous optical flow based on the current optical flow degree. 
+
+COMPLETED: Fixed the bug that some vector have huge magnitude
+
+COMPLETED: Made the algorithm adaptive to any video resolutions
+
+
+THESIS: compare the accuracy improved by using the median number instead of average number
+THESIS: talk about the quicksort algorithm 
+
+READ: Kalmen filter  
+
+
+THESIS: Problem with median number, sometimes, the correct corresponding vectors lie behind or in front of the median value. It is important to implement a way that choose the correct optical flow vector from these vectors. Currently, we average out several optical flow vectors based on the median of median value.  
+
+THESIS: Instead of replacing the new optical flow with old optical flow, We can adjust it by some offset. 
+
+IDEA: what if we compare the optical flow first, if it falls in certain range, we adjust it. If we can not match it, but the location is the same, we match them based on the location index. 
+
+
+if possible, make picking up the pivot random 
+
+find the maixnume displacement after increaeing te resolution 
+look at the direction of the bb vanishes 
+
+add the tracking path 
+start and end of the boudning box when 
+trace fades away. 
+
+
+#####	Week of 20170703	#####
+
+
+Maximum Displacement based on different resolutions
+1. 416 12
+2. 832 30
+
+During the process of importing the Kalman filter from opencv library, I accidently messed up the lightnet3 project. Therefore, lightnet 4 is established. Later works would be on lightnet 4. 
+
+
+Found Kalman filter in opencv libary
+Implemented one quick demo
+Worked on the Kalman filter in our project
+
+
+THESIS: 
+
+	Process noise covariance matrix Q: The result will be smoother with lower values.
+	Measurement noise covariance matrix R: The result will be smoother with higher values.
+
+	The relation between those two matrices defines the amount and shape of filtering you are performing.
+
+	If Q is high, it will mean that the signal you are measuring varies quickly and you need the filter to be adaptable. If Q is low, then big variations will be attributed to noise in the measure.
+
+	If R is high (comparing to Q), it will indicate that the measuring is noisy so it will be filtered more.
+
+
+FACT(solved): when the prior state contains(measured x, measured y, 0, 0) and object moves in -x and -y direction
+
+	1. Process noise covariance matrix Q = (1e-5) && Measurement noise covariance matrix R = (1e-5), 
+	=> real state does not change, the predicted state follows/leads the measured state. 
+
+	2. Process noise covariance matrix Q= (1) && Measurement noise covariance matrix R =(1e-5),
+	=> real state increases positively both in x and y, the Predicted state follows/leads the measured state.
+
+
+
+#####	Week of 20170710	#####
+
+
+COMPLETED: 
+
+	1. Implemented a static hashtable. 
+
+	2. Applied Kalman filters on each object detected. Each kalman filter is saved in a static hashtable. When the same object get detected in the next frame, its unique object index is the key which is sent to the hashtable to get the respective element (the state in terms of the coordinates, and OpenCV kalman filter object) 
+
+THESIS: 
+
+	1. Explained the Kalman filter, variable setting: 4 parameters in the state variable, 2 parameters in measured state, 0 in control state. etc. 
+
+		REF: https://stackoverflow.com/questions/3745348/opencv-kalman-filter
+		REF: http://www.marcad.com/cs584/Tracking.html
+
+	Example: 
+		REF: http://www.morethantechnical.com/2011/06/17/simple-kalman-filter-for-tracking-using-opencv-2-2-w-code/
+		REF: http://opencvexamples.blogspot.com/2014/01/kalman-filter-implementation-tracking.html
+
+
+	2. Incooporate the optical flow vectors to make the kalman filter prediction more accurately. 
+
+	3. Importance for having a dynamic hashtable. If an object does no longer exist in the frame, after not being detected for a few frames, the object (the object number and its elements) should be discarded. Its respective kalman filter should be destoried to release the memory space. Otherwise, it will end up with the fact that only the last dozon of objects in the hashtable are active. 
+
+
+	REF: http://www.cprogramming.com/tutorial/computersciencetheory/hash-table.html
+	REF: https://stackoverflow.com/questions/260915/how-can-i-create-a-dynamically-sized-array-of-structs
+	REF: https://cboard.cprogramming.com/c-programming/151272-dynamic-hash-table.html
+
+
+ISSUE: 
+
+	1. Kalman filter predictions are not always very accurate and smoothy. 
+	2. Need to figure out how to feed the predictions back. 
+
+Prediction can make the detection more smooth. Instead of the fact that the bounding boxes bounce around the actual objects, the bounding box can stay smoother and closer to the object. 
+
+If YOLO does not detect the object (especially when the object are close to boundaries of the videos), the prediction can tell the YOLO where to look at and give some weigths to certain areas. 
+
+If object is occluded, the YOLO is not supposed to detect the object then. The prediction can create a temporary bounding box around the possible areas where the object is supposed to move to. 
+
+
+#####	Week of 20170717	#####
+
+Negotitated with Sohail, need to move to the Brisk Synergies new location
+
+
+
+THESIS: 
+
+	1. memcpy() is faster than the for loops or pointer increment.
+
+	Because memcpy uses word pointers instead of byte pointers, also the memcpy implementations are often written with SIMD instructions which makes it possible to shuffle 128 bits at a time. SIMD instructions are assembly instructions that can perform the same operation on each element in a vector up to 16 bytes long. That includes load and store instructions.
+
+	REF: https://stackoverflow.com/questions/7776085/why-is-memcpy-and-memmove-faster-than-pointer-increments
+
+
+	2. The Kalman filter prediction is not very stable at first a few frames after every object is detected. However, the optical flow information could be leveraged to tell the algorithm which cell should be bumped (their probabilities). The current implementation is just to look for all 45 cells around the current cell. If none of the probs of the same class in these cells are higher than the one in the current cell by a threshold value. The prob in the current cell increases by a fixed amount, otherwise the possible cell probs increases. 
+
+
+	This is not a very stable choice, because sometimes the other cells' probs are increasing, meaning the object is moving to that cell. But this increase is not large enough to get over the threshold. 
+
+	3. Also, the increasing amount should be dynamic instead of static. Need to find a way to adjust the increment amount. 
+
+
+#####	Week of 20170724	#####
+
+Re-train YOLO:
+	Test: 
+		detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+
+		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+
+	Train: 
+		detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
+
+
+	yolo-mio.cfg:
+		changed the last convol layer from 125 to 80
+		change the last region layer from 20 classes to 11
+		This should be a valid change because 5*(11+4+1)=80
+
+
+THESIS: 
+	MIO-TCD Dataset: http://podoce.dinf.usherbrooke.ca/challenge/dataset/
+	Problems: The number of examples in each category is not balanced, especially lacking of pedestrain images. Since there are mulitple categories in the dataset, it is hard to tell if it is overfitting. 
+
+	1. Data augumentaion methods:
+		a. Mirroring
+		b. Color Normalization
+		c. scaling
+	2. Find the labels for the testing images
+	3. Find pedestrain dataset
+	4. COCO Caltech Pedestrain Dataset
+
+
+
+#####	Week of 20170731	#####
+
+Installed the cuda-7.5, cuDNN, opencv-3.1.0 for Brisk Synergies
+Able to run the orignial version of the code
+
+Generated: yolo-mio.weights
+	
+	100000 images for training 
+	10000  images for validation
+	80200 batches *64 images/batch=5132800 images=51.328 epochs
+
+
+#####	Week of 20170807	#####
+
+Caltech Dataset:
+
+	Use frame every 15 frame (Could try with different number to increase number of images)
+
+	1. python generateklist.py (Select frames among 15 frames and get rid of anything else other than "person" class. Generate labels/ folder)
+
+	Total annotation file 16697
+
+	Total number of persons: 23150
+
+	Valid label files: 8830 (52.88%)
+
+
+
+	OPTIONAL: python moveImageToOneFolder.py (move everything from set/VID/*.jpg to images_one/*)
+
+	2. python copyPic.py (Select images from images_one based on lables at labels folder. Generate images/ and train.txt)
+
+	3. Migrate the train.txt to MIOTCD/train.txt (currently manually processed)
+
+	4. python shuffle.py to shuffle the rows in the train.txt
+
+
+SPID:
+
+	14550 training images and 15439 test images, 
+	29989 original images and 110069 labeled pedestrians
+	cyclists get mislabeled 
+
+PASCAL VOC:
+
+	Bus class: Can be used for additional bus dataset
+	People: different viewpoints
+
+
+
+
+MIOTCD class migration: 
+
+	Car/Pickup Truck/Work Wan
+	bus
+	bycicle
+	articulated truck/single unit truck
+	motorcycle
+	pedestrian 
+	motorized vehicle
+	non-motorized vehicle 
+
+Data Augumentation (THESIS): 
+
+	1. YOLO V2 randomly change the input size every 10 batch, resulting a sampling range between {320, ..., 608}. Thus, the smallest input size is {320, 320} and the largest is {608, 608}
+
+
+#####	Week of 20170814	#####
+
+1. Class migration 
+2. Additional Bus class (too few examples)
+3. SPID dataset
+
+
+1st training: MIO (11 classes)
+2nd training: MIO+Caltech 
+3rd training: MIO (8 classed)+SPID (899 images)
+
+Read Faster RCNN paper about anchor box 
+
+
+#####	Week of 20170828	#####
+
+
+Problems with Kalman Filter(Thesis):
+1. Loss track of objects during the Initialization stages
+2. Kalman filter predicts the object to be at certain location, but actually there is another object showing up 
+3. Occlusion.
+
+Modify kalman filter(Thesis):
+1. Predicting the center instead of corners
+2. Match the magnitude of the optical flow vector based on the percentage instead of absolute difference.  
