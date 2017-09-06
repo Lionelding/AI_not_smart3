@@ -53,4 +53,5 @@ lightnet4/.metadata/.plugins
 lightnet4/yolo4/.metadata/*
 lightnet4/yolo4/.metadata
 lightnet4/yolo4/RemoteSystemsTempFiles
+lightnet4/yolo4/obj
 
