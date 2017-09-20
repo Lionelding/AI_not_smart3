@@ -68,7 +68,6 @@ void flush_stream_buffer(CvCapture *cap, int n);
 void drawArrow(IplImage *image, CvPoint p, CvPoint q, CvScalar color, int arrowMagnitude, int thickness, int line_type, int shift);
 IplImage* image_convert_IplImage(image p, IplImage *disp);
 Opticalflow compute_opticalflow(IplImage *imgA, IplImage *imgB, int xoff, int yoff);
-int extractIndexFromeFloat(float degreeStoreElement);
 Boxflow putFlowInsideBox(Opticalflow vector, int left, int top, int width, int height, int classtype, float prob, int row, int col, int nn, int objectIndex);
 Boxflow putNullInsideBox();
 void show_image_cv(image p, const char *name, IplImage *disp);

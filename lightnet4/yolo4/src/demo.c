@@ -102,15 +102,10 @@ void *detect_in_thread(void *ptr)
     printf("Objects:\n\n");
 
 
-    int ii;
-    for(ii=0;ii<l.w*l.h*l.n;ii++){
-    	memcpy(probsMore[ii], &probs[ii][0], 84*sizeof(float));
-    }
+
 
     if(temp>=9){
-
     	//copy the 84 last elements in each column of probs to probsMore
-
     	printf("\n");
 
     }
@@ -122,9 +117,6 @@ void *detect_in_thread(void *ptr)
 
 
     image display = buff[(buff_index+2) % 3];
-
-
-
 
 
     if(opticalflow_entireframe){
@@ -165,6 +157,11 @@ void *detect_in_thread(void *ptr)
     }
 
     draw_detections(display, demo_detections, demo_thresh, boxes, probs, demo_names, demo_alphabet, demo_classes, box_para, idx_store, box_full);
+
+    int ii;
+    for(ii=0;ii<l.w*l.h*l.n;ii++){
+    	memcpy(probsMore[ii], &probs[ii][0], 84*sizeof(float));
+    }
 
     demo_index = (demo_index + 1)%demo_frame;
     running = 0;

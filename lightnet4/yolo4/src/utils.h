@@ -7,6 +7,7 @@
 #define SECRET_NUM -1234
 #define TWO_PI 6.2831853071795864769252866
 
+
 int *read_intlist(char *s, int *n, int d);
 int *read_map(char *filename);
 void shuffle(void *arr, size_t n, size_t size);
@@ -60,6 +61,9 @@ int find_arg(int argc, char* argv[], char *arg);
 char *find_char_arg(int argc, char **argv, char *arg, char *def);
 int sample_array(float *a, int n);
 void print_statistics(float *a, int n);
+int extractIndexFromeFloat(float degreeStoreElement);
+int searchWithDirection(float** probsMore, int num, int currentBase, int classIndex, double degree);
+int lookIntoCells(float** probsMore, int totalcell, int cellIndex, int classIndex, int maxCellIndex);
 
 #endif
 

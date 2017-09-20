@@ -28,6 +28,7 @@
 #include "opencv2/core/mat.hpp"
 
 
+
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -288,44 +289,48 @@ int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int p
 
 }
 
-int lookAround(float** probsMore, float** probs, int num, int currentIndex, int classIndex, float currentProb, float thresh){
-
+int lookAround(float** probsLastFrame, float** probs, int num, int prevIndex, int classIndex, float prevProb, float thresh, double prevDegree){
+	//prevIndex: location index from the previous frame
+	//prevProb: Prob of being certain class in last frame
+	prevProb=prevProb/100.0;
 	int totalcell=num/5;
-	int totalrow=(int)sqrt(totalcell);
-	int currentBase=currentIndex%totalcell;
-	float bump=0.5;
-	//float currentProb=(float)prob/100;
+	int currentBase=prevIndex%totalcell;
+	float bump=0;
+	int maxCellIndex;
 
-	int nn_level;
-	for(nn_level=0;nn_level<5;nn_level++){
-		int row;
-		for (row=-1;row<2;row++){
-			int i;
-			for (i=-1;i<2;i++){
-				int possibleIndex=(currentBase+i+totalrow*row)+totalcell*nn_level;
-				float possibleProb=probsMore[possibleIndex][classIndex];
-
-				if(((possibleProb-currentProb)>0.1) && (possibleProb>0.01) && (possibleProb<thresh)){
-
-        			probs[possibleIndex][classIndex]=probsMore[possibleIndex][classIndex]+bump;
-        			probs[possibleIndex][80]=probs[possibleIndex][classIndex];
-        			printf("probs[%i][%i] and probs[%i][80] are added by %0.1f\n", possibleIndex, classIndex, possibleIndex, bump );
-
-					return 1;
-				}
+	float currentProb=probs[prevIndex][classIndex];
+	float percentDiff=(prevProb-currentProb)/prevProb;
+	printf("probs[%i] of class[%i] drops by %0.2f\n", prevIndex, classIndex, percentDiff);
 
 
-			}
-		}
+//	int iii;
+//	int bbb=156;
+//	for(iii=0;iii<26;iii++){
+//		probs[iii+bbb+676*0][3]=1;
+//		probs[iii+bbb+676*1][0]=1;
+//		probs[iii+bbb+676*2][0]=1;
+//		probs[iii+bbb+676*3][0]=1;
+//		probs[iii+bbb+676*4][0]=1;
+//	}
+
+
+	if(currentProb<thresh){
+		maxCellIndex=searchWithDirection(probs, num, currentBase, classIndex, prevDegree);
+		float maxProb=probs[maxCellIndex][classIndex];
+		printf("maxCellIndex: %i of %0.3f\n", maxCellIndex, maxProb);
+
+		float preAdjProb=probsLastFrame[maxCellIndex][classIndex];
+		float percentAdjDiff=(maxProb-preAdjProb)/preAdjProb;
+		printf("probs[%i] of class[%i] increases by %0.2f\n", maxCellIndex, classIndex, percentAdjDiff);
+
+
+		probs[maxCellIndex][classIndex]=probs[maxCellIndex][classIndex]+bump;
+		probs[maxCellIndex][80]=probs[maxCellIndex][classIndex];
+
 	}
 
 
-
-	probs[currentIndex][classIndex]=probsMore[currentIndex][classIndex]+bump;
-	probs[currentIndex][80]=probs[currentIndex][classIndex];
-	printf("probs[%i][%i] and probs[%i][80] are added by %0.1f\n",currentIndex, classIndex, currentIndex, bump );
-
-	return 0;
+ 	return 0;
 
 }
 
@@ -372,7 +377,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=4;
+    int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -401,7 +406,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
         	Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
-    		int match=0;
+        	computeropticalflowFB(pre_boxcrop, boxcrop, 0, 0);
+        	int match=0;
 
     		printf("Current: idx_store[p]: %i degree: %0.0f mag: %0.0f\n", idx_store[p], average_result.degree, average_result.magnitude);
     		snode* headcount=headconstant;
@@ -453,8 +459,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
            			printf("HERE! prob: %i index: %i \n", box_para[idx_store[p]][5], idx_store[p]);
         			float** probsMore=getProbsMore(1);
-        			int ctbumping=lookAround(probsMore, probs, num, idx_store[p], box_para[idx_store[p]][4], probsMore[idx_store[p]][box_para[idx_store[p]][4]], thresh);
-        			//if 1, current<possible   if 0, current>possible
+        			int ctbumping=lookAround(probsMore, probs, num, idx_store[p], box_para[idx_store[p]][4], box_para[idx_store[p]][5], thresh, average_result.degree);
         			printf("Object %i is moving: %i\n",box_para[idx_store[p]][9], ctbumping);
 
 
@@ -654,25 +659,25 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
 
 
-            if (alphabet) {
-            	//Print the frame number, bbox number, object number to each label
-            	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
-                strcpy( label_frame_bbox, names[class] );
-                strcat( label_frame_bbox, "_" );
-                strcat( label_frame_bbox, fr );
-                strcat( label_frame_bbox, "_" );
-                strcat( label_frame_bbox, rw );
-                strcat( label_frame_bbox, "_" );
-                strcat( label_frame_bbox, cl );
-                strcat( label_frame_bbox, "_" );
-                strcat( label_frame_bbox, n );
-                strcat( label_frame_bbox, "_" );
-                strcat( label_frame_bbox, obj );
-
-                image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
-                draw_label(im, top + width, left, label, rgb);
-                free_image(label);
-            }
+//            if (alphabet) {
+//            	//Print the frame number, bbox number, object number to each label
+//            	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
+//                strcpy( label_frame_bbox, names[class] );
+//                strcat( label_frame_bbox, "_" );
+//                strcat( label_frame_bbox, fr );
+//                strcat( label_frame_bbox, "_" );
+//                strcat( label_frame_bbox, rw );
+//                strcat( label_frame_bbox, "_" );
+//                strcat( label_frame_bbox, cl );
+//                strcat( label_frame_bbox, "_" );
+//                strcat( label_frame_bbox, n );
+//                strcat( label_frame_bbox, "_" );
+//                strcat( label_frame_bbox, obj );
+//
+//                image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
+//                draw_label(im, top + width, left, label, rgb);
+//                free_image(label);
+//            }
 
         }
         	objectIndex2=objectIndex2+1;
@@ -920,6 +925,71 @@ IplImage* image_convert_IplImage(image p, IplImage *disp){
 
 }
 
+//void drawOptFlowMap(IplImage *flow, IplImage *cflowmap, int step, CvScalar color) {
+//
+//	int y;
+//	int x;
+//	unsigned char *data = (unsigned char *)flow->imageData;
+//
+//	for(y = 0; y < cflowmap->height; y= step+y){
+//		for(x = 0; x < cflowmap->width; x=step+x){
+//
+//			flow->
+//	        const Point2f& fxy = flow.at< Point2f>(y, x);
+//			data
+//	        line(cflowmap, Point(x,y), Point(cvRound(x+fxy.x), cvRound(y+fxy.y)), color);
+//	        circle(cflowmap, Point(cvRound(x+fxy.x), cvRound(y+fxy.y)), 1, color, -1);
+//		}
+//	}
+//
+//
+//
+////	    unsigned char *data = (unsigned char *)src->imageData;
+////	    int h = src->height;
+////	    int w = src->width;
+////	    int c = src->nChannels;
+////	    int step = src->widthStep;
+////	    int i, j, k;
+////
+////	    for(i = 0; i < h; ++i){
+////	        for(k= 0; k < c; ++k){
+////	            for(j = 0; j < w; ++j){
+////	                im.data[k*w*h + i*w + j] = data[i*step + j*c + k]/255.;
+////	            }
+////	        }
+////	    }
+//
+//	return;
+//
+//
+//}
+void computeropticalflowFB(IplImage *previous, IplImage *current, int xoff, int yoff){
+    //Convert the input from RGB to Grayscale
+    IplImage *imgA= cvCreateImage(cvGetSize(previous),IPL_DEPTH_8U,1);
+    cvCvtColor(previous,imgA,CV_RGB2GRAY);
+
+    IplImage *imgB= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
+    cvCvtColor(current,imgB,CV_RGB2GRAY);
+
+    CvSize s=cvGetSize(current);
+    int height=s.height;
+    int width=s.width;
+
+    CvMat* image1 = cvCreateMat(height, width,CV_32FC2);
+    //IplImage copy=image1;
+    IplImage *new=image1;
+//    IplImage *flow= cvCreateImage(cvGetSize(previous),8,3);
+//    IplImage *ipltemp=&image1;
+//    cvCopy(&ipltemp,&flow, NULL);
+
+    cvCalcOpticalFlowFarneback(imgA, imgB, new, 0.5, 1, 15 , 3, 5, 1.1, 1);
+
+    IplImage *cflow= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
+    cvCvtColor(imgA, cflow, CV_GRAY2BGR);
+    //drawOptFlowMap(flow, cflow, 10, CV_RGB(0xff,0xff,0x00));
+    cvShowImage("OpticalFlowFarneback", new);
+}
+
 Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff, int yoff){
 
 	/* Read the video's frame size out of the AVI. */
@@ -956,6 +1026,8 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
     CvPoint2D32f cornersB[MAX_CORNERS];
 
     cvCalcOpticalFlowPyrLK(imgA,imgB,pyrA,pyrB,cornersA,cornersB,corner_count,cvSize(win_size,win_size),5,feature_found,feature_errors,cvTermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.3),0);
+
+
 
     int i;
     int sum_Ax=0;
@@ -1017,7 +1089,7 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
         int medianOfMedian=arrayEnd*0.75;
 
         float degreeStoreElement=degreeStore[medianOfMedian];
-        int medianIndex=extractIndexFromeFloat(degreeStoreElement);
+        int medianIndex=extractIndexFromFloat(degreeStoreElement);
 
         printf("\nMedian degree: %i, at index: %i\n", (int)degreeStoreElement, medianIndex);
         printArray(degreeStore, MAX_CORNERS-1);
@@ -1034,7 +1106,7 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
 
 
         	float sIndex=degreeStore[medianOfMedian+s];
-        	int sIndex2=extractIndexFromeFloat(sIndex);
+        	int sIndex2=extractIndexFromFloat(sIndex);
         	printf("sIndex2: %i ", sIndex2);
 
         	median_sum_Ax=cvRound(cornersA[sIndex2].x)+median_sum_Ax;
@@ -1096,25 +1168,6 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
 	cvReleaseImage(&pyrB);
 	return median;
 }
-
-
-
-int extractIndexFromeFloat(float degreeStoreElement){
-
-    double integral;
-    double fractional;
-
-    fractional = modf(degreeStoreElement, &integral);
-
-    //printf("integral part: %0.0f\n", integral);
-    //printf("fractional part: %0.2f\n", fractional);
-
-	fractional = fractional*100.0f;
-	fractional = (fractional > (floor(fractional)+0.5f)) ? ceil(fractional) : floor(fractional);
-	int out=(int)fractional;
-	return out;
-}
-
 
 
 Boxflow putFlowInsideBox(Opticalflow vector, int left, int top, int width, int height, int classtype, float prob, int row, int col, int nn, int objectIndex){

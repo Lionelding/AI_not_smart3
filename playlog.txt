@@ -367,9 +367,9 @@ THESIS:
 
 Re-train YOLO:
 	Test: 
-		detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+		detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/Topview/Brisk/Montreal_20160908_084200.mp4
 
-		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/Topview/BriskMontreal_20160908_084200.mp4
 
 	Train: 
 		detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
@@ -468,7 +468,6 @@ Data Augumentation (THESIS):
 2. Additional Bus class (too few examples)
 3. SPID dataset
 
-
 1st training: MIO (11 classes)
 2nd training: MIO+Caltech 
 3rd training: MIO (8 classed)+SPID (899 images)
@@ -487,3 +486,37 @@ Problems with Kalman Filter(Thesis):
 Modify kalman filter(Thesis):
 1. Predicting the center instead of corners
 2. Match the magnitude of the optical flow vector based on the percentage instead of absolute difference.  
+4. 
+
+
+
+#####	Week of 20170911	#####
+
+
+Bounding Box Location Statics/Visualization, can be improved by retraining
+
+
+ISSUE:
+	1. The prob of being a certain class drops too fast in the bounding box where there is a detection in the previous frame, the
+	prob in bounding box to which the previous object moves increase too slow due to the margin between adjecent bounding boxes.
+
+	The further objects would be less likely fitting the larger bouding box, since they appear to be smaller. Thus, they have a smaller prob with larger bounding boxes.	
+
+	2. There is some gap/margin between adjcent bounding boxes such as 175 and 176. In the same cell, the bounding boxes with larger indexes will occupy more space than those with small bounding boxes. Ex, Area(175)<Area(851)
+
+	3. In vertical direction, cell index is shrinked more. Bounding boxes from 0 to 25, become horizontal lines.
+
+THESIS:
+	1. What if the threshold values are dynamice, each class or object has a detection threshold instead of a single one. 
+
+	2. Currnently, after detecting an object in the previous frame, we search all 15 bounding boxes in 3 adjcent cells based on the optical flow direction. Balance between risk and detection speed. 
+
+	3. 
+
+
+
+TODO:
+	1. Reform the LK optical flow
+	2. Implement the FB optical flow
+	3. Optimize the kalman filter initial state and other parameters.  \
+	4. Need to figure out how to deal with enhanced "probsMore'

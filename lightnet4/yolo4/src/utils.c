@@ -9,6 +9,7 @@
 
 #include "utils.h"
 
+
 int *read_intlist(char *gpu_list, int *ngpus, int d)
 {
     int *gpus = 0;
@@ -645,4 +646,173 @@ float **one_hot_encode(float *a, int n, int k)
     }
     return t;
 }
+
+int extractIndexFromFloat(float degreeStoreElement){
+
+    double integral;
+    double fractional;
+
+    fractional = modf(degreeStoreElement, &integral);
+
+    //printf("integral part: %0.0f\n", integral);
+    //printf("fractional part: %0.2f\n", fractional);
+
+	fractional = fractional*100.0f;
+	fractional = (fractional > (floor(fractional)+0.5f)) ? ceil(fractional) : floor(fractional);
+	int out=(int)fractional;
+	return out;
+}
+
+int searchWithDirection(float** probs, int num, int currentBase, int classIndex, double degree){
+
+	double cell=degree/90;
+	int lower=floor(cell);
+	int upper=ceil(cell);
+	int sum=lower*10+upper;
+	int totalcell=num/5;
+	int totalrow=(int)sqrt(totalcell);
+	//float maxCellandProb=0;
+	int maxCellIndex=0;
+
+
+	switch(sum){
+
+		case 0:
+			//0,0
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1+totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+
+		case 1:
+			//0,1
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase+1
+//			currentBase+1-totalrow
+//			currentBase-totalrow
+		case 11:
+			//1,1
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell,currentBase-1-totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+
+//			currentBase-totalrow
+//			currentBase+1-totalrow
+//			currentBase-1-totalrow
+		case 12:
+			//1,2
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase-totalrow
+//			currentBase-1-totalrow
+//			currentBase-1
+		case 22:
+			//2,2
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1-totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1+totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase-1
+//			currentBase-1-totalrow
+//			currentBase-1+totalrow
+		case 23:
+			//2,3
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1+totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase-1
+//			currentBase-1+totalrow
+//			currentBase+totalrow
+		case 33:
+			//3,3
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase-1+totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1+totalrow, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase+totalrow
+//			currentBase-1+totalrow
+//			currentBase+1+totalrow
+		case 34:
+			//3,4=3.0
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1+totalrow, classIndex, maxCellIndex);
+			maxCellIndex=lookIntoCells(probs, totalcell, currentBase+1, classIndex, maxCellIndex);
+			return maxCellIndex;
+//			currentBase+totalrow
+//			currentBase+1+totalrow
+//			currentBase+1
+
+	}
+
+	printf("Nothing gets updated!\n");
+	return maxCellIndex;
+
+}
+
+
+
+int lookIntoCells(float** probs, int totalcell, int cellIndex, int classIndex, int maxCellIndex){
+	int nn_level;
+	int possibleIndex;
+	float possibleProb;
+
+	float maxProb=probs[maxCellIndex][classIndex];
+
+	for(nn_level=0;nn_level<5;nn_level++){
+		possibleIndex=cellIndex+totalcell*nn_level;
+		possibleProb=probs[possibleIndex][classIndex];
+		if (possibleProb>maxProb){
+			maxProb=possibleProb;
+			maxCellIndex=possibleIndex;
+		}
+
+
+	}
+	if (maxProb>1.0){
+		assert(0);
+		printf("maxProb: %0.2f, which is larger than 1!!!\n", maxProb);
+	}
+
+	return maxCellIndex;
+}
+
+int searchWithoutDirection(float** probs, int num, int currentBase, int classIndex, int bump){
+
+
+	int totalcell=num/5;
+	int totalrow=(int)sqrt(totalcell);
+	int maxCellIndex=0;
+	float maxProb=probs[maxCellIndex][classIndex];
+
+
+	int nn_level;
+	for(nn_level=0;nn_level<5;nn_level++){
+		int row;
+		for (row=-1;row<2;row++){
+			int i;
+			for (i=-1;i<2;i++){
+				int possibleIndex=(currentBase+i+totalrow*row)+totalcell*nn_level;
+				float possibleProb=probs[possibleIndex][classIndex];
+
+				if(possibleProb>maxProb){
+					maxCellIndex=possibleProb;
+					maxProb=possibleProb;
+				}
+
+
+			}
+		}
+	}
+	return maxCellIndex;
+
+}
+
+
 
