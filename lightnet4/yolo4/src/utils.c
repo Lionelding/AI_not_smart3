@@ -814,5 +814,45 @@ int searchWithoutDirection(float** probs, int num, int currentBase, int classInd
 
 }
 
+int addDegree(int degree1, int degree2){
+	float pi=3.1415926;
+	if(degree1>180){
+		degree1=-(360-degree1);
+
+	}
+	if(degree2>180){
+		degree2=-(360-degree2);
+	}
+
+
+	float x1=1*cos(degree1*(pi/180));
+	float y1=1*sin(degree1*(pi/180));
+
+	float x2=1*cos(degree2*(pi/180));
+	float y2=1*sin(degree2*(pi/180));
+
+	float sumx=(x1+x2)/2;
+	float sumy=(y1+y2)/2;
+
+
+	if(fabs(sumx)<0.00000001){
+		return 0;
+	}
+	int out=atan(sumy/sumx)*(180/3.1415926);
+	if (out<0){
+		out=360+out;
+	}
+
+
+	//TODO: Corner cases need to solved
+//
+//	if (sumx<0 &&sumy<0){
+//
+//	}
+
+	return out;
+
+}
+
 
 

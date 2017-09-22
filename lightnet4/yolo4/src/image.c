@@ -14,6 +14,7 @@
 #include "hashtable.c"
 
 #include "opencv2/video/tracking.hpp"
+#include "opencv2/imgproc/imgproc_c.h"
 
 #include <stdio.h>
 #include <math.h>
@@ -925,69 +926,98 @@ IplImage* image_convert_IplImage(image p, IplImage *disp){
 
 }
 
-//void drawOptFlowMap(IplImage *flow, IplImage *cflowmap, int step, CvScalar color) {
-//
-//	int y;
-//	int x;
-//	unsigned char *data = (unsigned char *)flow->imageData;
-//
-//	for(y = 0; y < cflowmap->height; y= step+y){
-//		for(x = 0; x < cflowmap->width; x=step+x){
-//
-//			flow->
-//	        const Point2f& fxy = flow.at< Point2f>(y, x);
-//			data
-//	        line(cflowmap, Point(x,y), Point(cvRound(x+fxy.x), cvRound(y+fxy.y)), color);
-//	        circle(cflowmap, Point(cvRound(x+fxy.x), cvRound(y+fxy.y)), 1, color, -1);
-//		}
-//	}
-//
-//
-//
-////	    unsigned char *data = (unsigned char *)src->imageData;
-////	    int h = src->height;
-////	    int w = src->width;
-////	    int c = src->nChannels;
-////	    int step = src->widthStep;
-////	    int i, j, k;
-////
-////	    for(i = 0; i < h; ++i){
-////	        for(k= 0; k < c; ++k){
-////	            for(j = 0; j < w; ++j){
-////	                im.data[k*w*h + i*w + j] = data[i*step + j*c + k]/255.;
-////	            }
-////	        }
-////	    }
-//
-//	return;
-//
-//
-//}
+
+
+void drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color) {
+
+	int x, y;
+	(void) scale;
+	int tr=(cflowmap->rows/step)+1;
+	int tc=(cflowmap->cols/step)+1;
+	float degreeStore[tr*tc];
+	int i=0;
+
+	for(y = 0; y < cflowmap->rows; y= step+y){
+		for(x = 0; x < cflowmap->cols; x=step+x){
+
+			CvPoint2D32f fxy = CV_MAT_ELEM(*flow, CvPoint2D32f, y, x);
+			CvPoint start=cvPoint(x, y);
+			CvPoint end=cvPoint(cvRound(x+fxy.x), cvRound(y+fxy.y));
+
+            cvLine(cflowmap, cvPoint(x,y), cvPoint(cvRound(x+fxy.x), cvRound(y+fxy.y)),color, 1, 8, 0);
+            cvCircle(cflowmap, cvPoint(x,y), 2, color, -1, 8, 0);
+
+            float degree=computeDegree(start.x, start.y, end.x, end.y);
+            degreeStore[i]=degree;
+            i=i+1;
+
+		}
+	}
+	printf("cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
+	quickSort(degreeStore, 0, i-1);
+	printArray(degreeStore, i);
+	int test=addDegree(45, 47);
+	printf("test: %i\n", test);
+	test=addDegree(45, 130);
+	printf("test: %i\n", test);
+	test=addDegree(45, 180);
+	printf("test: %i\n", test);
+	test=addDegree(45, 225);
+	printf("test: %i\n", test);
+	test=addDegree(45, 270);
+	printf("test: %i\n", test);
+	test=addDegree(45, 315);
+	printf("test: %i\n", test);
+	test=addDegree(180, 270);
+	printf("test: %i\n", test);
+	test=addDegree(90, 270);
+	printf("test: %i\n", test);
+	test=addDegree(0, 0);
+	printf("test: %i\n", test);
+	test=addDegree(0, 360);
+	printf("test: %i\n", test);
+
+
+
+
+	return;
+
+
+}
 void computeropticalflowFB(IplImage *previous, IplImage *current, int xoff, int yoff){
     //Convert the input from RGB to Grayscale
     IplImage *imgA= cvCreateImage(cvGetSize(previous),IPL_DEPTH_8U,1);
     cvCvtColor(previous,imgA,CV_RGB2GRAY);
 
-    IplImage *imgB= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
-    cvCvtColor(current,imgB,CV_RGB2GRAY);
+    //IplImage *imgB= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
+    //cvCvtColor(current,imgB,CV_RGB2GRAY);
 
     CvSize s=cvGetSize(current);
     int height=s.height;
     int width=s.width;
 
-    CvMat* image1 = cvCreateMat(height, width,CV_32FC2);
-    //IplImage copy=image1;
-    IplImage *new=image1;
-//    IplImage *flow= cvCreateImage(cvGetSize(previous),8,3);
-//    IplImage *ipltemp=&image1;
-//    cvCopy(&ipltemp,&flow, NULL);
+    CvMat* gray = cvCreateMat(height, width, CV_8UC1);
+    CvMat* prevgray = cvCreateMat(height, width, gray->type);
 
-    cvCalcOpticalFlowFarneback(imgA, imgB, new, 0.5, 1, 15 , 3, 5, 1.1, 1);
+    cvCvtColor(current, gray, CV_BGR2GRAY);
+    cvCvtColor(previous, prevgray, CV_BGR2GRAY);
 
-    IplImage *cflow= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
+    CvMat* flow = cvCreateMat(height, width, CV_32FC2);
+    CvMat* cflow = cvCreateMat(height, width, CV_8UC3);
+
+    cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
+
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    //drawOptFlowMap(flow, cflow, 10, CV_RGB(0xff,0xff,0x00));
-    cvShowImage("OpticalFlowFarneback", new);
+    drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
+    cvShowImage("OpticalFlowFarneback", cflow);
+    cvWaitKey(0);
+
+
+	cvReleaseImage(&imgA);
+	cvReleaseMat(&gray);
+	cvReleaseMat(&prevgray);
+	cvReleaseMat(&flow);
+	cvReleaseMat(&cflow);
 }
 
 Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff, int yoff){
