@@ -64,6 +64,5 @@ void print_statistics(float *a, int n);
 int extractIndexFromeFloat(float degreeStoreElement);
 int searchWithDirection(float** probsMore, int num, int currentBase, int classIndex, double degree);
 int lookIntoCells(float** probsMore, int totalcell, int cellIndex, int classIndex, int maxCellIndex);
-
 #endif
 

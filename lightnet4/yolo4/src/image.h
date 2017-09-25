@@ -7,7 +7,7 @@
 #include <string.h>
 #include <math.h>
 #include "box.h"
-//#include "linkedlist.h"
+#include "objectbank.h"
 
 #include "opencv2/core/types_c.h"
 #include "opencv2/core/core_c.h"
@@ -32,15 +32,6 @@ typedef struct {
     float *data;
 } image;
 
-//ADDED: Opticalflow type to store the points
-typedef struct {
-	CvPoint sum_p0;
-	CvPoint sum_p1;
-	CvPoint abs_p0;
-	CvPoint abs_p1;
-	double magnitude;
-	double degree;
-}Opticalflow;
 
 typedef struct {
 	Opticalflow flow;
@@ -67,8 +58,7 @@ void ipl_into_image(IplImage* src, image im);
 void flush_stream_buffer(CvCapture *cap, int n);
 void drawArrow(IplImage *image, CvPoint p, CvPoint q, CvScalar color, int arrowMagnitude, int thickness, int line_type, int shift);
 IplImage* image_convert_IplImage(image p, IplImage *disp);
-Opticalflow compute_opticalflow(IplImage *imgA, IplImage *imgB, int xoff, int yoff);
-Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current);
+
 Boxflow putFlowInsideBox(Opticalflow vector, int left, int top, int width, int height, int classtype, float prob, int row, int col, int nn, int objectIndex);
 Boxflow putNullInsideBox();
 void show_image_cv(image p, const char *name, IplImage *disp);
@@ -88,7 +78,7 @@ int getframe_num();
 void initialize_idx_prestore(int size, int totalcell2);
 int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex);
 int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double tolerance);
-Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias);
+
 void draw_detections(image im, int num, float thresh, box *boxes, float **probs, char **names, image **labels, int classes, int **box_para, int *idx_store, Boxflow *box_full);
 image image_distance(image a, image b);
 void scale_image(image m, float s);
@@ -146,8 +136,7 @@ image make_random_image(int w, int h, int c);
 image make_empty_image(int w, int h, int c);
 int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y);
 int computeMagnitude(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y);
-Opticalflow create_opticalflow(CvPoint sum_p0, CvPoint sum_p1, CvPoint abs_p0, CvPoint abs_p1);
-Opticalflow create_opticalflowFB(int degree, int magnitude);
+
 image float_to_image(int w, int h, int c, float *data);
 image copy_image(image p);
 void copy_image_into(image src, image dest);

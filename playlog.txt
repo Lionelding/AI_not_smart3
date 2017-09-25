@@ -526,3 +526,7 @@ TODO:
 	2. Implement the FB optical flow
 	3. Optimize the kalman filter initial state and other parameters.  \
 	4. Need to figure out how to deal with enhanced "probsMore'
+
+#####	Week of 20170918	#####
+
+Migrate the LK optical flow to FB optical flow
