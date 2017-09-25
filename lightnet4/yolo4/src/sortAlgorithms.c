@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 // A utility function to swap two elements
-void swap(float* a, float* b)
+void swap(double* a, double* b)
 {
     float t = *a;
     *a = *b;
@@ -14,7 +14,7 @@ void swap(float* a, float* b)
     array, and places all smaller (smaller than pivot)
    to left of pivot and all greater elements to right
    of pivot */
-int partition (float arr[], int low, int high)
+int partition (double arr[], int low, int high)
 {
     float pivot = arr[high];    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -38,7 +38,7 @@ int partition (float arr[], int low, int high)
  arr[] --> Array to be sorted,
   low  --> Starting index,
   high  --> Ending index */
-void quickSort(float arr[], int low, int high)
+void quickSort(double arr[], int low, int high)
 {
     if (low < high)
     {
@@ -54,7 +54,7 @@ void quickSort(float arr[], int low, int high)
 }
 
 /* Function to print an array */
-void printArray(float arr[], int size)
+void printArray(double arr[], int size)
 {
     int i;
     for (i=0; i < size; i++)

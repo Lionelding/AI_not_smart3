@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <float.h>
 #include <limits.h>
+#include "image.h"
 
 #include "utils.h"
 
@@ -647,7 +648,7 @@ float **one_hot_encode(float *a, int n, int k)
     return t;
 }
 
-int extractIndexFromFloat(float degreeStoreElement){
+int extractIndexFromFloat(double degreeStoreElement){
 
     double integral;
     double fractional;
@@ -835,22 +836,74 @@ int addDegree(int degree1, int degree2){
 	float sumy=(y1+y2)/2;
 
 
-	if(fabs(sumx)<0.00000001){
+	if(fabs(sumx)<0.00000001 || fabs(sumy)<0.00000001){
 		return 0;
 	}
-	int out=atan(sumy/sumx)*(180/3.1415926);
-	if (out<0){
-		out=360+out;
+	int out;
+
+
+	if (sumx>0 &&sumy>0){
+		out=atan(fabs(sumy)/fabs(sumx))*(180/3.1415926);
 	}
 
+	else if (sumx<0 && sumy>0){
+		out=atan(fabs(sumy)/fabs(sumx))*(180/3.1415926);
+		out=180-out;
+	}
+	else if (sumx<0 && sumy<0){
+		out=atan(fabs(sumy)/fabs(sumx))*(180/3.1415926);
+		out=180+out;
 
-	//TODO: Corner cases need to solved
-//
-//	if (sumx<0 &&sumy<0){
-//
-//	}
+	}
+
+	else if (sumx>0 && sumy<0){
+		out=atan(fabs(sumy)/fabs(sumx))*(180/3.1415926);
+		out=360-out;
+
+	}
+	else {
+		printf("Error!\n");
+		out=100000;
+	}
 
 	return out;
+
+}
+
+int addMagnitude(int m1, int m2){
+	int out=(m1+m2)/2;
+	return out;
+
+}
+
+Opticalflow mergeMedian(double* degreeStore, int end, int range){
+
+    int medianOfMedian=end*0.75;
+
+    int s;
+    int sScope=3;
+    int mergedDegree=0;
+    int mergedMagnitude=0;
+    for(s=(-sScope/2);s<(sScope/2+1);s++){
+
+    	double degreeStoreElement=degreeStore[medianOfMedian+s];
+    	int medianMagnitude=extractIndexFromFloat(degreeStoreElement);
+    	int medianDegree=(int)degreeStoreElement;
+    	printf("medianDegree: %i, medianMagnitude: %i\n", medianDegree, medianMagnitude);
+    	if(s==(-sScope/2)){
+    		//if not, the first degree will be affected by degree of 0
+    		mergedDegree=medianDegree;
+    		mergedMagnitude=medianMagnitude;
+    	}
+
+    	mergedDegree=addDegree(mergedDegree, medianDegree);
+    	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
+
+    }
+
+    printf("mergedDegree: %i, mergdeMagnitude: %i\n", mergedDegree, mergedMagnitude);
+    Opticalflow medianflow=create_opticalflowFB(mergedDegree, mergedMagnitude);
+    return medianflow;
 
 }
 

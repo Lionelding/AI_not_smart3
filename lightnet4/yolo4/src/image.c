@@ -378,7 +378,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=3;
+    int debug_frame=400;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -406,8 +406,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
-        	Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
-        	computeropticalflowFB(pre_boxcrop, boxcrop, 0, 0);
+        	//Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
+        	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop);
         	int match=0;
 
     		printf("Current: idx_store[p]: %i degree: %0.0f mag: %0.0f\n", idx_store[p], average_result.degree, average_result.magnitude);
@@ -483,7 +483,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
 
 
-        	drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
+        	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
 
         	CvPoint lefttop=cvPoint(box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
         	CvPoint rightbot=cvPoint(box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
@@ -928,13 +928,13 @@ IplImage* image_convert_IplImage(image p, IplImage *disp){
 
 
 
-void drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color) {
+Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color) {
 
 	int x, y;
 	(void) scale;
 	int tr=(cflowmap->rows/step)+1;
 	int tc=(cflowmap->cols/step)+1;
-	float degreeStore[tr*tc];
+	double degreeStore[tr*tc];
 	int i=0;
 
 	for(y = 0; y < cflowmap->rows; y= step+y){
@@ -948,49 +948,52 @@ void drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScal
             cvCircle(cflowmap, cvPoint(x,y), 2, color, -1, 8, 0);
 
             float degree=computeDegree(start.x, start.y, end.x, end.y);
-            degreeStore[i]=degree;
+            int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
+            degreeStore[i]=degree+0.01*magnitude;
             i=i+1;
 
 		}
 	}
 	printf("cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
 	quickSort(degreeStore, 0, i-1);
-	printArray(degreeStore, i);
-	int test=addDegree(45, 47);
-	printf("test: %i\n", test);
-	test=addDegree(45, 130);
-	printf("test: %i\n", test);
-	test=addDegree(45, 180);
-	printf("test: %i\n", test);
-	test=addDegree(45, 225);
-	printf("test: %i\n", test);
-	test=addDegree(45, 270);
-	printf("test: %i\n", test);
-	test=addDegree(45, 315);
-	printf("test: %i\n", test);
-	test=addDegree(180, 270);
-	printf("test: %i\n", test);
-	test=addDegree(90, 270);
-	printf("test: %i\n", test);
-	test=addDegree(0, 0);
-	printf("test: %i\n", test);
-	test=addDegree(0, 360);
-	printf("test: %i\n", test);
+	//printArray(degreeStore, i);
+
+    int medianOfMedian=i*0.75;
+
+    int s;
+    int sScope=3;
+    int mergedDegree=0;
+    int mergedMagnitude=0;
+    for(s=(-sScope/2);s<(sScope/2+1);s++){
+
+    	double degreeStoreElement=degreeStore[medianOfMedian+s];
+    	int medianMagnitude=extractIndexFromFloat(degreeStoreElement);
+    	int medianDegree=(int)degreeStoreElement;
+    	printf("medianDegree: %i, medianMagnitude: %i\n", medianDegree, medianMagnitude);
+    	if(s==(-sScope/2)){
+    		//if not, the first degree will be affected by degree of 0
+    		mergedDegree=medianDegree;
+    		mergedMagnitude=medianMagnitude;
+    	}
+
+    	mergedDegree=addDegree(mergedDegree, medianDegree);
+    	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
+
+    }
+
+    printf("mergedDegree: %i, mergdeMagnitude: %i\n", mergedDegree, mergedMagnitude);
+    Opticalflow medianflow=create_opticalflowFB(mergedDegree, mergedMagnitude);
 
 
 
-
-	return;
+	return medianflow;
 
 
 }
-void computeropticalflowFB(IplImage *previous, IplImage *current, int xoff, int yoff){
+Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
     //Convert the input from RGB to Grayscale
     IplImage *imgA= cvCreateImage(cvGetSize(previous),IPL_DEPTH_8U,1);
     cvCvtColor(previous,imgA,CV_RGB2GRAY);
-
-    //IplImage *imgB= cvCreateImage(cvGetSize(current),IPL_DEPTH_8U,1);
-    //cvCvtColor(current,imgB,CV_RGB2GRAY);
 
     CvSize s=cvGetSize(current);
     int height=s.height;
@@ -1008,9 +1011,9 @@ void computeropticalflowFB(IplImage *previous, IplImage *current, int xoff, int 
     cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
-    cvShowImage("OpticalFlowFarneback", cflow);
-    cvWaitKey(0);
+    Opticalflow medianflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
+    //cvShowImage("OpticalFlowFarneback", cflow);
+    //cvWaitKey(0);
 
 
 	cvReleaseImage(&imgA);
@@ -1018,6 +1021,8 @@ void computeropticalflowFB(IplImage *previous, IplImage *current, int xoff, int 
 	cvReleaseMat(&prevgray);
 	cvReleaseMat(&flow);
 	cvReleaseMat(&cflow);
+
+    return medianflow;
 }
 
 Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff, int yoff){
@@ -1534,6 +1539,17 @@ Opticalflow create_opticalflow(CvPoint sum_p0, CvPoint sum_p1, CvPoint abs_p0, C
     out.degree=computeDegree(sum_p0_x, sum_p0_y, sum_p1_x, sum_p1_y);
     out.magnitude=computeMagnitude(sum_p0_x, sum_p0_y, sum_p1_x, sum_p1_y);
 
+
+    return out;
+}
+
+Opticalflow create_opticalflowFB(int degree, int magnitude)
+{
+	Opticalflow out;
+	//Opticalflow* out = (Opticalflow*)malloc(sizeof(Opticalflow));
+
+    out.degree=(double)degree;
+    out.magnitude=(double)magnitude;
 
     return out;
 }
