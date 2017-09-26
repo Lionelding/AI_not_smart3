@@ -12,6 +12,8 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 	int tr=(cflowmap->rows/step)+1;
 	int tc=(cflowmap->cols/step)+1;
 	double degreeStore[tr*tc];
+	double xStore[tr*tc];
+	double yStore[tr*tc];
 	int i=0;
 
 	for(y = 0; y < cflowmap->rows; y= step+y){
@@ -27,11 +29,67 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             float degree=computeDegree(start.x, start.y, end.x, end.y);
             int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
             degreeStore[i]=degree+0.01*magnitude;
+            xStore[i]=end.x-start.x;
+            yStore[i]=end.y-start.y;
+
             i=i+1;
 
 		}
 	}
-	printf("cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
+
+	uchar data[12] = {0,0,255,0,0,255,0,0,255,0,0,255};
+	CvMat src = cvMat(1,12, CV_8UC1, data);
+	IplImage* imgA = cvCreateImageHeader(cvSize(src.cols,src.rows), 8, 1);
+	cvGetImage (& src, imgA);
+
+	//IplImage* imgA;
+	//imgA = cvCreateImage(cvSize(src.cols,src.rows),8,1);
+//	IplImage* ipltemp=src;
+//	cvCopy(&ipltemp,imgA);
+
+
+	//IplImage tmp;
+	//IplImage* imgA = cvGetImage((CvArr*) src, &tmp);
+
+	//IplImage *imgA= cvCreateImage(cvSize(1, i-1),IPL_DEPTH_8U,1);
+	//imgA=xStore;
+	//IplImage ipltemp=src;
+	//cvCopy(&ipltemp,imgA);
+
+
+	CvHistogram *hist_red;
+    IplImage *hist_img = cvCreateImage(cvSize(300,240), 8, 3);
+    cvSet( hist_img, cvScalarAll(255), 0 );
+	int hist_size = 256;
+    float range[]={0,256};
+    float* ranges[] = { range };
+
+	hist_red = cvCreateHist(1, &hist_size, CV_HIST_ARRAY, ranges, 1);
+	cvCalcHist( &imgA, hist_red, 0, NULL );
+	float max_value = 0.0;
+	float max = 0.0;
+	float w_scale = 0.0;
+	cvGetMinMaxHistValue( hist_red, 0, &max_value, 0, 0 );
+	max_value = (max > max_value) ? max : max_value;
+
+	cvScale( hist_red->bins, hist_red->bins, ((float)hist_img->height)/max_value, 0 );
+	w_scale = ((float)hist_img->width)/hist_size;
+	int iii;
+    for(iii = 0; iii < hist_size; iii++ )
+    {
+      cvRectangle( hist_img, cvPoint((int)iii*w_scale , hist_img->height),
+        cvPoint((int)(iii+1)*w_scale, hist_img->height - cvRound(cvGetReal1D(hist_red->bins,iii))),
+        CV_RGB(255,0,0), -1, 8, 0 );
+    }
+
+    /* create a window to show the histogram of the image */
+    cvNamedWindow("Histogram", 1);
+    cvShowImage( "Histogram", hist_img);
+
+    cvWaitKey(0);
+
+
+	//printf("cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
 	quickSort(degreeStore, 0, i-1);
 	//printArray(degreeStore, i);
 

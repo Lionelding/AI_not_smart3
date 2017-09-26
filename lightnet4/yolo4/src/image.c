@@ -372,6 +372,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
+            printf("\n");
         	//Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
         	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop);
         	int match=0;
@@ -398,8 +399,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		average_result=updateFlow(average_result, preFlow, 0.5);
                 		printf("Degree updates to %0.0f\n", average_result.degree);
                 		object_prenum=object_prenum-1;
-
-
 
                 		break;
                 	}
