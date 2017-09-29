@@ -50,8 +50,8 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 
 
 	const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
-	printf("Predicted Center x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
-	printf("Current State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
+	printf("\t Predicted Center x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
+	printf("\t Current State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
 
 //    CvMat* z_k = cvCreateMat( 2, 1, CV_32FC1 );
 //    cvZero(z_k );
@@ -75,7 +75,7 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 
 	const CvMat* temp=cvKalmanCorrect(kalmanbox_out->kalmanfilter, kalmanbox_out->z_k );
 	memcpy(kalmanbox_out->x_k->data.fl, temp->data.fl, sizeof(temp));
-	printf("Updated State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
+	printf("\t Updated State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
 
 	return y_k;
 }

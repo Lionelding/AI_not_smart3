@@ -3,7 +3,52 @@
 #include <stdlib.h>
 #include "objectbank.h"
 
+void computeHistogram(double Array[]){
+	int testsize=15;
+	double test[15]={0,1,1,2,2,4,4,10,10,10,6,7,7,8,10};
+	printArray(test, 15);
+	CvMat src = cvMat(1,15, CV_8UC1, test);
+	IplImage* imgA = cvCreateImageHeader(cvSize(src.cols,src.rows), 8, 1);
+	cvGetImage (& src, imgA);
 
+
+
+	CvHistogram *hist_red;
+    IplImage *hist_img = cvCreateImage(cvSize(300,240), 8, 3);
+    cvSet( hist_img, cvScalarAll(255), 0 );
+	int hist_size = testsize;
+    float range[]={0,testsize};  //Array with two elements only
+    float* ranges[] = { range };
+
+	hist_red = cvCreateHist(1, &hist_size, CV_HIST_ARRAY, ranges, 1);
+	cvCalcHist( &imgA, hist_red, 0, NULL );
+	float max_value = 0.0;
+	float max = 0.0;
+	float w_scale = 0.0;
+	cvGetMinMaxHistValue( hist_red, 0, &max_value, 0, 0 );
+	max_value = (max > max_value) ? max : max_value;
+
+	cvScale( hist_red->bins, hist_red->bins, ((float)hist_img->height)/max_value, 0 );
+	w_scale = ((float)hist_img->width)/hist_size;
+	int iii;
+    for(iii = 0; iii < hist_size; iii++ )
+    {
+      cvRectangle( hist_img, cvPoint((int)iii*w_scale , hist_img->height),
+        cvPoint((int)(iii+1)*w_scale, hist_img->height - cvRound(cvGetReal1D(hist_red->bins,iii))),
+        CV_RGB(255,0,0), -1, 8, 0 );
+    }
+
+//    cvNamedWindow( "Image", 1 );
+//    cvShowImage( "Image",imgA);
+    /* create a window to show the histogram of the image */
+    cvNamedWindow("Histogram", 1);
+    cvShowImage( "Histogram", hist_img);
+
+    cvWaitKey(0);
+
+
+	return;
+}
 
 Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color) {
 
@@ -29,99 +74,30 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             float degree=computeDegree(start.x, start.y, end.x, end.y);
             int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
             degreeStore[i]=degree+0.01*magnitude;
+
             xStore[i]=end.x-start.x;
             yStore[i]=end.y-start.y;
+            printf("%0.2f ", yStore[i]);
 
             i=i+1;
 
+
+
 		}
+		printf("\n");
 	}
 
-	uchar data[12] = {0,0,255,0,0,255,0,0,255,0,0,255};
-	CvMat src = cvMat(1,12, CV_8UC1, data);
-	IplImage* imgA = cvCreateImageHeader(cvSize(src.cols,src.rows), 8, 1);
-	cvGetImage (& src, imgA);
+	printf("\t cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
 
-	//IplImage* imgA;
-	//imgA = cvCreateImage(cvSize(src.cols,src.rows),8,1);
-//	IplImage* ipltemp=src;
-//	cvCopy(&ipltemp,imgA);
+	Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
 
-
-	//IplImage tmp;
-	//IplImage* imgA = cvGetImage((CvArr*) src, &tmp);
-
-	//IplImage *imgA= cvCreateImage(cvSize(1, i-1),IPL_DEPTH_8U,1);
-	//imgA=xStore;
-	//IplImage ipltemp=src;
-	//cvCopy(&ipltemp,imgA);
-
-
-	CvHistogram *hist_red;
-    IplImage *hist_img = cvCreateImage(cvSize(300,240), 8, 3);
-    cvSet( hist_img, cvScalarAll(255), 0 );
-	int hist_size = 256;
-    float range[]={0,256};
-    float* ranges[] = { range };
-
-	hist_red = cvCreateHist(1, &hist_size, CV_HIST_ARRAY, ranges, 1);
-	cvCalcHist( &imgA, hist_red, 0, NULL );
-	float max_value = 0.0;
-	float max = 0.0;
-	float w_scale = 0.0;
-	cvGetMinMaxHistValue( hist_red, 0, &max_value, 0, 0 );
-	max_value = (max > max_value) ? max : max_value;
-
-	cvScale( hist_red->bins, hist_red->bins, ((float)hist_img->height)/max_value, 0 );
-	w_scale = ((float)hist_img->width)/hist_size;
-	int iii;
-    for(iii = 0; iii < hist_size; iii++ )
-    {
-      cvRectangle( hist_img, cvPoint((int)iii*w_scale , hist_img->height),
-        cvPoint((int)(iii+1)*w_scale, hist_img->height - cvRound(cvGetReal1D(hist_red->bins,iii))),
-        CV_RGB(255,0,0), -1, 8, 0 );
-    }
-
-    /* create a window to show the histogram of the image */
-    cvNamedWindow("Histogram", 1);
-    cvShowImage( "Histogram", hist_img);
-
-    cvWaitKey(0);
-
-
-	//printf("cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
-	quickSort(degreeStore, 0, i-1);
-	//printArray(degreeStore, i);
-
-    int medianOfMedian=i*0.75;
-
-    int s;
-    int sScope=3;
-    int mergedDegree=0;
-    int mergedMagnitude=0;
-    for(s=(-sScope/2);s<(sScope/2+1);s++){
-
-    	double degreeStoreElement=degreeStore[medianOfMedian+s];
-    	int medianMagnitude=extractIndexFromFloat(degreeStoreElement);
-    	int medianDegree=(int)degreeStoreElement;
-    	printf("medianDegree: %i, medianMagnitude: %i\n", medianDegree, medianMagnitude);
-    	if(s==(-sScope/2)){
-    		//if not, the first degree will be affected by degree of 0
-    		mergedDegree=medianDegree;
-    		mergedMagnitude=medianMagnitude;
-    	}
-
-    	mergedDegree=addDegree(mergedDegree, medianDegree);
-    	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
-
-    }
-
-    printf("mergedDegree: %i, mergdeMagnitude: %i\n", mergedDegree, mergedMagnitude);
-    Opticalflow medianflow=create_opticalflowFB(mergedDegree, mergedMagnitude);
+	double xMedian=componentMedian(xStore, i, 3);
+	double yMedian=componentMedian(yStore, i, 3);
 
 
 
-	return medianflow;
+	return medianDegree;
+
 
 
 }
@@ -345,34 +321,39 @@ Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias){
 	int upperLimit;
 	int lowerLimit;
 	int nowFlow=average_result.degree;
-	float newFlow;
+	//float newFlow;
+	int newFlow;
 
-	if(preFlow<180){
-		upperLimit=preFlow+180;
-		if (nowFlow<upperLimit){
-			newFlow=preFlow*bias+nowFlow*(1-bias);
+//	if(preFlow<180){
+//		upperLimit=preFlow+180;
+//		if (nowFlow<upperLimit){
+//			newFlow=preFlow*bias+nowFlow*(1-bias);
+//
+//		}
+//
+//		else{
+//			newFlow=preFlow*bias+(nowFlow-360)*(1-bias);
+//			newFlow=newFlow<0?(newFlow+360):newFlow;
+//
+//		}
+//
+//	}
+//
+//	else{
+//		lowerLimit=preFlow-180;
+//		if(nowFlow>lowerLimit){
+//			newFlow=preFlow*bias+nowFlow*(1-bias);
+//		}
+//		else{
+//			newFlow=(preFlow-360)*bias+nowFlow*(1-bias);
+//			newFlow=newFlow<0?(newFlow+360):newFlow;
+//		}
+//
+//	}
 
-		}
 
-		else{
-			newFlow=preFlow*bias+(nowFlow-360)*(1-bias);
-			newFlow=newFlow<0?(newFlow+360):newFlow;
+	newFlow=addDegree(preFlow, nowFlow, 0.3);
 
-		}
-
-	}
-
-	else{
-		lowerLimit=preFlow-180;
-		if(nowFlow>lowerLimit){
-			newFlow=preFlow*bias+nowFlow*(1-bias);
-		}
-		else{
-			newFlow=(preFlow-360)*bias+nowFlow*(1-bias);
-			newFlow=newFlow<0?(newFlow+360):newFlow;
-		}
-
-	}
 	average_result.degree=newFlow;
 	return average_result;
 
@@ -411,7 +392,7 @@ Opticalflow create_opticalflowFB(int degree, int magnitude)
     return out;
 }
 
-int addDegree(int degree1, int degree2){
+int addDegree(int degree1, int degree2, double bias){
 	float pi=3.1415926;
 	if(degree1>180){
 		degree1=-(360-degree1);
@@ -428,8 +409,8 @@ int addDegree(int degree1, int degree2){
 	float x2=1*cos(degree2*(pi/180));
 	float y2=1*sin(degree2*(pi/180));
 
-	float sumx=(x1+x2)/2;
-	float sumy=(y1+y2)/2;
+	float sumx=x1*(1-bias)+x2*bias;
+	float sumy=y1*(1-bias)+y2*bias;
 
 
 	if(fabs(sumx)<0.00000001 || fabs(sumy)<0.00000001){
@@ -472,12 +453,17 @@ int addMagnitude(int m1, int m2){
 
 }
 
-Opticalflow mergeMedian(double* degreeStore, int end, int range){
+Opticalflow degreeMedian(double* degreeStore, int end, int sScope){
 
-    int medianOfMedian=end*0.75;
+
+	printArray(degreeStore, end);
+	printf("\t after sorting: \n");
+	quickSort(degreeStore, 0, end-1);
+	printArray(degreeStore, end);
+	int medianOfMedian=end*0.75;
 
     int s;
-    int sScope=3;
+    //int sScope=3;
     int mergedDegree=0;
     int mergedMagnitude=0;
     for(s=(-sScope/2);s<(sScope/2+1);s++){
@@ -485,21 +471,53 @@ Opticalflow mergeMedian(double* degreeStore, int end, int range){
     	double degreeStoreElement=degreeStore[medianOfMedian+s];
     	int medianMagnitude=extractIndexFromFloat(degreeStoreElement);
     	int medianDegree=(int)degreeStoreElement;
-    	printf("medianDegree: %i, medianMagnitude: %i\n", medianDegree, medianMagnitude);
+    	printf("\t medianDegree: %i, medianMagnitude: %i\n", medianDegree, medianMagnitude);
     	if(s==(-sScope/2)){
     		//if not, the first degree will be affected by degree of 0
     		mergedDegree=medianDegree;
     		mergedMagnitude=medianMagnitude;
     	}
 
-    	mergedDegree=addDegree(mergedDegree, medianDegree);
+    	mergedDegree=addDegree(mergedDegree, medianDegree, 0.5);
     	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
 
     }
 
-    printf("mergedDegree: %i, mergdeMagnitude: %i\n", mergedDegree, mergedMagnitude);
+    printf("\t mergedDegree: %i, mergdeMagnitude: %i\n", mergedDegree, mergedMagnitude);
     Opticalflow medianflow=create_opticalflowFB(mergedDegree, mergedMagnitude);
     return medianflow;
 
 }
+
+double componentMedian(double* valueStore, int end, int sScope){
+
+	quickSort(valueStore, 0, end-1);
+	printArray(valueStore, end);
+	int medianOfMedian=end*0.75;
+
+    int s;
+    //int sScope=3;
+    int mergedValue=0;
+    //int mergedMagnitude=0;
+    for(s=(-sScope/2);s<(sScope/2+1);s++){
+
+    	double valueStoreElement=valueStore[medianOfMedian+s];
+    	//int medianMagnitude=extractIndexFromFloat(degreeStoreElement);
+    	int medianValue=(int)valueStoreElement;
+    	printf("\t medianValue: %i", medianValue);
+    	if(s==(-sScope/2)){
+    		//if not, the first degree will be affected by degree of 0
+    		mergedValue=medianValue;
+    		//mergedMagnitude=medianMagnitude;
+    	}
+
+    	mergedValue=addDegree(mergedValue, medianValue, 0.5);
+    	//mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
+
+    }
+
+    printf("\t mergedValue: %i\n", mergedValue);
+	return mergedValue;
+}
+
 

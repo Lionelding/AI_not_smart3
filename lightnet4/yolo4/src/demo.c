@@ -147,7 +147,6 @@ void *detect_in_thread(void *ptr)
     		cvShowImage("disp_current",disp_current);
 
     		//compute_opticalflow(disp_previous, disp_current);
-
     		cvReleaseImage(&disp_previous);
     		cvReleaseImage(&disp_current);
 

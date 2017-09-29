@@ -16,14 +16,16 @@ typedef struct {
 
 
 // Opticalflow functions
+void computHistorgram(int Array[]);
 Opticalflow compute_opticalflow(IplImage *imgA, IplImage *imgB, int xoff, int yoff);
 Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current);
 Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias);
 Opticalflow create_opticalflow(CvPoint sum_p0, CvPoint sum_p1, CvPoint abs_p0, CvPoint abs_p1);
 Opticalflow create_opticalflowFB(int degree, int magnitude);
-int addDegree(int degree1, int degree2);
+int addDegree(int degree1, int degree2, double bias);
 int addMagnitude(int m1, int m2);
-Opticalflow mergeMedian(double* degreeStore, int end, int range);
+Opticalflow degreeMedian(double* degreeStore, int end, int range);
+double componentMedian(double* valueStore, int end, int sScope);
 Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color);
 
 
