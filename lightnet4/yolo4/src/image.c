@@ -344,7 +344,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=35;
+    int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -404,6 +404,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		printf("\t Degree updates to %0.0f\n", average_result.degree);
                 		object_prenum=object_prenum-1;
 
+
+
                 		break;
                 	}
 
@@ -412,16 +414,20 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
 
     		CvPoint boxcenter=cvPoint(box_para[idx_store[p]][0]+(box_para[idx_store[p]][2]/2), box_para[idx_store[p]][1]+(box_para[idx_store[p]][3])/2);
-    		CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), average_result.magnitude*sin(average_result.degree*3.1415926/180));
+    		double xxx=10*sin(350*3.1415926/180);
+    		double yyy=10*sin(-10*3.1415926/180);
+
+    		//The +y means going down, -y means going up
+    		CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
+
 
         	if(match==1){
 
         		//if matched, update the each kalman filter in the hashtable
         		printf("3. Kalman Filter Update: \n");
-        		printf("\t Measured Center x: %i, y: %i, vx: %i, vy: %i\n", boxcenter.x, boxcenter.y, boxvelocity.x, boxvelocity.y);
         		DataItem* temp_DataItem=hashsearch(hashArray, box_para[idx_store[p]][9]);
         		temp_kalmanbox=temp_DataItem->element;
-        		CvMat* y_k=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+        		CvMat* y_k=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
 
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
 

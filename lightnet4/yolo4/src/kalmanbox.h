@@ -13,7 +13,7 @@ typedef struct kalmanbox{
 
 
 kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity);
-CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, int width, int height);
+CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, CvPoint observedV, int width, int height);
 
 
 #endif /* SRC_KALMANBOX_H_ */

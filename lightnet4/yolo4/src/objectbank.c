@@ -77,22 +77,24 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
             xStore[i]=end.x-start.x;
             yStore[i]=end.y-start.y;
-            printf("%0.2f ", yStore[i]);
+
+            // Get the spatial arrangement of optical flow component
+            //printf("%0.2f ", yStore[i]);
 
             i=i+1;
 
 
-
 		}
-		printf("\n");
+
+		//printf("\n");
 	}
 
-	printf("\t cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
+	//printf("\t cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
 
 	Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
 
-	double xMedian=componentMedian(xStore, i, 3);
-	double yMedian=componentMedian(yStore, i, 3);
+	//double xMedian=componentMedian(xStore, i, 3);
+	//double yMedian=componentMedian(yStore, i, 3);
 
 
 
