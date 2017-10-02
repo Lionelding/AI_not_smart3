@@ -540,6 +540,8 @@ FB Issues:
 
 	4. If we know the spatial allocation of the optical flow in terms of degree. Can we directly select them based on somthing?
 
+	5. Tracking Algorithms fails because the correct optical flow is not selected
+
 
 
 Kalman filter
@@ -548,9 +550,19 @@ Kalman filter
 
 	2. The real state box is most likely behind the detection box, and therefore the prediction box is between detection box and real state box, which is opposite of moving direction
 
+	process noise covariance matrix
+	measure noise covariance matrix
+
 
 
 Made a demo for Brisk
 
+	cpu version of yolo 
+
 
 Litterature Review for Thesis
+
+	object tracking 
+	deteciton based object tracking
+
+	Check google scholar and most cited ones.
