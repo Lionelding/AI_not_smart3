@@ -1,3 +1,4 @@
+
 #include "image.h"
 #include "utils.h"
 #include "blas.h"
@@ -30,6 +31,8 @@
 
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
+#include "/usr/include/python2.7/Python.h"
+
 
 
 
@@ -347,6 +350,72 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
+
+
+    PyObject *pName, *pModule, *pDict, *pFunc;
+    PyObject *pArgs, *pValue;
+
+    setenv("PYTHONPATH","./src",1);
+    Py_Initialize();
+    //PySys_SetPath("src");
+    pName = PyBytes_FromString("flist");
+    pModule = PyImport_Import(pName);
+    Py_DECREF(pName);
+
+    if (pModule != NULL) {
+        pFunc = PyObject_GetAttrString(pModule, "multiply");
+        /* pFunc is a new reference */
+
+        if (pFunc && PyCallable_Check(pFunc)) {
+            pArgs = PyTuple_New(1);
+            //for (i = 0; i < argc - 3; ++i) {
+            pValue = PyInt_FromLong(5);
+            if (!pValue) {
+            	Py_DECREF(pArgs);
+                Py_DECREF(pModule);
+                fprintf(stderr, "Cannot convert argument\n");
+                assert(0);
+            }
+                /* pValue reference stolen here: */
+            PyTuple_SetItem(pArgs, 0, pValue);
+
+            pValue = PyObject_CallObject(pFunc, pArgs);
+            Py_DECREF(pArgs);
+            if (pValue != NULL) {
+                printf("Result of call: %ld\n", PyInt_AsLong(pValue));
+                Py_DECREF(pValue);
+            }
+            else {
+                Py_DECREF(pFunc);
+                Py_DECREF(pModule);
+                PyErr_Print();
+                fprintf(stderr,"Call failed\n");
+                assert(0);
+            }
+        }
+        else {
+            if (PyErr_Occurred())
+                PyErr_Print();
+            fprintf(stderr, "Cannot find function\n");
+        }
+        Py_XDECREF(pFunc);
+        Py_DECREF(pModule);
+    }
+    else {
+        PyErr_Print();
+        fprintf(stderr, "Failed to load \n");
+        assert(0);
+    }
+    Py_Finalize();
+
+
+
+
+
+
+
+
+
 
 
 
