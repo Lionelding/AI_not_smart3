@@ -514,6 +514,9 @@ ISSUE:
 
 	3. In vertical direction, cell index is shrinked more. Bounding boxes from 0 to 25, become horizontal lines.
 
+Solutions: 
+	1. Retraining the YOLO with more bounding boxes, however, this will increase the training test
+
 THESIS:
 	1. What if the threshold values are dynamice, each class or object has a detection threshold instead of a single one. 
 
@@ -524,10 +527,23 @@ THESIS:
 TODO:
 	1. Reform the LK optical flow
 	2. Implement the FB optical flow
-	3. Optimize the kalman filter initial state and other parameters.  \
+	3. Optimize the kalman filter initial state and other parameters.
 	4. Need to figure out how to deal with enhanced "probsMore'
 
-#####	Week of 20170918	#####
+
+THESIS:
+
+	1. Useing Gaussian Mixture Model and EM to select the most optimal x and y component, therefore calculating the optical flow in degrees. 
+
+	2. If there is something in motion, optical flow degree equal to 0 means the background.  
+
+	3. EM: assume a mean and variance, and then go for it until converge. Repeat it a few times. 
+
+	4. Use Prediciton bounding boxes from Kalman filter to detect objects
+
+
+
+#####	Week of 20170925	#####
 
 FB Issues:
 	1. EM built-in function in opencv is not available in c
@@ -566,3 +582,10 @@ Litterature Review for Thesis
 	deteciton based object tracking
 
 	Check google scholar and most cited ones.
+
+
+#####	Week of 20171003	#####
+
+THESIS: 
+
+	1. Rotate the videos to the vertical direction. Retrain the yolo with data with (rotated and non-rotated)
