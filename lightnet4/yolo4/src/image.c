@@ -363,7 +363,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     Py_DECREF(pName);
 
     if (pModule != NULL) {
-        pFunc = PyObject_GetAttrString(pModule, "multiply");
+        pFunc = PyObject_GetAttrString(pModule, "showHistogram");
         /* pFunc is a new reference */
 
         if (pFunc && PyCallable_Check(pFunc)) {
