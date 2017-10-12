@@ -589,3 +589,5 @@ Litterature Review for Thesis
 THESIS: 
 
 	1. Rotate the videos to the vertical direction. Retrain the yolo with data with (rotated and non-rotated)
+
+

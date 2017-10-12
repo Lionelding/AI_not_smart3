@@ -11,6 +11,7 @@ import matplotlib.mlab as mlab
 import math
 
 import heapq
+from matplotlib.ticker import FuncFormatter
 #from collections import Counter
 
 sys.path.insert(0, "/home/liqiang/AI_not_smart3/lightnet4/yolo4/src")
@@ -28,19 +29,93 @@ def multiply(a):
 
 def showHistogram(inString):
     ## Initialization
-    meanVar=[]
+    # meanlist=[]
+    # covarlist=[]
+
     fig, (ax00, ax01, ax10, ax11) = plt.subplots(ncols=4, figsize=(8, 4))
     
     inString=inString.split(" ")
     listFloat=map(float, inString)
-    print "\nElement number: "+str(len(listFloat))
-    #print listFloat
+    #listFloat = [int(i) for i in listFloat]
+    #print "\nNumber of Elements: "+str(len(listFloat))
 
-    [mean, var]=gaussiamMixtureModel(listFloat)
-    meanVar.append([mean, var])
+    ## Fit data to the Gaussian Mixture Model
+    meanlist,covarlist=gaussianMixtureModel(listFloat, 1)
+    print meanlist[0]
+    print covarlist[0]
 
-    ax00.hist(listFloat, bins=len(listFloat), normed=1, histtype='bar', rwidth=2)
-    ax00.set_title("Histogram without Maximum Clipping")
+
+
+
+
+    ## ax00: Plot the Histogram
+    
+    ax00.hist(listFloat, bins='auto', facecolor='g', histtype='bar')
+    ax00.set_title("Histogram")
+    ax00.grid(True)
+
+    ## ax01: Plot the Normalized Histogram
+    weights=np.ones_like(listFloat)/len(listFloat)
+    n, bins, patches =ax01.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='stepfilled')
+    ax01.set_title("Normalized Histogram")
+
+    plotGaussian(ax01, len(listFloat), meanlist, covarlist)
+    # mu = meanVar[0][0]
+    # variance = meanVar[0][1]
+    # sigma = math.sqrt(variance)
+    # x = np.linspace(mu-3*variance,mu+3*variance, len(listFloat))
+    # ax01.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
+    # ax01.grid(True)
+
+
+    # ## Perform Maximum Clipping
+    # listFloat=maximumClipping(listFloat, 0);
+
+
+    # ## Fit the modified data to Gaussian Mixture Model
+    # [mean, var]=gaussianMixtureModel(listFloat, 1)
+    # meanVar.append([mean, var])
+    
+    # ## ax10: Plot the Histogram after maximum clipping
+    # ax10.hist(listFloat, bins='auto', facecolor='g', histtype='bar')
+    # ax10.set_title("Histogram")
+    # ax10.grid(True)
+    
+    
+    # ## ax11: Plot the Normalized Histogram after maximum clipping
+    # weights=np.ones_like(listFloat)/len(listFloat)
+    # n, bins, patches =ax11.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='stepfilled')
+    # ax11.set_title("Normalized Histogram")
+
+
+    # mu = meanVar[1][0]
+    # variance = meanVar[1][1]
+    # sigma = math.sqrt(variance)
+    # x = np.linspace(mu-3*variance,mu+3*variance, 100)
+    # ax11.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
+    # ax11.grid(True)
+
+    # plt.hist(result, bins=len(result))  # arguments are passed to np.histogram
+    # plt.title("Histogram with 'auto' bins")
+
+    ## Show the Graph
+    plt.show()
+
+    return 1
+
+def plotGaussian(axx, bins, meanlist, covarlist):
+
+    for i in range(len(meanlist[0])):    
+        mu = meanlist[0][i]
+        variance = covarlist[0][i]
+        sigma = math.sqrt(variance)
+        x = np.linspace(mu-3*variance,mu+3*variance, bins)
+        axx.plot(x, mlab.normpdf(x, mu, sigma), 'r', alpha=0.9)
+        axx.grid(True)
+
+    return 
+
+def maximumClipping(listFloat, diff):
 
     ## Create the an Hashmap to store the occurance frequency of each key
     dictionary={}
@@ -55,7 +130,6 @@ def showHistogram(inString):
 
     ## If the maximum value of key AA is larger than key BB by 10 or more, 
     ## then we assign the value of key AA with value in BB + 10
-    diff=10
     max3=heapq.nlargest(3, dictionary, key=dictionary.get)
     oldMax0=dictionary[max3[0]]
     oldMax1=dictionary[max3[1]]
@@ -68,7 +142,7 @@ def showHistogram(inString):
         dictionary[max3[0]]=dictionary[max3[1]]+diff
         newMax0=dictionary[max3[0]]
     
-    print "\nNormalized Largest Three Elements with Values: "
+    print "\Clipped Largest Three Elements with Values: "
     print str(max3[0])+": "+str(newMax0)+", "+str(max3[1])+": "+str(oldMax1)+", "+str(max3[2])+": "+str(oldMax2)
 
     ## Find the starting point of 0
@@ -79,60 +153,31 @@ def showHistogram(inString):
     del listFloat[(ii+newMax0):(oldMax0+ii)]  
     print "\nElement number: "+str(len(listFloat))
     #print listFloat
+    return listFloat
 
 
 
-    
-    [mean, var]=gaussiamMixtureModel(listFloat)
-    meanVar.append([mean, var])
-
-    ax10.hist(listFloat, bins=len(listFloat), normed=1, histtype='bar', rwidth=2)
-    ax10.set_title("Histogram after Maximum Clipping")
-    
-
-
-    #result=[int(x) for x in listFloat]
-
-
-        
-    mu = mean
-    variance = var
-    sigma = math.sqrt(variance)
-    x = np.linspace(mu-3*variance,mu+3*variance, 100)
-    ax01.plot(x,mlab.normpdf(x, mu, sigma))
-
-    mu = mean+50
-    variance = var+0.5
-    sigma = math.sqrt(variance)
-    x = np.linspace(mu-3*variance,mu+3*variance, 100)
-    ax11.plot(x,mlab.normpdf(x, mu, sigma))
-
-    # plt.hist(result, bins=len(result))  # arguments are passed to np.histogram
-    # plt.title("Histogram with 'auto' bins")
-    plt.show()
-
-    return 1
-
-
-def gaussiamMixtureModel(inList):
+def gaussianMixtureModel(inList, modelNum):
 
     arrayFloat=np.asarray(inList)
      
     X=arrayFloat.reshape(-1,1)
-    modelNum=1
 
-     
-    print ("shape of input: "+str(arrayFloat.shape))
+    meanlist=[]
+    covarlist=[]
+    print ("Shape of Input: "+str(arrayFloat.shape))
     gmm = mixture.GaussianMixture(n_components=modelNum, covariance_type='full', max_iter=100).fit(X)
-    print [x for x in gmm.means_]
-    print gmm.covariances_
-    print "converged: "+str(gmm.converged_)
-    print "iteration: "+str(gmm.n_iter_)
+    print "Means:"
+    print "\t"+str([float(x) for x in gmm.means_])
+    print "Covariance: "
+    print "\t"+str([float(x) for x in gmm.covariances_])
+    print "Converged: "
+    print "\t"+str(gmm.converged_)
+    print "Iterations: "
+    print "\t"+str(gmm.n_iter_)
     print ""
 
-    mean=gmm.means_[0][0]
-    convar=gmm.covariances_[0][0][0]
-    return mean, convar 
+
 
     # dpgmm1 = mixture.BayesianGaussianMixture(
     # n_components=modelNum, covariance_type='full', weight_concentration_prior=1e-2,
@@ -156,7 +201,9 @@ def gaussiamMixtureModel(inList):
     # print "iteration: "+str(dpgmm2.n_iter_)
     # print ""
     
-
+    meanlist.append([float(x) for x in gmm.means_])
+    covarlist.append([float(x) for x in gmm.covariances_])
+    return meanlist, covarlist 
 
     #return 1
 

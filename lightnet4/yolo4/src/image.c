@@ -413,13 +413,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
 
-
-
-
-
-
-
-
     if(object_num>0){//frame_num=2 and above
     	int p;
         IplImage *im_frame=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
