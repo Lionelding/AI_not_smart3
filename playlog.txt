@@ -592,6 +592,25 @@ THESIS:
 
 	2. Cluster
 
-Rotat
+	3. Gaussian Mixture with Multiple Components
 
+	Representation of a Gaussian mixture model probability distribution. This class allows to estimate the parameters of a Gaussian mixture distribution.
+
+	4. Variational Bayesian estimation of a Gaussian mixture.
+
+	This class allows to infer an approximate posterior distribution over the parameters of a Gaussian mixture distribution. The effective number of components can be inferred from the data.
+
+	This class implements two types of prior for the weights distribution: a finite mixture model with Dirichlet distribution and an infinite mixture model with the Dirichlet Process. In practice Dirichlet Process inference algorithm is approximated and uses a truncated distribution with a fixed maximum number of components (called the Stick-breaking representation). The number of components actually used almost always depends on the data.
+
+	REF: https://stats.stackexchange.com/questions/105140/gaussian-naive-bayes-really-equivalent-to-gmm-with-diagonal-covariance-matrices
+
+	REF: http://scikit-learn.org/stable/modules/mixture.html
+
+	5. LaTeX
+
+	6. To determine when to use 1 or 2 components
+
+	7. Update/Recalculate 
+
+	
 

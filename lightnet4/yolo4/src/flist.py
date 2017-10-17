@@ -40,11 +40,7 @@ def showHistogram(inString):
     #print "\nNumber of Elements: "+str(len(listFloat))
 
     ## Fit data to the Gaussian Mixture Model
-    meanlist,covarlist=gaussianMixtureModel(listFloat, 1)
-    print meanlist[0]
-    print covarlist[0]
-
-
+    meanlist,covarlist=gaussianMixtureModel(listFloat, "GaussianMixture", 1)
 
 
 
@@ -60,45 +56,61 @@ def showHistogram(inString):
     ax01.set_title("Normalized Histogram")
 
     plotGaussian(ax01, len(listFloat), meanlist, covarlist)
-    # mu = meanVar[0][0]
-    # variance = meanVar[0][1]
+    # mu = meanlist[0][0]
+    # variance = covarlist[0][0]
+    # print mu
+    # print variance
+    # sigma = math.sqrt(variance)
+    # x = np.linspace(mu-3*variance,mu+3*variance, len(listFloat))
+    # ax01.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
+    
+
+    # mu = meanlist[0][1]
+    # variance = covarlist[0][1]
+    # print mu
+    # print variance
+    # sigma = math.sqrt(variance)
+    # x = np.linspace(mu-3*variance,mu+3*variance, len(listFloat))
+    # ax01.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
+    # #ax01.grid(True)
+
+    # mu = meanlist[0][2]
+    # variance = covarlist[0][2]
+    # print mu
+    # print variance
     # sigma = math.sqrt(variance)
     # x = np.linspace(mu-3*variance,mu+3*variance, len(listFloat))
     # ax01.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
     # ax01.grid(True)
 
 
-    # ## Perform Maximum Clipping
-    # listFloat=maximumClipping(listFloat, 0);
+    ## Perform Maximum Clipping
+    listFloat=maximumClipping(listFloat, 0);
 
 
-    # ## Fit the modified data to Gaussian Mixture Model
-    # [mean, var]=gaussianMixtureModel(listFloat, 1)
-    # meanVar.append([mean, var])
+    ## Fit the modified data to Gaussian Mixture Model
+    modelName="GaussianMixture"
+    modelComponent=3
+    meanlist,covarlist=gaussianMixtureModel(listFloat, modelName, modelComponent)
+    #meanVar.append([mean, var])
     
-    # ## ax10: Plot the Histogram after maximum clipping
-    # ax10.hist(listFloat, bins='auto', facecolor='g', histtype='bar')
-    # ax10.set_title("Histogram")
-    # ax10.grid(True)
+    ## ax10: Plot the Histogram after maximum clipping
+    ax10.hist(listFloat, bins='auto', facecolor='g', histtype='bar')
+    ax10.set_title("Maximum Clipping")
+    ax10.grid(True)
     
     
-    # ## ax11: Plot the Normalized Histogram after maximum clipping
-    # weights=np.ones_like(listFloat)/len(listFloat)
-    # n, bins, patches =ax11.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='stepfilled')
-    # ax11.set_title("Normalized Histogram")
+    ## ax11: Plot the Normalized Histogram after maximum clipping
+    weights=np.ones_like(listFloat)/len(listFloat)
+    #n, bins, patches =ax11.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='stepfilled')
+    n, bins, patches =ax11.hist(listFloat, bins='auto', normed=1, facecolor='g', histtype='stepfilled')
+    ax11.set_title("Normalized & Maximum Clipping")
 
+    plotGaussian(ax11, len(listFloat), meanlist, covarlist)
 
-    # mu = meanVar[1][0]
-    # variance = meanVar[1][1]
-    # sigma = math.sqrt(variance)
-    # x = np.linspace(mu-3*variance,mu+3*variance, 100)
-    # ax11.plot(x, mlab.normpdf(x, mu, sigma), 'r', label='norm pdf', alpha=0.9)
-    # ax11.grid(True)
-
-    # plt.hist(result, bins=len(result))  # arguments are passed to np.histogram
-    # plt.title("Histogram with 'auto' bins")
 
     ## Show the Graph
+    plt.suptitle(str(modelName)+" Model "+" Component Number: "+str(modelComponent))
     plt.show()
 
     return 1
@@ -111,7 +123,7 @@ def plotGaussian(axx, bins, meanlist, covarlist):
         sigma = math.sqrt(variance)
         x = np.linspace(mu-3*variance,mu+3*variance, bins)
         axx.plot(x, mlab.normpdf(x, mu, sigma), 'r', alpha=0.9)
-        axx.grid(True)
+    axx.grid(True)
 
     return 
 
@@ -142,7 +154,7 @@ def maximumClipping(listFloat, diff):
         dictionary[max3[0]]=dictionary[max3[1]]+diff
         newMax0=dictionary[max3[0]]
     
-    print "\Clipped Largest Three Elements with Values: "
+    print "\nClipped Largest Three Elements with Values: "
     print str(max3[0])+": "+str(newMax0)+", "+str(max3[1])+": "+str(oldMax1)+", "+str(max3[2])+": "+str(oldMax2)
 
     ## Find the starting point of 0
@@ -157,52 +169,68 @@ def maximumClipping(listFloat, diff):
 
 
 
-def gaussianMixtureModel(inList, modelNum):
+def gaussianMixtureModel(inList, modelName, modelComponent):
 
     arrayFloat=np.asarray(inList)
      
     X=arrayFloat.reshape(-1,1)
-
     meanlist=[]
     covarlist=[]
-    print ("Shape of Input: "+str(arrayFloat.shape))
-    gmm = mixture.GaussianMixture(n_components=modelNum, covariance_type='full', max_iter=100).fit(X)
-    print "Means:"
-    print "\t"+str([float(x) for x in gmm.means_])
-    print "Covariance: "
-    print "\t"+str([float(x) for x in gmm.covariances_])
-    print "Converged: "
-    print "\t"+str(gmm.converged_)
-    print "Iterations: "
-    print "\t"+str(gmm.n_iter_)
-    print ""
+
+    if(modelName=="GaussianMixture"):
+
+        print ("Shape of Input: "+str(arrayFloat.shape))
+        gmm = mixture.GaussianMixture(n_components=modelComponent, covariance_type='full', max_iter=100).fit(X)
+        print "Means:"
+        print "\t"+str([float(x) for x in gmm.means_])
+        print "Covariance: "
+        print "\t"+str([float(x) for x in gmm.covariances_])
+        print "Converged: "
+        print "\t"+str(gmm.converged_)
+        print "Iterations: "
+        print "\t"+str(gmm.n_iter_)
+        print ""
+        temp=gmm
 
 
+    if(modelName=="BayesianGM"):
+        dpgmm1 = mixture.BayesianGaussianMixture(
+        n_components=modelComponent, covariance_type='full', weight_concentration_prior=1e-2,
+        weight_concentration_prior_type='dirichlet_process',
+        mean_precision_prior=1e-2, covariance_prior=1e0 * np.eye(1),
+        init_params="random", max_iter=100, random_state=2).fit(X)
+        print "Means:"
+        print "\t"+str([float(x) for x in dpgmm1.means_])
+        print "Covariance: "
+        print "\t"+str([float(x) for x in dpgmm1.covariances_])
+        print "Converged: "
+        print "\t"+str(dpgmm1.converged_)
+        print "Iterations: "
+        print "\t"+str(dpgmm1.n_iter_)
+        print ""
+        temp=dpgmm1
 
-    # dpgmm1 = mixture.BayesianGaussianMixture(
-    # n_components=modelNum, covariance_type='full', weight_concentration_prior=1e-2,
-    # weight_concentration_prior_type='dirichlet_process',
-    # mean_precision_prior=1e-2, covariance_prior=1e0 * np.eye(1),
-    # init_params="random", max_iter=100, random_state=2).fit(X)
-    # print [x for x in dpgmm1.means_]
-    # #print dpgmm1.covariances_
-    # print "converged: "+str(dpgmm1.converged_)
-    # print "iteration: "+str(dpgmm1.n_iter_)
-    # print ""
 
-    # dpgmm2 = mixture.BayesianGaussianMixture(
-    # n_components=modelNum, covariance_type='full', weight_concentration_prior=1e+2,
-    # weight_concentration_prior_type='dirichlet_process',
-    # mean_precision_prior=1e-2, covariance_prior=1e0 * np.eye(1),
-    # init_params="kmeans", max_iter=100, random_state=2).fit(X)
-    # print [x for x in dpgmm2.means_]
-    # #print dpgmm2.covariances_
-    # print "converged: "+str(dpgmm2.converged_)
-    # print "iteration: "+str(dpgmm2.n_iter_)
-    # print ""
+    if(modelName=="BayesianGM2"):
+        dpgmm2 = mixture.BayesianGaussianMixture(
+        n_components=modelComponent, covariance_type='full', weight_concentration_prior=1e+2,
+        weight_concentration_prior_type='dirichlet_process',
+        mean_precision_prior=1e-2, covariance_prior=1e0 * np.eye(1),
+        init_params="kmeans", max_iter=100, random_state=2).fit(X)
+        print "Means:"
+        print "\t"+str([float(x) for x in dpgmm2.means_])
+        print "Covariance: "
+        print "\t"+str([float(x) for x in dpgmm2.covariances_])
+        print "Converged: "
+        print "\t"+str(dpgmm2.converged_)
+        print "Iterations: "
+        print "\t"+str(dpgmm2.n_iter_)
+        print ""
+        temp=dpgmm2
+
     
-    meanlist.append([float(x) for x in gmm.means_])
-    covarlist.append([float(x) for x in gmm.covariances_])
+    meanlist.append([float(x) for x in temp.means_])
+    covarlist.append([float(x) for x in temp.covariances_])
     return meanlist, covarlist 
 
     #return 1

@@ -1,0 +1,93 @@
+Gaussian Mixture 1 Component
+
+	Largest Three Elements with Values:
+	0.0: 154, -1.0: 33, -2.0: 24
+
+	Clipped Largest Three Elements with Values:
+	0.0: 33, -1.0: 33, -2.0: 24
+
+	Element number: 173
+	Shape of Input: (173L,)
+	Means:
+	        [-1.6127167630057804]
+	Covariance:
+	        [9.566775700123625]
+	Converged:
+	        True
+	Iterations:
+	        1
+
+
+Gaussian Mixture 2 Components
+
+	Largest Three Elements with Values:
+	0.0: 154, -1.0: 33, -2.0: 24
+	
+	Clipped Largest Three Elements with Values:
+	0.0: 33, -1.0: 33, -2.0: 24
+
+	Element number: 173
+	Shape of Input: (173L,)
+	Means:
+	        [-5.561465928388833, -0.4579313364428717]
+	Covariance:
+	        [10.892208006710671, 3.2856744680231533]
+	Converged:
+	        True
+	Iterations:
+	        4
+
+Gaussian Mixture 3 Components
+
+	Largest Three Elements with Values:
+	0.0: 154, -1.0: 33, -2.0: 24
+
+	Clipped Largest Three Elements with Values:
+	0.0: 33, -1.0: 33, -2.0: 24
+
+	Element number: 173
+	Shape of Input: (173L,)
+	Means:
+	        [-6.470328482914322, -0.7138494417090584, 2.3976264473747357]
+	Covariance:
+	        [6.481955125519224, 2.24796287898622, 4.762034377537598]
+	Converged:
+	        True
+	Iterations:
+	        5
+
+
+Bayesian Mixture 1 Component
+
+	0.0: 154, -1.0: 33, -2.0: 24
+
+	Clipped Largest Three Elements with Values:
+	0.0: 33, -1.0: 33, -2.0: 24
+
+	Element number: 173
+	Means:
+	        [-1.6127167630057804]
+	Covariance:
+	        [9.517541357019466]
+	Converged:
+	        True
+	Iterations:
+	        1
+
+Bayesian Mixture 2 Components
+
+	Largest Three Elements with Values:
+	0.0: 154, -1.0: 33, -2.0: 24
+
+	Clipped Largest Three Elements with Values:
+	0.0: 33, -1.0: 33, -2.0: 24
+
+	Element number: 173
+	Means:
+	        [-3.200902931499455, -0.5095873809010889]
+	Covariance:
+	        [16.066721500129685, 1.9263945725251357]
+	Converged:
+	        True
+	Iterations:
+	        20
