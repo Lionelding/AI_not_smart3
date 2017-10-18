@@ -21,21 +21,30 @@ sys.path.insert(0, "/home/liqiang/AI_not_smart3/lightnet4/yolo4/src")
 color_iter = itertools.cycle(['navy', 'c', 'cornflowerblue', 'gold',
                               'darkorange'])
 
-def multiply(a):
+def multiply(a, b):
     print "Will compute", a, "times", a
-    c=a*a
+    c=a*b
     return c
+def multiplyTuple(a):
+    a=list(a)
+    print a
+    return 100
 
 
 def showHistogram(inString):
     ## Initialization
     # meanlist=[]
     # covarlist=[]
+    print inString
+    listFloat=list(sorted(inString))
+    print listFloat
+    print type(listFloat[0])
+
 
     fig, (ax00, ax01, ax10, ax11) = plt.subplots(ncols=4, figsize=(8, 4))
     
-    inString=inString.split(" ")
-    listFloat=map(float, inString)
+    # inString=inString.split(" ")
+    # listFloat=map(float, inString)
     #listFloat = [int(i) for i in listFloat]
     #print "\nNumber of Elements: "+str(len(listFloat))
 
@@ -51,11 +60,12 @@ def showHistogram(inString):
     ax00.grid(True)
 
     ## ax01: Plot the Normalized Histogram
-    weights=np.ones_like(listFloat)/len(listFloat)
-    n, bins, patches =ax01.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='stepfilled')
+    #weights=np.ones_like(listFloat)/len(listFloat)
+    ax01.hist(listFloat, bins='auto', normed=1, facecolor='g', histtype='bar')
+    #ax01.hist(listFloat, weights=weights, normed=1, facecolor='g', histtype='bar')
     ax01.set_title("Normalized Histogram")
-
     plotGaussian(ax01, len(listFloat), meanlist, covarlist)
+
     # mu = meanlist[0][0]
     # variance = covarlist[0][0]
     # print mu
@@ -90,7 +100,7 @@ def showHistogram(inString):
 
     ## Fit the modified data to Gaussian Mixture Model
     modelName="GaussianMixture"
-    modelComponent=3
+    modelComponent=1
     meanlist,covarlist=gaussianMixtureModel(listFloat, modelName, modelComponent)
     #meanVar.append([mean, var])
     
@@ -113,7 +123,7 @@ def showHistogram(inString):
     plt.suptitle(str(modelName)+" Model "+" Component Number: "+str(modelComponent))
     plt.show()
 
-    return 1
+    return meanlist[0][0]
 
 def plotGaussian(axx, bins, meanlist, covarlist):
 
@@ -140,33 +150,38 @@ def maximumClipping(listFloat, diff):
             dictionary[key]=1
 
 
-    ## If the maximum value of key AA is larger than key BB by 10 or more, 
-    ## then we assign the value of key AA with value in BB + 10
-    max3=heapq.nlargest(3, dictionary, key=dictionary.get)
-    oldMax0=dictionary[max3[0]]
-    oldMax1=dictionary[max3[1]]
-    oldMax2=dictionary[max3[2]]
+    if(len(dictionary.keys())>1):
 
-    print "\nLargest Three Elements with Values: "
-    print str(max3[0])+": "+str(oldMax0)+", "+str(max3[1])+": "+str(oldMax1)+", "+str(max3[2])+": "+str(oldMax2)
+        ## If the maximum value of key AA is larger than key BB by 10 or more, 
+        ## then we assign the value of key AA with value in BB + 10
+        max3=heapq.nlargest(3, dictionary, key=dictionary.get)
+        oldMax0=dictionary[max3[0]]
+        oldMax1=dictionary[max3[1]]
 
-    if (max3[0]==0 and (dictionary[max3[0]]-dictionary[max3[1]])>diff):
-        dictionary[max3[0]]=dictionary[max3[1]]+diff
-        newMax0=dictionary[max3[0]]
-    
-    print "\nClipped Largest Three Elements with Values: "
-    print str(max3[0])+": "+str(newMax0)+", "+str(max3[1])+": "+str(oldMax1)+", "+str(max3[2])+": "+str(oldMax2)
+        print "\nLargest Two Elements with Values: "
+        print str(max3[0])+": "+str(oldMax0)+", "+str(max3[1])+": "+str(oldMax1)
 
-    ## Find the starting point of 0
-    ii=0
-    while (listFloat[ii]!=0):
-        ii=ii+1
+        newMax0=0
+        if (max3[0]==0 and (dictionary[max3[0]]-dictionary[max3[1]])>diff):
+            dictionary[max3[0]]=dictionary[max3[1]]+diff
+            newMax0=dictionary[max3[0]]
+        
+        print "\nClipped Two Elements with Values: "
+        print str(max3[0])+": "+str(newMax0)+", "+str(max3[1])+": "+str(oldMax1)
 
-    del listFloat[(ii+newMax0):(oldMax0+ii)]  
-    print "\nElement number: "+str(len(listFloat))
-    #print listFloat
-    return listFloat
+        ## Find the starting point of 0
+        ii=0
+        while (listFloat[ii]!=0):
+            ii=ii+1
 
+        del listFloat[(ii+newMax0):(oldMax0+ii)]  
+        print "\nElement number: "+str(len(listFloat))
+        #print listFloat
+        return listFloat
+
+    else:
+        print "\nThe largest value is the only value existed"
+        return listFloat
 
 
 def gaussianMixtureModel(inList, modelName, modelComponent):
@@ -241,5 +256,5 @@ xString="0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0
 yString="-12.00 -11.00 -10.00 -10.00 -10.00 -9.00 -8.00 -8.00 -8.00 -8.00 -8.00 -8.00 -7.00 -7.00 -7.00 -7.00 -6.00 -6.00 -6.00 -6.00 -6.00 -6.00 -5.00 -5.00 -5.00 -5.00 -5.00 -4.00 -4.00 -4.00 -4.00 -4.00 -4.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 2.00 2.00 2.00 2.00 2.00 2.00 2.00 2.00 3.00 3.00 3.00 3.00 3.00 4.00 5.00 7.00"
 zString="1.00 2.00 3.00 2.00 3.00 3.00 4.00 5.00 4.00"
 zzString="1 2 3 2 3 3 4 5 4"
-
-showHistogram(yString)
+zTuple=(0,0,0,0,1,1,2,3,4,5,1,2,2,3,5,3,5,1,1,1,1,0,0,0,0,0,0,0,0)
+#showHistogram(zTuple)

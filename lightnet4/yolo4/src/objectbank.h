@@ -3,6 +3,7 @@
 
 #include "opencv2/core/types_c.h"
 #include "opencv2/core/core_c.h"
+#include "/usr/include/python2.7/Python.h"
 
 //ADDED: Opticalflow type to store the points
 typedef struct {
@@ -17,6 +18,7 @@ typedef struct {
 
 // Opticalflow functions
 void computHistorgram(int Array[]);
+void initializePython();
 Opticalflow compute_opticalflow(IplImage *imgA, IplImage *imgB, int xoff, int yoff);
 Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current);
 Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias);

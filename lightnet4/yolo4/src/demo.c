@@ -8,6 +8,7 @@
 #include "image.h"
 #include "demo.h"
 #include <sys/time.h>
+#include "objectbank.h"
 
 //#include "stdafx.h"
 #include "cv.h"
@@ -100,8 +101,6 @@ void *detect_in_thread(void *ptr)
     printf("\nFrame %i\n", temp);
     printf("FPS:%.1f\n",fps);
     printf("Objects:\n\n");
-
-
 
 
     if(temp>=9){
@@ -302,6 +301,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     buff_letter[1] = letterbox_image(buff[0], net.w, net.h);
     buff_letter[2] = letterbox_image(buff[0], net.w, net.h);
     ipl = cvCreateImage(cvSize(buff[0].w,buff[0].h), IPL_DEPTH_8U, buff[0].c);
+    initializePython();
 
 
     int count = 0;

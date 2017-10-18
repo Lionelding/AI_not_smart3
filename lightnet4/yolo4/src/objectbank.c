@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include "objectbank.h"
+#include "/usr/include/python2.7/Python.h"
+
 
 void computeHistogram(double Array[]){
 	int testsize=15;
@@ -50,6 +52,11 @@ void computeHistogram(double Array[]){
 	return;
 }
 
+void initializePython(){
+	//Py_Initialize();
+	return;
+}
+
 Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale, CvScalar color) {
 
 	int x, y;
@@ -59,7 +66,30 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 	double degreeStore[tr*tc];
 	double xStore[tr*tc];
 	double yStore[tr*tc];
+	double xcomponent;
+	double ycomponent;
 	int i=0;
+
+    PyObject *pName, *pModule, *pDict, *pFunc;
+    PyObject *pXArgs, *pYArgs, *pValue, *pX, *pY;
+
+
+    setenv("PYTHONPATH","./src",1);
+    Py_Initialize();
+    //PySys_SetPath("src");
+    pName = PyBytes_FromString("flist");
+
+    pModule = PyImport_Import(pName);
+
+
+    Py_DECREF(pName);
+
+    pFunc = PyObject_GetAttrString(pModule, "showHistogram");
+    pXArgs = PyTuple_New(tr*tc);
+    pYArgs = PyTuple_New(tr*tc);
+    pX= PyTuple_New(1);
+    pY= PyTuple_New(1);
+
 
 	for(y = 0; y < cflowmap->rows; y= step+y){
 		for(x = 0; x < cflowmap->cols; x=step+x){
@@ -81,6 +111,10 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             // Get the spatial arrangement of optical flow component
             //printf("%0.2f ", yStore[i]);
 
+            pValue = PyInt_FromLong(xStore[i]);
+            PyTuple_SetItem(pXArgs, i, pValue);
+            pValue = PyInt_FromLong(yStore[i]);
+            PyTuple_SetItem(pYArgs, i, pValue);
             i=i+1;
 
 
@@ -89,20 +123,38 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 		//printf("\n");
 	}
 
+
+	PyTuple_SetItem(pX, 0, pXArgs);
+	PyTuple_SetItem(pY, 0, pYArgs);
+
+    pValue = PyObject_CallObject(pFunc, pX);
+    Py_DECREF(pX);
+    printf("Result of call: %0.2f\n", PyInt_AsLong(pValue));
+
+    pValue = PyObject_CallObject(pFunc, pY);
+    Py_DECREF(pY);
+    printf("Result of call: %0.2f\n", PyInt_AsLong(pValue));
+
+//    Py_DECREF(pXArgs);
+//    Py_DECREF(pYArgs);
+//    Py_DECREF(pValue);
+
 	//printf("\t cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
+
+    //Py_Finalize();
+
+
 
 	Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
 
 	//double xMedian=componentMedian(xStore, i, 3);
 	//double yMedian=componentMedian(yStore, i, 3);
 
-
-
 	return medianDegree;
 
-
-
 }
+
+
 
 Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
     //Convert the input from RGB to Grayscale
@@ -128,7 +180,6 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
     Opticalflow medianflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
     //cvShowImage("OpticalFlowFarneback", cflow);
     //cvWaitKey(0);
-
 
 	cvReleaseImage(&imgA);
 	cvReleaseMat(&gray);

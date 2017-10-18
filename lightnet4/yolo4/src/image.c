@@ -31,7 +31,6 @@
 
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
-#include "/usr/include/python2.7/Python.h"
 
 
 
@@ -350,68 +349,67 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
-
-
-    PyObject *pName, *pModule, *pDict, *pFunc;
-    PyObject *pArgs, *pValue;
-
-    setenv("PYTHONPATH","./src",1);
-    Py_Initialize();
-    //PySys_SetPath("src");
-    pName = PyBytes_FromString("flist");
-    pModule = PyImport_Import(pName);
-    Py_DECREF(pName);
-
-    if (pModule != NULL) {
-        pFunc = PyObject_GetAttrString(pModule, "showHistogram");
-        /* pFunc is a new reference */
-
-        if (pFunc && PyCallable_Check(pFunc)) {
-            pArgs = PyTuple_New(1);
-            //for (i = 0; i < argc - 3; ++i) {
-            pValue = PyInt_FromLong(5);
-            if (!pValue) {
-            	Py_DECREF(pArgs);
-                Py_DECREF(pModule);
-                fprintf(stderr, "Cannot convert argument\n");
-                assert(0);
-            }
-                /* pValue reference stolen here: */
-            PyTuple_SetItem(pArgs, 0, pValue);
-
-            pValue = PyObject_CallObject(pFunc, pArgs);
-            Py_DECREF(pArgs);
-            if (pValue != NULL) {
-                printf("Result of call: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else {
-                Py_DECREF(pFunc);
-                Py_DECREF(pModule);
-                PyErr_Print();
-                fprintf(stderr,"Call failed\n");
-                assert(0);
-            }
-        }
-        else {
-            if (PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-        Py_DECREF(pModule);
-    }
-    else {
-        PyErr_Print();
-        fprintf(stderr, "Failed to load \n");
-        assert(0);
-    }
-    Py_Finalize();
-
-
-
-
-
+//    PyObject *pName, *pModule, *pDict, *pFunc;
+//    PyObject *pArgs, *pValue, *pValue2, *pInput;
+//
+//    setenv("PYTHONPATH","./src",1);
+//    Py_Initialize();
+//    //PySys_SetPath("src");
+//    pName = PyBytes_FromString("flist");
+//    pModule = PyImport_Import(pName);
+//    Py_DECREF(pName);
+//
+//    if (pModule != NULL) {
+//        pFunc = PyObject_GetAttrString(pModule, "multiplyTuple");
+//        /* pFunc is a new reference */
+//
+//        if (pFunc && PyCallable_Check(pFunc)) {
+//            pArgs = PyTuple_New(2);
+//            pInput=PyTuple_New(1);
+//            //for (i = 0; i < argc - 3; ++i) {
+//            pValue = PyInt_FromLong(5);
+//            pValue2= PyInt_FromLong(6);
+//
+//            if (!pValue) {
+//            	Py_DECREF(pArgs);
+//                Py_DECREF(pModule);
+//                fprintf(stderr, "Cannot convert argument\n");
+//                assert(0);
+//            }
+//                /* pValue reference stolen here: */
+//            PyTuple_SetItem(pArgs, 0, pValue);
+//            PyTuple_SetItem(pArgs, 1, pValue2);
+//            PyTuple_SetItem(pInput, 0, pArgs);
+//
+//            pValue = PyObject_CallObject(pFunc, pInput);
+//            Py_DECREF(pInput);
+//            Py_DECREF(pArgs);
+//            if (pValue != NULL) {
+//                printf("Result of call: %ld\n", PyInt_AsLong(pValue));
+//                Py_DECREF(pValue);
+//            }
+//            else {
+//                Py_DECREF(pFunc);
+//                Py_DECREF(pModule);
+//                PyErr_Print();
+//                fprintf(stderr,"Call failed\n");
+//                assert(0);
+//            }
+//        }
+//        else {
+//            if (PyErr_Occurred())
+//                PyErr_Print();
+//            fprintf(stderr, "Cannot find function\n");
+//        }
+//        Py_XDECREF(pFunc);
+//        Py_DECREF(pModule);
+//    }
+//    else {
+//        PyErr_Print();
+//        fprintf(stderr, "Failed to load \n");
+//        assert(0);
+//    }
+//    Py_Finalize();
 
     if(object_num>0){//frame_num=2 and above
     	int p;
@@ -420,6 +418,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         if(frame_num>debug_frame){
             printf("Wake up!\n");
+
+
 
 
         }
@@ -465,8 +465,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		average_result=updateFlow(average_result, preFlow, 0.5);
                 		printf("\t Degree updates to %0.0f\n", average_result.degree);
                 		object_prenum=object_prenum-1;
-
-
 
                 		break;
                 	}
