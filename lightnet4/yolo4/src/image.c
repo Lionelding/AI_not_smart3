@@ -467,10 +467,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		object_prenum=object_prenum-1;
 
                 		break;
+
+
                 	}
 
             		headcount=headcount->next;
-
         	}
 
     		CvPoint boxcenter=cvPoint(box_para[idx_store[p]][0]+(box_para[idx_store[p]][2]/2), box_para[idx_store[p]][1]+(box_para[idx_store[p]][3])/2);
@@ -499,6 +500,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         			float** probsMore=getProbsMore(1);
         			int ctbumping=lookAround(probsMore, probs, num, idx_store[p], box_para[idx_store[p]][4], box_para[idx_store[p]][5], thresh, average_result.degree);
         			printf("\t Object %i is moving: %i\n",box_para[idx_store[p]][9], ctbumping);
+
+
 
 
         		}

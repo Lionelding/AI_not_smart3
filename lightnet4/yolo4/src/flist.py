@@ -36,9 +36,10 @@ def showHistogram(inString):
     # meanlist=[]
     # covarlist=[]
     print inString
+    print len(inString)
+    print type(inString[-1])
     listFloat=list(sorted(inString))
-    print listFloat
-    print type(listFloat[0])
+
 
 
     fig, (ax00, ax01, ax10, ax11) = plt.subplots(ncols=4, figsize=(8, 4))

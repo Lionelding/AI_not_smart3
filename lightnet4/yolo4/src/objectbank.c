@@ -64,8 +64,8 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 	int tr=(cflowmap->rows/step)+1;
 	int tc=(cflowmap->cols/step)+1;
 	double degreeStore[tr*tc];
-	double xStore[tr*tc];
-	double yStore[tr*tc];
+//	double xStore[tr*tc];
+//	double yStore[tr*tc];
 	double xcomponent;
 	double ycomponent;
 	int i=0;
@@ -91,8 +91,8 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
     pY= PyTuple_New(1);
 
 
-	for(y = 0; y < cflowmap->rows; y= step+y){
-		for(x = 0; x < cflowmap->cols; x=step+x){
+	for(y = 0; y <cflowmap->rows; y= step+y){
+		for(x = 0; x <cflowmap->cols; x=step+x){
 
 			CvPoint2D32f fxy = CV_MAT_ELEM(*flow, CvPoint2D32f, y, x);
 			CvPoint start=cvPoint(x, y);
@@ -105,27 +105,26 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
             degreeStore[i]=degree+0.01*magnitude;
 
-            xStore[i]=end.x-start.x;
-            yStore[i]=end.y-start.y;
+//            xStore[i]=(int)(end.x-start.x);
+//            yStore[i]=(int)(end.y-start.y);
 
-            // Get the spatial arrangement of optical flow component
-            //printf("%0.2f ", yStore[i]);
-
-            pValue = PyInt_FromLong(xStore[i]);
+            pValue = PyInt_FromLong((end.x-start.x));
             PyTuple_SetItem(pXArgs, i, pValue);
-            pValue = PyInt_FromLong(yStore[i]);
+            pValue = PyInt_FromLong((end.y-start.y));
             PyTuple_SetItem(pYArgs, i, pValue);
             i=i+1;
 
 
 		}
 
-		//printf("\n");
 	}
 
 
 	PyTuple_SetItem(pX, 0, pXArgs);
 	PyTuple_SetItem(pY, 0, pYArgs);
+
+//	Py_DECREF(pXArgs);
+//	Py_DECREF(pYArgs);
 
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
