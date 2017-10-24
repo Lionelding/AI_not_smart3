@@ -610,7 +610,7 @@ THESIS:
 
 	6. To determine when to use 1 or 2 components
 
-	7. Update/Recalculate 
+	7. Update/Recalculate
 
 	
 
