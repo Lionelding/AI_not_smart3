@@ -2,24 +2,14 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import mixture
-from scipy import linalg
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import itertools
-
 import matplotlib.mlab as mlab
 import math
-
 import heapq
-from matplotlib.ticker import FuncFormatter
 #from collections import Counter
 
 sys.path.insert(0, "/home/liqiang/AI_not_smart3/lightnet4/yolo4/src")
-
-
-
-color_iter = itertools.cycle(['navy', 'c', 'cornflowerblue', 'gold',
-                              'darkorange'])
+color_iter = itertools.cycle(['navy', 'c', 'cornflowerblue', 'gold', 'darkorange'])
 
 def multiply(a):
     print "Will compute", a, "times", a
@@ -29,7 +19,6 @@ def multiply(a):
 
 def showHistogram(inString):
     ## Initialization
-
 
     fig, (ax00, ax01, ax10, ax11) = plt.subplots(ncols=4, figsize=(8, 4))
     

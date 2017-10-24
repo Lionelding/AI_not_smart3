@@ -613,4 +613,10 @@ THESIS:
 	7. Update/Recalculate
 
 	
+#####	Week of 20171010	#####
+
+1. Test Gaussian Mixture Model with Random and Kmeans Initialization 
+
+2. McGill Thesis Requirement: https://www.mcgill.ca/gps/thesis/thesis-guidelines/preparation
+
 
