@@ -1,0 +1,55 @@
+Ground Truth: 
+
+mu=0
+sigma=0.3
+
+1 Component:
+
+Random Initialization
+	(1000L, 1L)
+	Means:
+		[0.007340782821869913]
+	Covariance: 
+		[0.08921881749055212]
+	Converged: 
+		True
+	Iterations: 
+		1
+
+
+Kmeans Initialization
+	(1000L, 1L)
+	Means:
+		[0.00020692501248815277]
+	Covariance: 
+		[0.08695154619022347]
+	Converged: 
+		True
+	Iterations: 
+		1
+
+2 Components:
+
+Random Initialization
+
+	(1000L, 1L)
+	Means:
+	        [-0.004371590492247557, -0.011607080257733715]
+	Covariance:
+	        [0.08927943304885415, 0.09013460443145187]
+	Converged:
+	        True
+	Iterations:
+	        1
+
+Kmeans Initialization
+
+	(1000L, 1L)
+	Means:
+		[0.19028366835086719, -0.19032260237380008]
+	Covariance: 
+		[0.058853347867387266, 0.05715117744002996]
+	Converged: 
+		True
+	Iterations: 
+		6
