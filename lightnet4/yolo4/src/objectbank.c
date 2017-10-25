@@ -61,13 +61,11 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
 	int x, y;
 	(void) scale;
-	int tr=(cflowmap->rows/step)+1;
-	int tc=(cflowmap->cols/step)+1;
+	int tr=(cflowmap->rows%step==0)?(cflowmap->rows/step):((cflowmap->rows/step)+1);
+	int tc=(cflowmap->cols%step==0)?(cflowmap->cols/step):((cflowmap->cols/step)+1);
 	double degreeStore[tr*tc];
-//	double xStore[tr*tc];
-//	double yStore[tr*tc];
-	double xcomponent;
-	double ycomponent;
+	float xcomponent;
+	float ycomponent;
 	int i=0;
 
     PyObject *pName, *pModule, *pDict, *pFunc;
@@ -76,12 +74,8 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
     setenv("PYTHONPATH","./src",1);
     Py_Initialize();
-    //PySys_SetPath("src");
     pName = PyBytes_FromString("flist");
-
     pModule = PyImport_Import(pName);
-
-
     Py_DECREF(pName);
 
     pFunc = PyObject_GetAttrString(pModule, "showHistogram");
@@ -105,9 +99,6 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
             degreeStore[i]=degree+0.01*magnitude;
 
-//            xStore[i]=(int)(end.x-start.x);
-//            yStore[i]=(int)(end.y-start.y);
-
             pValue = PyInt_FromLong((end.x-start.x));
             PyTuple_SetItem(pXArgs, i, pValue);
             pValue = PyInt_FromLong((end.y-start.y));
@@ -128,11 +119,13 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
-    printf("Result of call: %0.2f\n", PyInt_AsLong(pValue));
+    xcomponent=PyInt_AsLong(pValue);
+    printf("Result of call: %0.2f\n", xcomponent);
 
     pValue = PyObject_CallObject(pFunc, pY);
     Py_DECREF(pY);
-    printf("Result of call: %0.2f\n", PyInt_AsLong(pValue));
+    ycomponent=PyInt_AsLong(pValue);
+    printf("Result of call: %0.2f\n", ycomponent);
 
 //    Py_DECREF(pXArgs);
 //    Py_DECREF(pYArgs);
@@ -142,7 +135,7 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
     //Py_Finalize();
 
-
+//    int degree=computeDegree(0,0+xcomponent,0,0+ycomponent);
 
 	Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
 

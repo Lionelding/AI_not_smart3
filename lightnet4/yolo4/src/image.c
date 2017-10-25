@@ -349,6 +349,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
+
 //    PyObject *pName, *pModule, *pDict, *pFunc;
 //    PyObject *pArgs, *pValue, *pValue2, *pInput;
 //
@@ -418,9 +419,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         if(frame_num>debug_frame){
             printf("Wake up!\n");
-
-
-
 
         }
 
@@ -1241,10 +1239,10 @@ image make_empty_image(int w, int h, int c)
 }
 
 int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y){
-
 	if(sum_p0_x==sum_p1_x && sum_p0_y==sum_p1_y){
 		return 0;
 	}
+
 
     int degree=atan((sum_p1_y-sum_p0_y)/(sum_p1_x-sum_p0_x))*(180.0/3.1415926);
     if (degree>0){
@@ -1287,6 +1285,8 @@ int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_
 int computeMagnitude(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y){
 	int magnitude=sqrt(pow(abs(sum_p0_x-sum_p1_x), 2)+pow(abs(sum_p0_y-sum_p1_y),2));
 	return magnitude;
+
+
 }
 
 
