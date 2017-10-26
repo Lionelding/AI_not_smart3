@@ -615,8 +615,29 @@ THESIS:
 	
 #####	Week of 20171010	#####
 
-1. Test Gaussian Mixture Model with Random and Kmeans Initialization 
+THESIS:
 
-2. McGill Thesis Requirement: https://www.mcgill.ca/gps/thesis/thesis-guidelines/preparation
+1. Test Gaussian Mixture Model with Random and Kmeans Initialization 
+	Create a gaussian distribution given a mean and variance
+	Generate 1000 samples from this distribution
+	Use GMM with 2 components and with Random and Kmeans Initialization to fit the historgram
+	The two gaussian curves with Random Init closely overlap with each other, and fit the data well
+	The two gaussian curves with Kmeans Init occur on the left and right hand sides of the actual data respectively, does not fit the data well
+	Conclusion: Use random Init if it only requires one guassian model   
+
+2. [0 0 0 1 1 1]
+	
+	Random mean: [0.4726827640411585, 0.5349342086886124
+
+	Kmeans mean: [0.0, 0.9999999999999992]
+	
+3. Four stiuations:
+
+	Case 1: Nothing moves, all zeros
+	Case 2: objects inside the bounding box moves, background does not move. (some zeros, some non-zeros)
+	Case 3: small bounding box, no background, object moves (all values are non-zeros)
+	Case 4: bounding box too big, objects does not move, the background is moving 
+
+3. McGill Thesis Requirement: https://www.mcgill.ca/gps/thesis/thesis-guidelines/preparation
 
 

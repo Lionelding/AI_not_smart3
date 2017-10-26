@@ -5,8 +5,11 @@ from sklearn import mixture
 import math
 import heapq
 
-Graph=0
-Org=0
+Graph=1
+Org=1
+extremeClipping=1
+
+
 if(Graph):
     import matplotlib.pyplot as plt
     import matplotlib.mlab as mlab
@@ -14,7 +17,7 @@ if(Graph):
 
 modelName="GaussianMixture"
 modelComponent=2
-initial='kmeans'
+initial='random'
 
 #from collections import Counter
 
@@ -52,13 +55,13 @@ def showHistogram(inString):
     if(Graph or Org):
         ## ax01: Plot the Normalized Histogram
         #weights=np.ones_like(listFloat)/len(listFloat)
-        ax01.hist(listFloat, bins=len(listFloat), normed=1, facecolor='b', histtype='stepfilled')
+        ax01.hist(listFloat, bins=len(listFloat), normed=1, facecolor='b', histtype='bar')
         ax01.set_title("Normalized Histogram")
         plotGaussian(ax01, len(listFloat), meanlist, covarlist)
 
 
     ## Perform Maximum Clipping
-    listFloat=maximumClipping(listFloat, 0);
+    listFloat, bigmean=maximumClipping(listFloat, 0);
 
 
     ## Fit the modified data to Gaussian Mixture Model
@@ -73,7 +76,7 @@ def showHistogram(inString):
     
         ## ax11: Plot the Normalized Histogram after maximum clipping
         #weights=np.ones_like(listFloat)/len(listFloat)
-        n, bins, patches =ax11.hist(listFloat, bins=len(listFloat), normed=1, facecolor='b', histtype='stepfilled')
+        n, bins, patches =ax11.hist(listFloat, bins=len(listFloat), normed=1, facecolor='b', histtype='bar')
         ax11.set_title("Normalized & Maximum Clipping")
         plotGaussian(ax11, len(listFloat), meanlist, covarlist)
 
@@ -82,7 +85,24 @@ def showHistogram(inString):
         plt.show()
 
 
-    return int(round(meanlist[0][1]))   
+    meanValue=findMaxMin(meanlist, bigmean)
+    print meanValue
+    return int(round(meanValue))   
+
+def findMaxMin(meanlist, bigmean):
+
+    absmin=0
+    absmax=0
+    for x in range(len(meanlist[0])):
+        if(abs(meanlist[0][x])>abs(absmax)):
+            absmax=meanlist[0][x]
+        if(abs(meanlist[0][x])<abs(absmin)):
+            absmin=meanlist[0][x]
+
+    if(bigmean):
+        return absmax
+    return absmin 
+
 
 def plotGaussian(axx, bins, meanlist, covarlist):
 
@@ -113,27 +133,39 @@ def maximumClipping(listFloat, diff):
     max3=heapq.nlargest(2, dictionary, key=dictionary.get)
     oldMax0=dictionary[max3[0]]
 
-    if(oldMax0==len(listFloat)):
-        print "Only one value exits"
-        return listFloat
 
+    ## Case 1 or Case 3: Completely stop or Completely Moving 
+    if(oldMax0==len(listFloat)):
+        if(oldMax0==0):
+            print "Completely Stops"
+        else: 
+            print "In Motion"
+        return listFloat, 0
+
+    ## Case 4: Foreground stops and background moves
+    if((oldMax0*1.0/len(listFloat))>0.7 and max3[0]==0):
+        print "Fg stops and Bg moves"
+        return listFloat, 0 
 
     oldMax1=dictionary[max3[1]]
-
     print "\nLargest Two Elements with Values: "
     print "\t"+str(max3[0])+": "+str(oldMax0)+", "+str(max3[1])+": "+str(oldMax1)
 
+
+    ## Case 2: Foreground move and background stops
     if (max3[0]==0 and (dictionary[max3[0]]-dictionary[max3[1]])>diff):
-        dictionary[max3[0]]=dictionary[max3[1]]+diff
+        if(extremeClipping):
+            dictionary[max3[0]]=0
+        else:
+            dictionary[max3[0]]=dictionary[max3[1]]+diff
         newMax0=dictionary[max3[0]]
     
         print "\nClipped Largest Two Elements with Values: "
         print "\t"+str(max3[0])+": "+str(newMax0)+", "+str(max3[1])+": "+str(oldMax1)
-        
 
     else:
-        print "The Largest Value is not zero, no need to clip"
-        return listFloat
+        print "The Largest Value is not zero, No need to clip"
+        return listFloat, 1
 
 
     ## Find the starting point of 0
@@ -142,10 +174,8 @@ def maximumClipping(listFloat, diff):
         ii=ii+1
 
     del listFloat[(ii+newMax0):(oldMax0+ii)]  
-    #print listFloat
-    return listFloat
-
-
+    print "Fg moves and Bg stops"
+    return listFloat, 1
 
 def gaussianMixtureModel(inList, modelName, modelComponent, initial):
 
@@ -157,7 +187,9 @@ def gaussianMixtureModel(inList, modelName, modelComponent, initial):
     if(modelName=="GaussianMixture"):
 
         print "Shape of Input: "+str(arrayFloat.shape)
-        gmm = mixture.GaussianMixture(n_components=modelComponent, init_params=initial, covariance_type='full', max_iter=100).fit(X)
+        print arrayFloat
+        gmm = mixture.GaussianMixture(n_components=modelComponent, init_params=initial, covariance_type='full', max_iter=50).fit(X)
+        
         print "Means:"
         print "\t"+str([float(x) for x in gmm.means_])
         print "Covariance: "
@@ -257,10 +289,11 @@ xString="0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0
 yString="-12.00 -11.00 -10.00 -10.00 -10.00 -9.00 -8.00 -8.00 -8.00 -8.00 -8.00 -8.00 -7.00 -7.00 -7.00 -7.00 -6.00 -6.00 -6.00 -6.00 -6.00 -6.00 -5.00 -5.00 -5.00 -5.00 -5.00 -4.00 -4.00 -4.00 -4.00 -4.00 -4.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -3.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -2.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 2.00 2.00 2.00 2.00 2.00 2.00 2.00 2.00 3.00 3.00 3.00 3.00 3.00 4.00 5.00 7.00"
 zString="1.00 2.00 3.00 2.00 3.00 3.00 4.00 5.00 4.00"
 zzString="1 2 3 2 3 3 4 5 4"
-testTuple=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+o1=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1)
 t=(0, 0, 0, 3, 4, 4, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 4, 4, 6, 6, 5, 6, 2, 0, 0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 4, 5, 6, 0, 0, 0, 3, 4, 4, 5, 7, 7, 4, 2, 6, 6, 7, 4, 0, 4, 5, 2, 6, 7, 7, 7, 7, 0, 0, 8, 7, 0, 1, 4, 3, 2, 1, 8, 8, 8, 9, 8, 1, -3, 0, 0, 0, 0, 0, 4, 7, 7, 8, 8, 9, -1, -3, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 7, 4)
 x=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4)
 y=(0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,3,3,3,3,  3,3,3,3,3,  3,3,3,3,3,3,  3)
-z=(0, 0, 0, 1, 1, 1, 1, 2)
+z=(0, 0, 0,0,0,1, 1, 1, 1, 1,1,1)
+zz=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1,1)
 showHistogram(z)
 #testGaussianMixture()
