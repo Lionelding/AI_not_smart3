@@ -346,7 +346,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=3;
+    int debug_frame=30;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -465,6 +465,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		object_prenum=object_prenum-1;
 
                 		break;
+
 
 
                 	}
@@ -704,8 +705,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
             printf("\t Frame: %s Class: %s %0.f%%, index: %i, row: %0.0f, col: %0.0f, n:%0.0f objectIndex: %d\n", fr, names[class], prob*100, i, probs[i][81], probs[i][82], probs[i][83], objectIndex2);
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
-
-
 //            if (alphabet) {
 //            	//Print the frame number, bbox number, object number to each label
 //            	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
@@ -733,6 +732,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     pre_im=copy_image(screenshot);
     free_image(screenshot);
     frame_num=frame_num+1;
+
+
 }
 
 void transpose_image(image im)
@@ -1242,8 +1243,6 @@ int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_
 	if(sum_p0_x==sum_p1_x && sum_p0_y==sum_p1_y){
 		return 0;
 	}
-
-
     int degree=atan((sum_p1_y-sum_p0_y)/(sum_p1_x-sum_p0_x))*(180.0/3.1415926);
     if (degree>0){
     	if (sum_p1_x>sum_p0_x){
@@ -1278,7 +1277,6 @@ int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_
 
     	}
     }
-
     return degree;
 }
 
