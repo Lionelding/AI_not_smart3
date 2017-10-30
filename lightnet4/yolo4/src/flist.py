@@ -174,7 +174,6 @@ def maximumClipping(listFloat, diff):
         del listFloat[(ii):(2+ii)]  
         return listFloat, 1
 
-
     ## Find the starting point of 0
     ii=0
     while (listFloat[ii]!=0):
