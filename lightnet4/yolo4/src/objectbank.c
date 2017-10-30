@@ -145,8 +145,6 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 //	Py_DECREF(pXArgs);
 //	Py_DECREF(pYArgs);
 
-
-
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
     xcomponent=PyInt_AsLong(pValue);
@@ -164,14 +162,16 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
     //Py_Finalize();
 
     int degree=computeDegree(0,0,xcomponent,ycomponent);
+    int magnitude=computeMagnitude(0,0,xcomponent,ycomponent);
+    printf("\t GMMDegree: %i, GMMMagnitude: %i\n", degree, magnitude);
+    Opticalflow GMMflow=create_opticalflowFB(degree, magnitude);
 
-
-	Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
+	//Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
 
 	//double xMedian=componentMedian(xStore, i, 3);
 	//double yMedian=componentMedian(yStore, i, 3);
 
-	return medianDegree;
+	return GMMflow;
 
 }
 

@@ -346,7 +346,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=30;
+    int debug_frame=350;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -445,7 +445,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     		snode* headcount=headconstant;
 
         	while (headcount!=NULL){//frame>2
-
         			int headnumber=headcount->data;
             		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", headnumber, box_full[headnumber].flow.degree, box_full[headnumber].flow.magnitude, box_full[headnumber].objectIndex);
 
@@ -465,8 +464,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		object_prenum=object_prenum-1;
 
                 		break;
-
-
 
                 	}
 
@@ -1283,8 +1280,6 @@ int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_
 int computeMagnitude(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y){
 	int magnitude=sqrt(pow(abs(sum_p0_x-sum_p1_x), 2)+pow(abs(sum_p0_y-sum_p1_y),2));
 	return magnitude;
-
-
 }
 
 
