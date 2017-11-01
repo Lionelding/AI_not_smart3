@@ -63,12 +63,12 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 	(void) scale;
 	int tr=(cflowmap->rows%step==0)?(cflowmap->rows/step):((cflowmap->rows/step)+1);
 	int tc=(cflowmap->cols%step==0)?(cflowmap->cols/step):((cflowmap->cols/step)+1);
-	double degreeStore[tr*tc];
+	//double degreeStore[tr*tc];
 	float xcomponent;
 	float ycomponent;
 	int i=0;
 
-    PyObject *pName, *pModule, *pDict, *pFunc;
+    PyObject *pName, *pModule, *pFunc;
     PyObject *pXArgs, *pYArgs, *pValue, *pX, *pY;
 
 
@@ -84,35 +84,6 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
     pX= PyTuple_New(1);
     pY= PyTuple_New(1);
 
-
-//    PyObject *pZArgs;PyObject *pZ;
-//	pZArgs = PyTuple_New(8);
-//	pZ= PyTuple_New(1);
-//
-//	pValue = PyInt_FromLong(-1);
-//	PyTuple_SetItem(pZArgs, 0, pValue);
-//	pValue = PyInt_FromLong(-1);
-//	PyTuple_SetItem(pZArgs, 1, pValue);
-//	pValue = PyInt_FromLong(0);
-//	PyTuple_SetItem(pZArgs, 2, pValue);
-//	pValue = PyInt_FromLong(0);
-//	PyTuple_SetItem(pZArgs, 3, pValue);
-//	pValue = PyInt_FromLong(1);
-//	PyTuple_SetItem(pZArgs, 4, pValue);
-//	pValue = PyInt_FromLong(1);
-//	PyTuple_SetItem(pZArgs, 5, pValue);
-//	pValue = PyInt_FromLong(1);
-//	PyTuple_SetItem(pZArgs, 6, pValue);
-//	pValue = PyInt_FromLong(1);
-//	PyTuple_SetItem(pZArgs, 7, pValue);
-//	PyTuple_SetItem(pZ, 0, pZArgs);
-//    pValue = PyObject_CallObject(pFunc, pZ);
-//    Py_DECREF(pZ);
-//    int zcomponent;
-//	zcomponent=PyInt_AsLong(pValue);
-//	printf("zcomponent: %0.2f\n", zcomponent);
-
-
 	for(y = 0; y <cflowmap->rows; y= step+y){
 		for(x = 0; x <cflowmap->cols; x=step+x){
 
@@ -123,9 +94,10 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
             cvLine(cflowmap, cvPoint(x,y), cvPoint(cvRound(x+fxy.x), cvRound(y+fxy.y)),color, 1, 8, 0);
             cvCircle(cflowmap, cvPoint(x,y), 2, color, -1, 8, 0);
 
-            float degree=computeDegree(start.x, start.y, end.x, end.y);
-            int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
-            degreeStore[i]=degree+0.01*magnitude;
+            //Uncomment if use Median Filter
+//            float degree=computeDegree(start.x, start.y, end.x, end.y);
+//            int magnitude=computeMagnitude(start.x, start.y, end.x, end.y);
+//            degreeStore[i]=degree+0.01*magnitude;
 
             pValue = PyInt_FromLong((end.x-start.x));
             PyTuple_SetItem(pXArgs, i, pValue);
@@ -142,20 +114,17 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 	PyTuple_SetItem(pX, 0, pXArgs);
 	PyTuple_SetItem(pY, 0, pYArgs);
 
-//	Py_DECREF(pXArgs);
-//	Py_DECREF(pYArgs);
-
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
     xcomponent=PyInt_AsLong(pValue);
     pValue = PyObject_CallObject(pFunc, pY);
     Py_DECREF(pY);
     ycomponent=PyInt_AsLong(pValue);
-    printf("xcomponent: %0.2f, ycomponent: %0.2f\n", xcomponent, ycomponent);
+    printf("\txcomponent: %0.2f, ycomponent: %0.2f\n", xcomponent, ycomponent);
 
 //    Py_DECREF(pXArgs);
 //    Py_DECREF(pYArgs);
-//    Py_DECREF(pValue);
+    //Py_DECREF(pValue);
 
 	//printf("\t cflowmap->row: %i, cflowmap->col: %i, tr: %i, tc: %i, i: %i\n", cflowmap->rows, cflowmap->cols, tr, tc, i);
 
@@ -163,13 +132,11 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
     int degree=computeDegree(0,0,xcomponent,ycomponent);
     int magnitude=computeMagnitude(0,0,xcomponent,ycomponent);
-    printf("\t GMMDegree: %i, GMMMagnitude: %i\n", degree, magnitude);
+    printf("\tGMMDegree: %i, GMMMagnitude: %i\n", degree, magnitude);
     Opticalflow GMMflow=create_opticalflowFB(degree, magnitude);
 
+    //Uncomment if use Median Filter
 	//Opticalflow medianDegree=degreeMedian(degreeStore, i, 3);
-
-	//double xMedian=componentMedian(xStore, i, 3);
-	//double yMedian=componentMedian(yStore, i, 3);
 
 	return GMMflow;
 

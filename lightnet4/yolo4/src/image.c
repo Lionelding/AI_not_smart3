@@ -256,11 +256,8 @@ int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double t
 }
 
 int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex){
-
-
 	int totalcell=num/5;
 	int totalrow=(int)sqrt(totalcell);
-
 	if(preClass!=nowClass){
 		return 0;
 	}
@@ -270,7 +267,6 @@ int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int p
 	}
 
 	else if(compareFlowVector(preFlow, nowFlow, preMag,nowMag,1)){
-
 		int base=preIndex%totalcell;
 		int nn_level;
 		for(nn_level=0;nn_level<5;nn_level++){
@@ -310,14 +306,24 @@ int lookAround(float** probsLastFrame, float** probs, int num, int prevIndex, in
 
 
 //	int iii;
-//	int bbb=156;
-//	for(iii=0;iii<26;iii++){
+//	int bbb=200;
+//	for(iii=0;iii<1;iii++){
 //		probs[iii+bbb+676*0][3]=1;
 //		probs[iii+bbb+676*1][0]=1;
 //		probs[iii+bbb+676*2][0]=1;
 //		probs[iii+bbb+676*3][0]=1;
 //		probs[iii+bbb+676*4][0]=1;
 //	}
+
+//	probs[173+676*0][0]=1;
+//	probs[174+676*0][0]=1;
+//	probs[199+676*0][3]=1;
+//	probs[200+676*0][0]=1;
+//
+//	probs[173+676*1][0]=1;
+//	probs[174+676*1][0]=1;
+//	probs[199+676*1][0]=1;
+//	probs[200+676*1][0]=1;
 
 
 	if(currentProb<thresh){
@@ -341,76 +347,14 @@ int lookAround(float** probsLastFrame, float** probs, int num, int prevIndex, in
 }
 
 
-
 void draw_detections(image im, int num, float thresh, box *boxes, float **probs, char **names, image **alphabet, int classes, int **box_para, int *idx_store, Boxflow *box_full)
 {
     int i;
     int idx_count=0;
-    int debug_frame=350;
+    int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
-//    PyObject *pName, *pModule, *pDict, *pFunc;
-//    PyObject *pArgs, *pValue, *pValue2, *pInput;
-//
-//    setenv("PYTHONPATH","./src",1);
-//    Py_Initialize();
-//    //PySys_SetPath("src");
-//    pName = PyBytes_FromString("flist");
-//    pModule = PyImport_Import(pName);
-//    Py_DECREF(pName);
-//
-//    if (pModule != NULL) {
-//        pFunc = PyObject_GetAttrString(pModule, "multiplyTuple");
-//        /* pFunc is a new reference */
-//
-//        if (pFunc && PyCallable_Check(pFunc)) {
-//            pArgs = PyTuple_New(2);
-//            pInput=PyTuple_New(1);
-//            //for (i = 0; i < argc - 3; ++i) {
-//            pValue = PyInt_FromLong(5);
-//            pValue2= PyInt_FromLong(6);
-//
-//            if (!pValue) {
-//            	Py_DECREF(pArgs);
-//                Py_DECREF(pModule);
-//                fprintf(stderr, "Cannot convert argument\n");
-//                assert(0);
-//            }
-//                /* pValue reference stolen here: */
-//            PyTuple_SetItem(pArgs, 0, pValue);
-//            PyTuple_SetItem(pArgs, 1, pValue2);
-//            PyTuple_SetItem(pInput, 0, pArgs);
-//
-//            pValue = PyObject_CallObject(pFunc, pInput);
-//            Py_DECREF(pInput);
-//            Py_DECREF(pArgs);
-//            if (pValue != NULL) {
-//                printf("Result of call: %ld\n", PyInt_AsLong(pValue));
-//                Py_DECREF(pValue);
-//            }
-//            else {
-//                Py_DECREF(pFunc);
-//                Py_DECREF(pModule);
-//                PyErr_Print();
-//                fprintf(stderr,"Call failed\n");
-//                assert(0);
-//            }
-//        }
-//        else {
-//            if (PyErr_Occurred())
-//                PyErr_Print();
-//            fprintf(stderr, "Cannot find function\n");
-//        }
-//        Py_XDECREF(pFunc);
-//        Py_DECREF(pModule);
-//    }
-//    else {
-//        PyErr_Print();
-//        fprintf(stderr, "Failed to load \n");
-//        assert(0);
-//    }
-//    Py_Finalize();
 
     if(object_num>0){//frame_num=2 and above
     	int p;
@@ -419,7 +363,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         if(frame_num>debug_frame){
             printf("Wake up!\n");
-
         }
 
     	for(p=0;p<object_num;p++){
@@ -471,8 +414,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
 
     		CvPoint boxcenter=cvPoint(box_para[idx_store[p]][0]+(box_para[idx_store[p]][2]/2), box_para[idx_store[p]][1]+(box_para[idx_store[p]][3])/2);
-    		double xxx=10*sin(350*3.1415926/180);
-    		double yyy=10*sin(-10*3.1415926/180);
 
     		//The +y means going down, -y means going up
     		CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
@@ -489,15 +430,13 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
 
         		//TODO: Use the prediction infomation and optical flow vector
-        		if(frame_num>debug_frame&&box_para[idx_store[p]][9]==3){
+        		if(frame_num>debug_frame&&box_para[idx_store[p]][9]==5){
 
         			printf("4. Prob Bumping: \n");
            			printf("\t HERE! prob: %i index: %i \n", box_para[idx_store[p]][5], idx_store[p]);
         			float** probsMore=getProbsMore(1);
         			int ctbumping=lookAround(probsMore, probs, num, idx_store[p], box_para[idx_store[p]][4], box_para[idx_store[p]][5], thresh, average_result.degree);
         			printf("\t Object %i is moving: %i\n",box_para[idx_store[p]][9], ctbumping);
-
-
 
 
         		}
@@ -517,8 +456,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		temp_kalmanbox=create_kalmanfilter(boxcenter, boxvelocity);
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
-
-
 
 
         	}
@@ -543,7 +480,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvNamedWindow("im_frame",CV_WINDOW_NORMAL);
             cvShowImage("im_frame",im_frame);
 
-            if(frame_num>debug_frame){
+            if(frame_num>=debug_frame){
             	cvWaitKey(0);
             }
 
@@ -594,9 +531,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     		idx_tempprestore[xx]=0;
 
 
-
-
-
     	}
 
 
@@ -615,6 +549,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         object_num=0;
 
     }
+
+
+
 
     printf("7. Detection: \n");
     int objectIndex2=0;

@@ -641,3 +641,20 @@ THESIS:
 3. McGill Thesis Requirement: https://www.mcgill.ca/gps/thesis/thesis-guidelines/preparation
 
 
+#####	Week of 20171030	#####
+
+Kmeans:
+[-1, 0, 0, 1, 1, 1, 1, 2]
+[-2, -2, 0, 1, 1, 1, 1, 2]
+[1, 0, 1, 0, 1, 1, 0, 2] =>[0, 0, 0, 1, 1, 1, 1, 2]
+
+
+
+
+
+[-2, -1, -1, 1, 1, 1, 2, 2]
+
+Random:
+[-3, -3, -3, -3, -3, -3, -2, -2]
+
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
