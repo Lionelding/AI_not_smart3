@@ -643,18 +643,48 @@ THESIS:
 
 #####	Week of 20171030	#####
 
+
+When use GMM, 1 component works perfectly. However, when it comes to two or components, GMM starts to fail at some examples. 
 Kmeans:
-[-1, 0, 0, 1, 1, 1, 1, 2]
-[-2, -2, 0, 1, 1, 1, 1, 2]
-[1, 0, 1, 0, 1, 1, 0, 2] =>[0, 0, 0, 1, 1, 1, 1, 2]
+	Not Working:
+	[-1, 0, 0, 1, 1, 1, 1, 2]
+	[-2, -2, 0, 1, 1, 1, 1, 2]
+	[1, 0, 1, 0, 1, 1, 0, 2] =>[0, 0, 0, 1, 1, 1, 1, 2]
 
-
-
-
-
-[-2, -1, -1, 1, 1, 1, 2, 2]
+	Working:
+	[-2, -1, -1, 1, 1, 1, 2, 2]
 
 Random:
-[-3, -3, -3, -3, -3, -3, -2, -2]
+	Not Working:
+	[-3, -3, -3, -3, -3, -3, -2, -2]
 
-[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+	Working:
+	[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+Ways to perform Probab enhancing
+	1. Change the locations of bounding box in YOLO
+	2. Add additional boundning boxes suggested prediction results by Kalman Filter
+	3. Shift the image to a certain direction ??
+
+Different Situations:
+	1. Current objects match every past objects
+	
+	2. Current objects match every past objects, new objects detected
+		No need for Kalman filter
+		Assign new object number
+	3. Past objects does not match current object, due to low Prob, no new objects
+		Kalman Filter + Optical Flow
+		Keep track of Kalman filter boxes
+		Draw bounding boxes
+	3. Past objects does not match current object, due to occlusion, no new objects
+		Kalman Filter + Optical Flow
+		Keep track of Kalman filter boxes
+		Check the overlap with each other?
+		Don't draw bounding box
+	5. Past objects does not match current object, new objects detected
+		Kalman Filter + Optical Flow
+		Keep track of Kalman filter boxes
+
+
+
+
