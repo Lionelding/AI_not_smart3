@@ -643,30 +643,15 @@ THESIS:
 
 #####	Week of 20171030	#####
 
+THESIS:
+1. Deal with loss of tracking
+	Additional Bounding boxes to save the unmatched objects from YOLO
+	Keep each item inside the additional storage for a few frames.
+	In the matching process, current objects will first try to match objects from immediate last frame, try to match these unmatched objects, and then sign a new label. 
+	We keep updating the optical flow of the object inside the additional storage
 
-When use GMM, 1 component works perfectly. However, when it comes to two or components, GMM starts to fail at some examples. 
-Kmeans:
-	Not Working:
-	[-1, 0, 0, 1, 1, 1, 1, 2]
-	[-2, -2, 0, 1, 1, 1, 1, 2]
-	[1, 0, 1, 0, 1, 1, 0, 2] =>[0, 0, 0, 1, 1, 1, 1, 2]
 
-	Working:
-	[-2, -1, -1, 1, 1, 1, 2, 2]
-
-Random:
-	Not Working:
-	[-3, -3, -3, -3, -3, -3, -2, -2]
-
-	Working:
-	[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-
-Ways to perform Probab enhancing
-	1. Change the locations of bounding box in YOLO
-	2. Add additional boundning boxes suggested prediction results by Kalman Filter
-	3. Shift the image to a certain direction ??
-
-Different Situations:
+	Different Situations:
 	1. Current objects match every past objects
 	
 	2. Current objects match every past objects, new objects detected
@@ -676,7 +661,7 @@ Different Situations:
 		Kalman Filter + Optical Flow
 		Keep track of Kalman filter boxes
 		Draw bounding boxes
-	3. Past objects does not match current object, due to occlusion, no new objects
+	4. Past objects does not match current object, due to occlusion, no new objects
 		Kalman Filter + Optical Flow
 		Keep track of Kalman filter boxes
 		Check the overlap with each other?
@@ -684,6 +669,47 @@ Different Situations:
 	5. Past objects does not match current object, new objects detected
 		Kalman Filter + Optical Flow
 		Keep track of Kalman filter boxes
+
+
+	Problems:
+	1. Non-maximum surpression sometimes doesn't work well, which creates duplicated bounding box on objects. 
+	2. Need to have an efficient data strucutre to save the unmatched object
+	3. The kalman filter is not very stable during the first few frames after initialization. They will no provide good prediciton if an object has only been detected for a few frames.
+	4. Need to corportate well with optical flow 
+
+	Ways to perform Probab enhancing
+	1. Change the locations of bounding box in YOLO
+	2. Add additional boundning boxes suggested prediction results by Kalman Filter
+
+2. Boudning boxes change the coordinates and sizes frame by frame
+
+
+
+3. When use GMM, 1 component works perfectly. However, when it comes to two or components, GMM starts to fail at some examples. 
+
+	Kmeans:
+		Not Working:
+		[-1, 0, 0, 1, 1, 1, 1, 2]
+		[-2, -2, 0, 1, 1, 1, 1, 2]
+		[1, 0, 1, 0, 1, 1, 0, 2] =>[0, 0, 0, 1, 1, 1, 1, 2]
+
+		Working:
+		[-2, -1, -1, 1, 1, 1, 2, 2]
+
+	Random:
+		Not Working:
+		[-3, -3, -3, -3, -3, -3, -2, -2]
+
+		Working:
+		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+
+	Possible Reason:
+		Memory issue
+
+
+
+
 
 
 
