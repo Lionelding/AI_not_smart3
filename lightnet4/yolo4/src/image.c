@@ -571,7 +571,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             }
 
             idx_tempprestore[p]=idx_store[p]; //ADDED: store the index of bouding boxes
-
         	cvReleaseImage(&pre_boxcrop);
         	cvReleaseImage(&boxcrop);
     	}

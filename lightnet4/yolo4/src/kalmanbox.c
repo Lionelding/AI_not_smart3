@@ -20,8 +20,8 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     cvRandSetRange( &rng, 0, 0, 0 );
     rng.disttype = CV_RAND_NORMAL;
 
-    float state[4]={boxcenter.x, boxcenter.y,boxvelocity.x,boxvelocity.y};
-    float state2[2]={boxcenter.x, boxcenter.y};
+    float state[4]={boxcenter.x-10, boxcenter.y+10,boxvelocity.x,boxvelocity.y};
+    float state2[2]={boxcenter.x, boxcenter.y, boxvelocity.x, boxvelocity.y};
 
     memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
 
@@ -29,8 +29,6 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     cvZero(kalmanbox_out->z_k );
     //memcpy(kalmanbox_out->z_k->data.fl, state2, sizeof(state2));
 
-    //float initialPosition[2]={boxcenter.x, boxcenter.y};
-    //memcpy(kalmanbox_out->z_k->data.fl, initialPosition, sizeof(initialPosition));
 
 
     //TODO:modify the time
@@ -38,7 +36,7 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     const float trans_data[16]={1,0,dt,0,0,1,0,dt,0,0,1,0,0,0,0,1};
     memcpy( kalmanbox_out->kalmanfilter->transition_matrix->data.fl, trans_data, sizeof(trans_data));
 
-    kalmanbox_out->kalmanfilter->PosterState=state;
+    kalmanbox_out->kalmanfilter->PosterState=state2;
     cvSetIdentity( kalmanbox_out->kalmanfilter->measurement_matrix, cvRealScalar(1) );
     cvSetIdentity( kalmanbox_out->kalmanfilter->process_noise_cov, cvRealScalar(1e-40) ); //Q --> 'process noise covariance matrix
     cvSetIdentity( kalmanbox_out->kalmanfilter->measurement_noise_cov, cvRealScalar(1e-3) ); //R --> measurement noise covariance matrix
