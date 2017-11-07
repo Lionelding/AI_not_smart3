@@ -44,6 +44,7 @@ static int saveOpticalflow=1;
 static int objectIndex=0;
 static Boxflow *box_tempfull;
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
+static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
 
@@ -222,6 +223,8 @@ void initialize_idx_prestore(int size, int totalcell2){
 	idx_tempprestore=(int *)calloc(size, sizeof(int));
     box_tempfull=(Boxflow *)calloc(totalcell2, sizeof(Boxflow));
     box_Adfull=(Boxflow *)calloc(3, sizeof(Boxflow));
+    clock_Adfull=(int *)calloc(3, sizeof(int));
+    //clock_Adfull[3]=5;
 	return;
 }
 
@@ -306,27 +309,6 @@ int lookAround(float** probsLastFrame, float** probs, int num, int prevIndex, in
 	printf("\t probs[%i] of class[%i] drops by %0.2f\n", prevIndex, classIndex, percentDiff);
 
 
-//	int iii;
-//	int bbb=200;
-//	for(iii=0;iii<1;iii++){
-//		probs[iii+bbb+676*0][3]=1;
-//		probs[iii+bbb+676*1][0]=1;
-//		probs[iii+bbb+676*2][0]=1;
-//		probs[iii+bbb+676*3][0]=1;
-//		probs[iii+bbb+676*4][0]=1;
-//	}
-
-//	probs[173+676*0][0]=1;
-//	probs[174+676*0][0]=1;
-//	probs[199+676*0][3]=1;
-//	probs[200+676*0][0]=1;
-//
-//	probs[173+676*1][0]=1;
-//	probs[174+676*1][0]=1;
-//	probs[199+676*1][0]=1;
-//	probs[200+676*1][0]=1;
-
-
 	if(currentProb<thresh){
 		maxCellIndex=searchWithDirection(probs, num, currentBase, classIndex, prevDegree);
 		float maxProb=probs[maxCellIndex][classIndex];
@@ -381,12 +363,28 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		int width=temp.width;
 		int height=temp.height;
 
+		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
+			printf("\t Out of the Boundary!\n");
+			Boxflow nullflow=putNullInsideBox();
+			box_Adfull[0]=nullflow;
+			return;
+		}
+
 		temp.left=left;
 		temp.top=top;
 		temp.width=width;
 		temp.height=height;
 
 		box_Adfull[0]=temp;
+		clock_Adfull[0]=clock_Adfull[0]+1;
+		if(clock_Adfull[0]>10){
+			printf("\t Get rid of this additional bounding box\n");
+			Boxflow nullflow=putNullInsideBox();
+			box_Adfull[0]=nullflow;
+			return;
+
+		}
+
 
     	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, 5);
         cvWaitKey(0);
@@ -416,7 +414,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=12;
+    int debug_frame=2;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -502,7 +500,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		break;
 
                 	}
-
                 	//TODO: try to match the optical flow inside box_Adfull
                 	overlap=calculateOverlapping(box_Adfull[0], box_para[idx_store[p]]);
             		match2=objectMatch(num, average_Ad.degree, average_result.degree, average_Ad.magnitude, average_result.magnitude, box_Adfull[0].classtype, box_para[idx_store[p]][4], idx_store[p], idx_store[p]);
@@ -513,6 +510,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                     	box_para[idx_store[p]][9]=box_Adfull[0].objectIndex;
                     	Boxflow nullflow=putNullInsideBox();
                     	box_Adfull[0]=nullflow;
+                    	clock_Adfull[0]=0;
                     	printf("\t Degree stays the same\n");
                     	break;
                 	}
@@ -550,20 +548,13 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
          		Boxflow temp_boxflow=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], box_para[idx_store[p]][9]);
         		box_tempfull[idx_store[p]]=temp_boxflow;
 
+
         	}
         	else{
         		//if not matched, put the new kalman filter inside the hashtable
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
         		printf("\t New object: %i\n", objectIndex);
 
-//        		if(objectIndex==14){
-//        			probs[idx_store[p]][0]=1;
-//        			probs[idx_store[p]+676][0]=1;
-//        			probs[idx_store[p]+676*2][0]=1;
-//        			probs[idx_store[p]+676*3][0]=1;
-//        			probs[idx_store[p]+676*4][0]=1;
-//
-//        		}
         		printf("3. Kalman Filter Initilization: \n");
         		temp_kalmanbox=create_kalmanfilter(boxcenter, boxvelocity);
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);

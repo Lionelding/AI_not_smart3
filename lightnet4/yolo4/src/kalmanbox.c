@@ -20,15 +20,14 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     cvRandSetRange( &rng, 0, 0, 0 );
     rng.disttype = CV_RAND_NORMAL;
 
-    float state[4]={boxcenter.x,boxcenter.y,boxvelocity.x,boxvelocity.y};
+    float state[4]={boxcenter.x, boxcenter.y,boxvelocity.x,boxvelocity.y};
+    float state2[2]={boxcenter.x, boxcenter.y};
 
-    //	//Exact location 1  float temp[4]={1043,155,0,0};
-    //	//Exact location 3 	float temp[4]={500,583,0,0}
-    //	//EXact location 17 float temp[4]={1674,1045,0,0};
-    memcpy( kalmanbox_out->x_k->data.fl, state, sizeof(state));
+    memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
 
     kalmanbox_out->z_k = cvCreateMat( 2, 1, CV_32FC1 );
     cvZero(kalmanbox_out->z_k );
+    //memcpy(kalmanbox_out->z_k->data.fl, state2, sizeof(state2));
 
     //float initialPosition[2]={boxcenter.x, boxcenter.y};
     //memcpy(kalmanbox_out->z_k->data.fl, initialPosition, sizeof(initialPosition));
@@ -55,6 +54,7 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 
 	const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
 	printf("\t Bouding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
+	printf("\t z_k x: %0.0f, y: %0.0f\n", kalmanbox_out->z_k->data.fl[0], kalmanbox_out->z_k->data.fl[1]);
 	printf("\t x_k Current State x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
 	printf("\t y_k Predicted Center x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
 
