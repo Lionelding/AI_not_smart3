@@ -50,6 +50,7 @@ Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfu
 
 //TODO: Check static issue
 static kalmanbox* temp_kalmanbox;
+CvMat* kalmanPrediction;
 DataItem* hashArray[SIZE];
 
 int windows = 0;
@@ -523,13 +524,14 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     		CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
 
 
+
         	if(match || (match2 && overlap)){
 
         		//if matched, update the each kalman filter in the hashtable
         		printf("3. Kalman Filter Update: \n");
         		DataItem* temp_DataItem=hashsearch(hashArray, box_para[idx_store[p]][9]);
         		temp_kalmanbox=temp_DataItem->element;
-        		CvMat* y_k=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+        		kalmanPrediction=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
 
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
 
@@ -560,9 +562,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
 
+
+
         	}
-
-
 
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
         	draw_tracking(im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
@@ -592,6 +594,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
         		if(box_full[headnumber].objectIndex==5){
+            		DataItem* temp_DataItem=hashsearch(hashArray, box_full[headnumber].objectIndex);
+            		temp_DataItem->element->x_k;
         			saveUnmatched(im_frame, box_full[headnumber]);
         		}
 

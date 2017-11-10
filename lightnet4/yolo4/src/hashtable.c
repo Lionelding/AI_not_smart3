@@ -107,9 +107,9 @@ void hashdisplay(DataItem** hashArray) {
    for(i = 0; i<SIZE; i++) {
 
       if(hashArray[i] != NULL)
-         printf(" (%d,%0.0f,%0.0f)",hashArray[i]->key,hashArray[i]->element->x_k->data.fl[0], hashArray[i]->data,hashArray[i]->element->x_k->data.fl[1]);
+         printf(" (%d,%0.0f,%0.0f)",hashArray[i]->key,hashArray[i]->element->y_k->data.fl[0],hashArray[i]->element->y_k->data.fl[1]);
       else
-         printf(" ~~ ");
+         printf(" !~~! ");
    }
 
    printf("\n");

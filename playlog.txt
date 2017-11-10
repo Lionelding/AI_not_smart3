@@ -716,6 +716,6 @@ THESIS:
 	2. Modify the Kalman filter initialization. Enhance the stability. 
 		What if we make the detection a little bit further those they actual are (with the usage of optical flow)
 
-
-
+		add the optical flow to the measurement
+		add the optical flow to the prediction 
 

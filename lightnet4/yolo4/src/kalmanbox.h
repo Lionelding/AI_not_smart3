@@ -7,7 +7,7 @@ typedef struct kalmanbox{
 
 	CvKalman* kalmanfilter;
 	CvMat* x_k;
-	CvMat* w_k;
+	CvMat* y_k;
 	CvMat* z_k;
 }kalmanbox;
 

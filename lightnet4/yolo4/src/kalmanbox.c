@@ -12,14 +12,14 @@
 kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
 
     float state[4]={boxcenter.x, boxcenter.y,boxvelocity.x,boxvelocity.y};
-    float state2[2]={boxcenter.x, boxcenter.y};
-    float state3[4]={boxcenter.x+10, boxcenter.y-10, boxvelocity.x,boxvelocity.y};
-
 	kalmanbox* kalmanbox_out = (kalmanbox*)malloc(sizeof(kalmanbox));
 	kalmanbox_out->kalmanfilter=cvCreateKalman(4,2,0);
-	kalmanbox_out->x_k = cvCreateMat(4, 1, CV_32FC1 );
-	memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
 
+
+	kalmanbox_out->x_k = cvCreateMat(4, 1, CV_32FC1 );
+	//kalmanbox_out->x_k = kalmanbox_out->kalmanfilter->PriorState;
+
+	memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
     CvRandState rng;
     cvRandInit( &rng, 0, 1, -1, CV_RAND_UNI );
     cvRandSetRange( &rng, 0, 0, 0 );
@@ -28,7 +28,7 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
 
     kalmanbox_out->z_k = cvCreateMat( 2, 1, CV_32FC1 );
     cvZero(kalmanbox_out->z_k );
-    memcpy(kalmanbox_out->z_k->data.fl, state2, sizeof(state2));
+    memcpy(kalmanbox_out->z_k->data.fl, state, sizeof(state));
     printf("\t Measurement State z_k x: %0.0f, y: %0.0f\n", kalmanbox_out->z_k->data.fl[0], kalmanbox_out->z_k->data.fl[1]);
 
 
@@ -43,19 +43,16 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     cvSetIdentity( kalmanbox_out->kalmanfilter->error_cov_post, cvRealScalar(0.1));
     cvRand(&rng, kalmanbox_out->kalmanfilter->state_post);
 
-    memcpy(kalmanbox_out->kalmanfilter->PriorState, state3, sizeof(state2));
+    memcpy(kalmanbox_out->kalmanfilter->PriorState, state, sizeof(state));
 
 
     printf("\t PriorState x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->PriorState[0], kalmanbox_out->kalmanfilter->PriorState[1], kalmanbox_out->kalmanfilter->PriorState[2], kalmanbox_out->kalmanfilter->PriorState[3]);
     printf("\t state_post x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_post->data.fl[0], kalmanbox_out->kalmanfilter->state_post->data.fl[1], kalmanbox_out->kalmanfilter->state_post->data.fl[2], kalmanbox_out->kalmanfilter->state_post->data.fl[3]);
 
-    //memcpy(kalmanbox_out->kalmanfilter->state_pre, state3, sizeof(state2));
 
-//    memcpy(kalmanbox_out->kalmanfilter->MeasurementMatr, state2, sizeof(state2));
-//    memcpy(kalmanbox_out->kalmanfilter->measurement_matrix->data.fl, state2, sizeof(state2));
+    kalmanbox_out->y_k= cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
+    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->y_k->data.fl[0], kalmanbox_out->y_k->data.fl[1], kalmanbox_out->y_k->data.fl[2], kalmanbox_out->y_k->data.fl[3]);
 
-    const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
-    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
 
 	const CvMat* temp=cvKalmanCorrect(kalmanbox_out->kalmanfilter, kalmanbox_out->z_k );
 	memcpy(kalmanbox_out->x_k->data.fl, temp->data.fl, sizeof(temp));
@@ -70,8 +67,8 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 //	float state[4]={observedPt.x-10, observedPt.y+10,observedV.x,observedV.y};
 //	memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
 
-
- 	//printf("\t Bouding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
+	float t=5;
+ 	printf("\t Bouding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
 	printf("\t Previous Measurement z_k x: %0.0f, y: %0.0f\n", kalmanbox_out->z_k->data.fl[0], kalmanbox_out->z_k->data.fl[1]);
 	printf("\t Previous State x_k x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
 
@@ -83,15 +80,24 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 //	printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
 
 
-	const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
-	printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
+	//const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
+	kalmanbox_out->y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
 
-	float px=CV_MAT_ELEM(*y_k, float, 0, 0);
-	float py=CV_MAT_ELEM(*y_k, float, 1, 0);
+
+
+	float px=CV_MAT_ELEM(*kalmanbox_out->y_k, float, 0, 0)+observedV.x*t;
+	float py=CV_MAT_ELEM(*kalmanbox_out->y_k, float, 1, 0)+observedV.y*t;
+	float modified[2]={px, py};
+
+	memcpy(kalmanbox_out->y_k->data.fl, modified, sizeof(modified));
+	//memcpy(kalmanbox_out->y_k->data.fl, modified, sizeof(modified));
+
 	CvPoint predictedlefttop=cvPoint(px-width/2, py-height/2);
 	CvPoint predictedrightbot=cvPoint(px+width/2, py+height/2);
 	cvRectangle(im_frame, predictedlefttop, predictedrightbot, CVX_WHITE, 3, 8, 0 );
-
+	//printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
+    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->y_k->data.fl[0], kalmanbox_out->y_k->data.fl[1], kalmanbox_out->y_k->data.fl[2], kalmanbox_out->y_k->data.fl[3]);
+    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
 
 	float rx=CV_MAT_ELEM(*(kalmanbox_out->x_k), float, 0, 0);
@@ -103,10 +109,11 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 
 	const CvMat* temp=cvKalmanCorrect(kalmanbox_out->kalmanfilter, kalmanbox_out->z_k );
 	memcpy(kalmanbox_out->x_k->data.fl, temp->data.fl, sizeof(temp));
-	printf("\t Updated State x_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1], kalmanbox_out->x_k->data.fl[2], kalmanbox_out->x_k->data.fl[3]);
-    printf("\t state_post x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_post->data.fl[0], kalmanbox_out->kalmanfilter->state_post->data.fl[1], kalmanbox_out->kalmanfilter->state_post->data.fl[2], kalmanbox_out->kalmanfilter->state_post->data.fl[3]);
+	printf("\t Updated State x_k x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
+    printf("\t \t (Optical flow), vx: %0.0f, vy: %0.0f\n", kalmanbox_out->x_k->data.fl[2], kalmanbox_out->x_k->data.fl[3]);
+	printf("\t state_post x: %0.0f, y: %0.0f\n", kalmanbox_out->kalmanfilter->state_post->data.fl[0], kalmanbox_out->kalmanfilter->state_post->data.fl[1] );
+    printf("\t \t (Current State-Previous State), vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_post->data.fl[2], kalmanbox_out->kalmanfilter->state_post->data.fl[3]);
 
 
-
-	return y_k;
+	return kalmanbox_out->y_k ;
 }
