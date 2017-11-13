@@ -352,17 +352,31 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		printf("\t Hey, there!\n");
 
 		//TODO: Need the info from optical flow and kalman filter to set a speed offset
-		//DataItem* temp_DataItem=hashsearch(hashArray, box_full[headnumber].objectIndex);
+		DataItem* temp_DataItem=hashsearch(hashArray, in.objectIndex);
+		kalmanbox* temp_kalmanbox=temp_DataItem->element;
 //		double xoffset=in.flow.magnitude*cos(in.flow.degree/180*3.1415926);
 //		int xoff=(fabsf(xoffset-(int)xoffset)>0.5)?(xoffset+1):xoffset;
 //		double yoffset=in.flow.magnitude*sin(in.flow.degree/180*3.1415926);
 //		int yoff=-(fabsf(yoffset-(int)yoffset)>0.5)?(yoffset+1):yoffset;
 
 		Boxflow temp=in;
-		int left=temp.left+4;
-		int top=temp.top-5;
 		int width=temp.width;
 		int height=temp.height;
+
+		int left=temp_kalmanbox->y_k->data.fl[0]-width/2;
+		int top=temp_kalmanbox->y_k->data.fl[1]-height/2;
+		//int left=temp.left+4;
+		//int top=temp.top-5;
+ 		printf("\t left: %i, top: %i, width: %i, height: %i\n", left, top, width, height);
+
+		//printf("3. Kalman Filter Update: \n");
+		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
+		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
+		//CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
+
+
+ 		kalmanPrediction=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
+		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
 
 		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
 			printf("\t Out of the Boundary!\n");
@@ -594,8 +608,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
         		if(box_full[headnumber].objectIndex==5){
-            		DataItem* temp_DataItem=hashsearch(hashArray, box_full[headnumber].objectIndex);
-            		temp_DataItem->element->x_k;
         			saveUnmatched(im_frame, box_full[headnumber]);
         		}
 

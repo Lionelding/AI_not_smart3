@@ -67,7 +67,7 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 //	float state[4]={observedPt.x-10, observedPt.y+10,observedV.x,observedV.y};
 //	memcpy(kalmanbox_out->x_k->data.fl, state, sizeof(state));
 
-	float t=5;
+	float t=0;
  	printf("\t Bouding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
 	printf("\t Previous Measurement z_k x: %0.0f, y: %0.0f\n", kalmanbox_out->z_k->data.fl[0], kalmanbox_out->z_k->data.fl[1]);
 	printf("\t Previous State x_k x: %0.0f, y: %0.0f\n", kalmanbox_out->x_k->data.fl[0], kalmanbox_out->x_k->data.fl[1]);
@@ -80,7 +80,6 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 //	printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
 
 
-	//const CvMat* y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
 	kalmanbox_out->y_k = cvKalmanPredict(kalmanbox_out->kalmanfilter, 0 );
 
 
@@ -95,9 +94,9 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
 	CvPoint predictedlefttop=cvPoint(px-width/2, py-height/2);
 	CvPoint predictedrightbot=cvPoint(px+width/2, py+height/2);
 	cvRectangle(im_frame, predictedlefttop, predictedrightbot, CVX_WHITE, 3, 8, 0 );
-	//printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", y_k->data.fl[0], y_k->data.fl[1], y_k->data.fl[2], y_k->data.fl[3]);
-    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->y_k->data.fl[0], kalmanbox_out->y_k->data.fl[1], kalmanbox_out->y_k->data.fl[2], kalmanbox_out->y_k->data.fl[3]);
-    printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
+
+	printf("\t Predicted State y_k x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->y_k->data.fl[0], kalmanbox_out->y_k->data.fl[1], kalmanbox_out->y_k->data.fl[2], kalmanbox_out->y_k->data.fl[3]);
+    printf("\t Predicted State state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
 
 	float rx=CV_MAT_ELEM(*(kalmanbox_out->x_k), float, 0, 0);
