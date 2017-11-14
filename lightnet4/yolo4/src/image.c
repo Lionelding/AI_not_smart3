@@ -351,13 +351,9 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 
 		printf("\t Hey, there!\n");
 
-		//TODO: Need the info from optical flow and kalman filter to set a speed offset
 		DataItem* temp_DataItem=hashsearch(hashArray, in.objectIndex);
 		kalmanbox* temp_kalmanbox=temp_DataItem->element;
-//		double xoffset=in.flow.magnitude*cos(in.flow.degree/180*3.1415926);
-//		int xoff=(fabsf(xoffset-(int)xoffset)>0.5)?(xoffset+1):xoffset;
-//		double yoffset=in.flow.magnitude*sin(in.flow.degree/180*3.1415926);
-//		int yoff=-(fabsf(yoffset-(int)yoffset)>0.5)?(yoffset+1):yoffset;
+
 
 		Boxflow temp=in;
 		int width=temp.width;
@@ -372,12 +368,11 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		//printf("3. Kalman Filter Update: \n");
 		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
 		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
-		//CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
-
 
  		kalmanPrediction=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
 
+		//Case 1: get out of the boundiar
 		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
 			printf("\t Out of the Boundary!\n");
 			Boxflow nullflow=putNullInsideBox();
@@ -392,6 +387,8 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 
 		box_Adfull[0]=temp;
 		clock_Adfull[0]=clock_Adfull[0]+1;
+
+		//Case 2: Time is up
 		if(clock_Adfull[0]>10){
 			printf("\t Get rid of this additional bounding box\n");
 			Boxflow nullflow=putNullInsideBox();
@@ -505,6 +502,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 //                			probs[headnumber+676*4][0]=1;
 //
 //                		}
+
+
 
                 		box_full[headnumber]=nullflow;
                 		headconstant=remove_any(headconstant,headcount);
