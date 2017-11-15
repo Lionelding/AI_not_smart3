@@ -23,18 +23,24 @@ int hashCode(int key) {
 DataItem* hashsearch(DataItem** hashArray, int key) {
    //get the hash
    int hashIndex = hashCode(key);
+   int internalclock=0;
 
    //move in array until an empty
-   while(hashArray[hashIndex] != NULL) {
 
-      if(hashArray[hashIndex]->key == key)
-         return hashArray[hashIndex];
+   while(internalclock!=SIZE) {
+
+	  if(hashArray[hashIndex]!=NULL){
+	      if(hashArray[hashIndex]->key == key){
+	    	  return hashArray[hashIndex];
+	      }
+	  }
 
       //go to next cell
       ++hashIndex;
 
       //wrap around the table
       hashIndex %= SIZE;
+      internalclock++;
    }
 
    return NULL;
@@ -74,7 +80,7 @@ void hashUpdate(DataItem** hashArray, int objectIndex, kalmanbox* element){
 	return;
 }
 
-DataItem* hashdelete(DataItem** hashArray, int removedkey) {
+void hashdelete(DataItem** hashArray, int removedkey) {
    int key = removedkey;
 
    //get the hash
@@ -84,11 +90,12 @@ DataItem* hashdelete(DataItem** hashArray, int removedkey) {
    while(hashArray[hashIndex] != NULL) {
 
       if(hashArray[hashIndex]->key == key) {
-         DataItem* temp = hashArray[hashIndex];
 
          //assign a dummy item at deleted position
+    	 free(hashArray[hashIndex]->element);
+    	 free(hashArray[hashIndex]);
          hashArray[hashIndex] = dummyItem;
-         return temp;
+         return;
       }
 
       //go to next cell
@@ -98,12 +105,12 @@ DataItem* hashdelete(DataItem** hashArray, int removedkey) {
       hashIndex %= SIZE;
    }
 
-   return NULL;
+   return;
 }
 
 void hashdisplay(DataItem** hashArray) {
    int i = 0;
-
+   printf("\t");
    for(i = 0; i<SIZE; i++) {
 
       if(hashArray[i] != NULL)

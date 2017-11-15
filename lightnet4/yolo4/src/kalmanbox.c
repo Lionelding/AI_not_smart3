@@ -59,7 +59,7 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     return kalmanbox_out;
 }
 
-CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, CvPoint observedV, int width, int height){
+void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, CvPoint observedV, int width, int height){
 
  	printf("\t Bounding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
@@ -94,5 +94,5 @@ CvMat* update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
 
-	return kalmanbox_out->y_k ;
+	return;
 }

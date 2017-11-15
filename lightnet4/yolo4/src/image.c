@@ -50,7 +50,6 @@ Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfu
 
 //TODO: Check static issue
 static kalmanbox* temp_kalmanbox;
-CvMat* kalmanPrediction;
 DataItem* hashArray[SIZE];
 
 int windows = 0;
@@ -349,34 +348,36 @@ void draw_tracking(IplImage *im_frame, int left, int top, int width, int height,
 
 void saveUnmatched(IplImage *im_frame, Boxflow in){
 
-		printf("\t Hey, there!\n");
+		printf("\t temporarily save object %i\n", in.objectIndex);
 
-		DataItem* temp_DataItem=hashsearch(hashArray, in.objectIndex);
-		kalmanbox* temp_kalmanbox=temp_DataItem->element;
+		kalmanbox* temp_kalmanbox=hashsearch(hashArray, in.objectIndex)->element;
+		//kalmanbox* =temp_DataItem->element;
 
 
 		Boxflow temp=in;
 		int width=temp.width;
 		int height=temp.height;
-
 		int left=temp_kalmanbox->y_k->data.fl[0]-width/2;
 		int top=temp_kalmanbox->y_k->data.fl[1]-height/2;
-		//int left=temp.left+4;
-		//int top=temp.top-5;
+
  		printf("\t left: %i, top: %i, width: %i, height: %i\n", left, top, width, height);
 
 		//printf("3. Kalman Filter Update: \n");
 		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
 		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
 
- 		kalmanPrediction=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
+ 		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
 
 		//Case 1: get out of the boundiar
 		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
-			printf("\t Out of the Boundary!\n");
+			printf("\t Discard object %i due to out of boundaries!\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[0]=nullflow;
+
+			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
+			hashdelete(hashArray, in.objectIndex);
+
 			return;
 		}
 
@@ -385,21 +386,25 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		temp.width=width;
 		temp.height=height;
 
+
 		box_Adfull[0]=temp;
 		clock_Adfull[0]=clock_Adfull[0]+1;
 
 		//Case 2: Time is up
 		if(clock_Adfull[0]>10){
-			printf("\t Get rid of this additional bounding box\n");
+			printf("\t Discard object %i due to out of time\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[0]=nullflow;
+
+			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
+			hashdelete(hashArray, in.objectIndex);
 			return;
 
 		}
 
 
     	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, 5);
-        cvWaitKey(0);
+        //cvWaitKey(0);
         return;
 }
 
@@ -426,7 +431,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=2;
+    int debug_frame=104;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -441,7 +446,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         }
 
 
+
+
         if(box_Adfull[0].objectIndex==5){
+        	printf("0. Calculate Optical Flow for Unmatched Objects\n");
             IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
             boxcrop2=image_convert_IplImage(im, boxcrop2);
 
@@ -468,7 +476,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
             printf("\n");
-            printf("1. Calculate Optical Flow: \n");
+            printf("1. Calculate Optical Flow for Current Objects: \n");
         	//Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
         	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop);
 
@@ -508,7 +516,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		box_full[headnumber]=nullflow;
                 		headconstant=remove_any(headconstant,headcount);
                 		average_result=updateFlow(average_result, preFlow, 0.5);
-                		printf("\t Degree updates to %0.0f\n", average_result.degree);
+                		printf("\t degree updates to %0.0f\n", average_result.degree);
                 		object_prenum=object_prenum-1;
 
                 		break;
@@ -525,7 +533,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                     	Boxflow nullflow=putNullInsideBox();
                     	box_Adfull[0]=nullflow;
                     	clock_Adfull[0]=0;
-                    	printf("\t Degree stays the same\n");
+                    	printf("\t degree stays the same\n");
                     	break;
                 	}
 
@@ -542,11 +550,13 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         		//if matched, update the each kalman filter in the hashtable
         		printf("3. Kalman Filter Update: \n");
-        		DataItem* temp_DataItem=hashsearch(hashArray, box_para[idx_store[p]][9]);
-        		temp_kalmanbox=temp_DataItem->element;
-        		kalmanPrediction=update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+        		temp_kalmanbox=hashsearch(hashArray, box_para[idx_store[p]][9])->element;
+
+        		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
 
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
+
+
 
 //        		//TODO: Use the prediction infomation and optical flow vector
 //        		if(frame_num>debug_frame&&box_para[idx_store[p]][9]==5){
@@ -568,7 +578,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	else{
         		//if not matched, put the new kalman filter inside the hashtable
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
-        		printf("\t New object: %i\n", objectIndex);
+        		printf("\t new object: %i\n", objectIndex);
 
         		printf("3. Kalman Filter Initilization: \n");
         		temp_kalmanbox=create_kalmanfilter(boxcenter, boxvelocity);
@@ -591,6 +601,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	cvReleaseImage(&boxcrop);
     	}
 
+    	printf("\t before processing unmatched\n");
     	hashdisplay(hashArray);
 
     	//Draw any unmatched objects from previous frames
@@ -598,27 +609,37 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     		saveUnmatched(im_frame, box_Adfull[0]);
     	}
 
-    	printf("6. Clear: \n");
+    	printf("4. Process Unmatched Objects: \n");
     	if (object_prenum!=0){
     		snode* headcount=headconstant;
     		while(headcount!=NULL){
         		int headnumber=headcount->data;
         		Boxflow nullflow=putNullInsideBox();
 
-
-        		if(box_full[headnumber].objectIndex==5){
+        		if(headnumber==0){
+        			printf("\t skip!\n");
+        		}
+        		else if(box_full[headnumber].objectIndex==5){
         			saveUnmatched(im_frame, box_full[headnumber]);
         		}
 
         		else{
-        			printf("\t %i in box_full does not have any match\n", headnumber);
+        			//box_full[headnumber].
+
+        			kalmanbox* temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
+        			cvReleaseKalman(&(temptemp_kalmanbox->kalmanfilter));
+        			hashdelete(hashArray, box_full[headnumber].objectIndex);
+        			printf("\t object: %i (cell: %i) does not have any match\n", box_full[headnumber].objectIndex, headnumber);
         		}
+
 
         		box_full[headnumber]=nullflow;
         		headcount=headcount->next;
     		}
     		dispose(headconstant);
     	}
+    	printf("\t after processing unmatched\n");
+    	hashdisplay(hashArray);
 
 
 
