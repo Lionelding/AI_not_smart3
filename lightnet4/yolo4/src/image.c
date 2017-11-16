@@ -431,7 +431,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=300;
+    int debug_frame=500;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -440,6 +440,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	int p;
         IplImage *im_frame=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
         im_frame=image_convert_IplImage(im, im_frame);
+
 
         if(frame_num>debug_frame){
             printf("Wake up!\n");
@@ -633,8 +634,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		}
 
 
-
-
         		box_full[headnumber]=nullflow;
         		headcount=headcount->next;
     		}
@@ -650,6 +649,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
       	for(pp=0;pp<object_num;pp++){
       		printf("%i\n",idx_store[pp]);
     		box_full[idx_store[pp]]=box_tempfull[idx_store[pp]];
+
     	}
 
 
