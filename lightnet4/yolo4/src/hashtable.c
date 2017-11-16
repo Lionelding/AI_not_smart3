@@ -43,6 +43,7 @@ DataItem* hashsearch(DataItem** hashArray, int key) {
       internalclock++;
    }
 
+   assert(0 && "Hashtable Fails to Search the Element!\n");
    return NULL;
 }
 
@@ -70,13 +71,25 @@ void hashinsert(DataItem** hashArray, int key, kalmanbox* element) {
 void hashUpdate(DataItem** hashArray, int objectIndex, kalmanbox* element){
 	int key=objectIndex;
 	int hashIndex=hashCode(key);
+	int internalclock=0;
 
-	if(hashArray[hashIndex]->key==objectIndex){
-		hashArray[hashIndex]->element=element;
+	while(internalclock!=SIZE){
+		if(hashArray[hashIndex]!=NULL){
+			if(hashArray[hashIndex]->key==objectIndex){
+				hashArray[hashIndex]->element=element;
+				return;
+			}
+		}
+
+		++hashIndex;
+	    hashIndex %= SIZE;
+	    internalclock++;
+
 
 	}
 
 
+	assert(0 && "Hashtable Fails to Find the Element to Update!\n");
 	return;
 }
 
@@ -85,26 +98,32 @@ void hashdelete(DataItem** hashArray, int removedkey) {
 
    //get the hash
    int hashIndex = hashCode(key);
+   int internalclock=0;
 
    //move in array until an empty
-   while(hashArray[hashIndex] != NULL) {
+   while(internalclock!=SIZE) {
 
-      if(hashArray[hashIndex]->key == key) {
+	  if(hashArray[hashIndex] != NULL){
+	      if(hashArray[hashIndex]->key == key) {
 
-         //assign a dummy item at deleted position
-    	 free(hashArray[hashIndex]->element);
-    	 free(hashArray[hashIndex]);
-         hashArray[hashIndex] = dummyItem;
-         return;
-      }
+	         //assign a dummy item at deleted position
+	    	 free(hashArray[hashIndex]->element);
+	    	 free(hashArray[hashIndex]);
+	         hashArray[hashIndex] = dummyItem;
+	         return;
+	      }
+	  }
+
 
       //go to next cell
       ++hashIndex;
 
       //wrap around the table
       hashIndex %= SIZE;
+      internalclock++;
    }
 
+   assert(0 && "Hashtable Fails to Deleting Elements!\n");
    return;
 }
 

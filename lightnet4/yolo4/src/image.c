@@ -340,8 +340,8 @@ void draw_tracking(IplImage *im_frame, int left, int top, int width, int height,
 	cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 2, 2, 0, 3, 8);
 	cvPutText(im_frame, object, cvPoint(left, top), &font, color);
 
-    cvNamedWindow("im_frame",CV_WINDOW_NORMAL);
-    cvShowImage("im_frame",im_frame);
+    cvNamedWindow("tracking",CV_WINDOW_NORMAL);
+    cvShowImage("tracking",im_frame);
 
 	return;
 }
@@ -431,7 +431,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=104;
+    int debug_frame=300;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -446,8 +446,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         }
 
 
-
-
         if(box_Adfull[0].objectIndex==5){
         	printf("0. Calculate Optical Flow for Unmatched Objects\n");
             IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
@@ -460,6 +458,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(boxcrop2, cvRect(box_Adfull[0].left, box_Adfull[0].top, box_Adfull[0].width, box_Adfull[0].height));
             average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2);
             box_Adfull[0].flow=average_Ad;
+
+        	cvReleaseImage(&pre_boxcrop2);
+        	cvReleaseImage(&boxcrop2);
         }
 
 
@@ -471,6 +472,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
             IplImage *pre_boxcrop=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
             pre_boxcrop=image_convert_IplImage(pre_im, pre_boxcrop);
+
 
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
@@ -585,8 +587,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
 
-
-
         	}
 
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
@@ -633,6 +633,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		}
 
 
+
+
         		box_full[headnumber]=nullflow;
         		headcount=headcount->next;
     		}
@@ -668,6 +670,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
     	}
+
+
 
 
         if(saveOpticalflow){
@@ -786,25 +790,25 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
             printf("\t Frame: %s Class: %s %0.f%%, index: %i, row: %0.0f, col: %0.0f, n:%0.0f objectIndex: %d\n", fr, names[class], prob*100, i, probs[i][81], probs[i][82], probs[i][83], objectIndex2);
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
-//            if (alphabet) {
-//            	//Print the frame number, bbox number, object number to each label
-//            	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
-//                strcpy( label_frame_bbox, names[class] );
-//                strcat( label_frame_bbox, "_" );
-//                strcat( label_frame_bbox, fr );
-//                strcat( label_frame_bbox, "_" );
-//                strcat( label_frame_bbox, rw );
-//                strcat( label_frame_bbox, "_" );
-//                strcat( label_frame_bbox, cl );
-//                strcat( label_frame_bbox, "_" );
-//                strcat( label_frame_bbox, n );
-//                strcat( label_frame_bbox, "_" );
-//                strcat( label_frame_bbox, obj );
-//
-//                image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
-//                draw_label(im, top + width, left, label, rgb);
-//                free_image(label);
-//            }
+            if (alphabet) {
+            	//Print the frame number, bbox number, object number to each label
+            	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
+                strcpy( label_frame_bbox, names[class] );
+                strcat( label_frame_bbox, "_" );
+                strcat( label_frame_bbox, fr );
+                strcat( label_frame_bbox, "_" );
+                strcat( label_frame_bbox, rw );
+                strcat( label_frame_bbox, "_" );
+                strcat( label_frame_bbox, cl );
+                strcat( label_frame_bbox, "_" );
+                strcat( label_frame_bbox, n );
+                strcat( label_frame_bbox, "_" );
+                strcat( label_frame_bbox, obj );
+
+                image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
+                draw_label(im, top + width, left, label, rgb);
+                free_image(label);
+            }
 
         }
         	objectIndex2=objectIndex2+1;
@@ -1046,10 +1050,12 @@ IplImage* image_convert_IplImage(image p, IplImage *disp){
         for(x = 0; x < p.w; ++x){
             for(k= 0; k < p.c; ++k){
                 disp->imageData[y*step + x*p.c + k] = (unsigned char)(get_pixel(p,x,y,k)*255);
+
             }
         }
     }
 
+    cvCvtColor(disp, disp, CV_RGB2BGR);
 	return disp;
 
 }
