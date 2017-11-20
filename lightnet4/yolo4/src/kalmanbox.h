@@ -9,6 +9,7 @@ typedef struct kalmanbox{
 	CvMat* x_k;
 	CvMat* y_k;
 	CvMat* z_k;
+	int clock;
 }kalmanbox;
 
 

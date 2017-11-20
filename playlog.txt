@@ -719,3 +719,35 @@ THESIS:
 		add the optical flow to the measurement
 		add the optical flow to the prediction 
 
+
+#####	Week of 20171113	#####
+
+ISSUES: 
+	
+
+
+THESIS:
+
+	1. Display vidoes in 3 channels instead of single channel 
+	2. Rewrite the Kalman filter code to improve the prediction results
+	3. Worked on no-maximum supression, changing with different threshold of IOU:
+		Some objects get detected multiple times.
+		Bounding boxes of objects which are close to each other will have large overlap, resulting in accidenlty removing some bounding boxes. 
+
+		IOU calculation in YOLO:
+
+		box_iou=boxintersection(a, b)/box_union(a, b)
+
+	4. Add a clock, only apply for additional bounding boxes for objects that are detected for a few frames 
+
+	4. Worked on applying the additional boxes method for all mismatched objects
+		
+		Differentiate: 
+		putting new objects into additional bounding boxes (new obejct goes to the next available index)
+		and updating objects inside additional bounding boxes (old object stays in the same index)
+
+	5. Speed optimization 
+
+
+
+

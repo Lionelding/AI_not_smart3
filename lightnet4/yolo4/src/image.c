@@ -387,6 +387,12 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		temp.height=height;
 
 
+
+		int index=0;
+		while(box_Adfull[index]!=NULL){
+			index++;
+		}
+
 		box_Adfull[0]=temp;
 		clock_Adfull[0]=clock_Adfull[0]+1;
 
@@ -431,7 +437,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=500;
+    int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -513,8 +519,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 //                			probs[headnumber+676*4][0]=1;
 //
 //                		}
-
-
 
                 		box_full[headnumber]=nullflow;
                 		headconstant=remove_any(headconstant,headcount);
@@ -613,24 +617,26 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	printf("4. Process Unmatched Objects: \n");
     	if (object_prenum!=0){
     		snode* headcount=headconstant;
+    		kalmanbox* temptemp_kalmanbox;
+
     		while(headcount!=NULL){
         		int headnumber=headcount->data;
         		Boxflow nullflow=putNullInsideBox();
+        		temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
 
         		if(headnumber==0){
         			printf("\t skip!\n");
         		}
-        		else if(box_full[headnumber].objectIndex==5){
+        		else if((temptemp_kalmanbox->clock)>=3){
         			saveUnmatched(im_frame, box_full[headnumber]);
         		}
 
         		else{
         			//box_full[headnumber].
-
-        			kalmanbox* temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
+        			printf("\t object: %i (cell: %i) does not have any match\n", box_full[headnumber].objectIndex, headnumber);
         			cvReleaseKalman(&(temptemp_kalmanbox->kalmanfilter));
         			hashdelete(hashArray, box_full[headnumber].objectIndex);
-        			printf("\t object: %i (cell: %i) does not have any match\n", box_full[headnumber].objectIndex, headnumber);
+
         		}
 
 

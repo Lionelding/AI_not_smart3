@@ -76,7 +76,7 @@ float** getProbsMore(int number1){
 void *detect_in_thread(void *ptr)
 {
     running = 1;
-    float nms = .4;
+    float nms = 0.4;
     int temp;
 
     layer l = net.layers[net.n-1];

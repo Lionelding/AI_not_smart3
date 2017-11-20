@@ -14,9 +14,14 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
     float state[4]={boxcenter.x, boxcenter.y,boxvelocity.x,boxvelocity.y};
     float state2[2]={boxcenter.x, boxcenter.y};
 
+
     //Kalmanfilter Initialization
 	kalmanbox* kalmanbox_out = (kalmanbox*)malloc(sizeof(kalmanbox));
 	kalmanbox_out->kalmanfilter=cvCreateKalman(4,4,0);
+
+	//Initialize clock
+	kalmanbox_out->clock=1;
+	printf("\t clock: %i\n", kalmanbox_out->clock);
 
 	//Create variable to save the initial state
 	kalmanbox_out->x_k = cvCreateMat(4, 1, CV_32FC1 );
@@ -60,6 +65,10 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
 }
 
 void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint observedPt, CvPoint observedV, int width, int height){
+
+	//Update clock
+	kalmanbox_out->clock=1+kalmanbox_out->clock;
+	printf("\t clock: %i\n", kalmanbox_out->clock);
 
  	printf("\t Bounding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
