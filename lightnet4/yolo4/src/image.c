@@ -387,11 +387,11 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		temp.height=height;
 
 
-
-		int index=0;
-		while(box_Adfull[index]!=NULL){
-			index++;
-		}
+		//TODO
+//		int index=0;
+//		while(box_Adfull[index]!=NULL){
+//			index++;
+//		}
 
 		box_Adfull[0]=temp;
 		clock_Adfull[0]=clock_Adfull[0]+1;
