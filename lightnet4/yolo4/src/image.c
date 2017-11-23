@@ -437,7 +437,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=3;
+    int debug_frame=34;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -584,6 +584,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
         	else{
         		//if not matched, put the new kalman filter inside the hashtable
+        		//Added a condition to get rid of the duplicated bounding boxes
+
+
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
         		printf("\t new object: %i\n", objectIndex);
 
@@ -754,6 +757,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             float col=probs[i][82];
             float nn=probs[i][83];
 
+            //ADDED: If the bounding box exceeds certain size, we discard it
+            if((right-left)>(im.w*0.6)&&(bot-top)>(im.h*0.6)){
+            	printf("\t False Positive: Giant Detection, width: %i, height: %i\n", (right-left), (bot-top));
+            	continue;
+            }
 
             char fr[sizeof(frame_num)];
             sprintf(fr, "%d", frame_num);

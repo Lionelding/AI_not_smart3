@@ -750,4 +750,11 @@ THESIS:
 
 
 
+#####	Week of 20171120	#####
 
+THESIS:
+	1. Bounding boxes are more than objects, duplicated bounding boxes mismatch with adjcent object (Ex. 3 boxes, 2 objects)
+
+	2. Duplicated boxes on a single object 
+
+	3. Giant boxes  
