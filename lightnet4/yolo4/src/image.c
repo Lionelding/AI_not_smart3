@@ -266,10 +266,17 @@ int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int p
 		return 0;
 	}
 
+	//Case 1: same index, check if the optical flow is the same
 	else if(preIndex%totalcell==nowIndex%totalcell){
 		return compareFlowVector(preFlow, nowFlow, preMag,nowMag,6);
 	}
 
+	//Case 2: different index, and the previous optical flow is 0
+	else if(preMag==0 && (preIndex%totalcell!=nowIndex%totalcell)){
+		return 0;
+	}
+
+	//Case 3: optical flow is the same, check if the index is within the range of 3*3*5
 	else if(compareFlowVector(preFlow, nowFlow, preMag,nowMag,1)){
 		int base=preIndex%totalcell;
 		int nn_level;
@@ -433,11 +440,92 @@ int calculateOverlapping(Boxflow unmatched, int* current){
 }
 
 
+int overLappingOneDirection(int x1, int w1, int x2, int w2){
+
+	int l1 = x1;
+	int l2 = x2;
+	int left = l1 > l2 ? l1 : l2;
+	int r1 = x1 + w1;
+    int r2 = x2 + w2;
+    int right = r1 < r2 ? r1 : r2;
+    int value=right-left;
+    if(value>0){
+    	return value;
+    }
+    else{
+    	return 0;
+    }
+}
+
+int overLappingArea(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2){
+	int w=overLappingOneDirection(x1, w1, x2, w2);
+	int h=overLappingOneDirection(y1, h1, y2, h2);
+	int area;
+    if(w < 0 || h < 0) return 0;
+    area = w*h;
+    return area;
+}
+
+int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* box_full, DataItem* hashArray, float threshold){
+
+
+	int totalcell=num/5;
+	int totalrow=(int)sqrt(totalcell);
+	int possibleIndex;
+	float overLapRatio;
+
+	int base=nowIndex%totalcell;
+	int nn_level;
+	for(nn_level=0;nn_level<5;nn_level++){
+		int row;
+		for (row=-1;row<2;row++){
+			int i;
+			for (i=-1;i<2;i++){
+				possibleIndex=(base+i+totalrow*row)+totalcell*nn_level;
+
+				if(possibleIndex==nowIndex){
+					continue;
+				}
+				int x1=box_para[possibleIndex][0];
+				int y1=box_para[possibleIndex][1];
+				int w1=box_para[possibleIndex][2];
+				int h1=box_para[possibleIndex][3];
+
+				int x2=box_para[nowIndex][0];
+				int y2=box_para[nowIndex][1];
+				int w2=box_para[nowIndex][2];
+				int h2=box_para[nowIndex][3];
+
+
+				int area=overLappingArea(x1, y1, w1, h1, x2, y2, w2, h2);
+				overLapRatio=(float)area/(w2*h2);
+
+
+
+				if(overLapRatio>threshold){
+
+				    int possibleObjectIndex=box_full[possibleIndex].objectIndex;
+				    int clock=hashsearch(hashArray, possibleObjectIndex)->element->clock;
+				    if(clock>=10){
+						printf("\t overlapping objectIndex: %i, possibelIndex: %i\n", possibleObjectIndex, possibleIndex);
+					    printf("\t overlapping area: %i, ratio: %0.02f\n", area, overLapRatio);
+				    	return 1;
+				    }
+
+				}
+
+
+			}
+		}
+	}
+	return 0;
+}
+
 void draw_detections(image im, int num, float thresh, box *boxes, float **probs, char **names, image **alphabet, int classes, int **box_para, int *idx_store, Boxflow *box_full)
 {
     int i;
     int idx_count=0;
-    int debug_frame=34;
+    int debug_frame=3;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -585,6 +673,13 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	else{
         		//if not matched, put the new kalman filter inside the hashtable
         		//Added a condition to get rid of the duplicated bounding boxes
+
+
+        		//TODO: something wrong with index 199 in box_para
+        		int discard=calculateOverlappingRatio(num, idx_store[p], box_para, box_full, hashArray, 0.1);
+        		if(discard==1){
+        			continue;
+        		}
 
 
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
@@ -762,6 +857,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             	printf("\t False Positive: Giant Detection, width: %i, height: %i\n", (right-left), (bot-top));
             	continue;
             }
+
 
             char fr[sizeof(frame_num)];
             sprintf(fr, "%d", frame_num);
