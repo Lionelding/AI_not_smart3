@@ -758,3 +758,9 @@ THESIS:
 	2. Duplicated boxes on a single object 
 
 	3. Giant boxes  
+
+	4. Worked on applying the additional boxes method for all mismatched objects
+		
+		Differentiate: 
+		putting new objects into additional bounding boxes (new obejct goes to the next available index)
+		and updating objects inside additional bounding boxes (old object stays in the same index)

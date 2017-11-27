@@ -376,7 +376,7 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
  		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
 
-		//Case 1: get out of the boundiar
+		//Case 1: get out of the boundary
 		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
 			printf("\t Discard object %i due to out of boundaries!\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
@@ -399,6 +399,9 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 //		while(box_Adfull[index]!=NULL){
 //			index++;
 //		}
+
+
+
 
 		box_Adfull[0]=temp;
 		clock_Adfull[0]=clock_Adfull[0]+1;
@@ -652,8 +655,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
 
 
-
-//        		//TODO: Use the prediction infomation and optical flow vector
 //        		if(frame_num>debug_frame&&box_para[idx_store[p]][9]==5){
 //
 //        			printf("4. Prob Bumping: \n");
@@ -671,21 +672,19 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         	}
         	else{
-        		//if not matched, put the new kalman filter inside the hashtable
+
         		//Added a condition to get rid of the duplicated bounding boxes
-
-
-        		//TODO: something wrong with index 199 in box_para
         		int discard=calculateOverlappingRatio(num, idx_store[p], box_para, box_full, hashArray, 0.1);
         		if(discard==1){
+            		printf("\t Discard!\n");
         			continue;
         		}
 
-
+        		//if not matched, put the new kalman filter inside the hashtable
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
         		printf("\t new object: %i\n", objectIndex);
 
-        		printf("3. Kalman Filter Initilization: \n");
+         		printf("3. Kalman Filter Initilization: \n");
         		temp_kalmanbox=create_kalmanfilter(boxcenter, boxvelocity);
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
@@ -775,6 +774,14 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     	}
 
+    	//TODO: Optimize
+    	int iic,jjc;
+    	for(iic=0;iic<num;iic++){
+    		for(jjc=0;jjc<13;jjc++){
+    			box_para[iic][jjc]=0;
+    		}
+    	}
+
 
 
 
@@ -800,6 +807,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     printf("7. Detection: \n");
     int j;
     for(j=0; j<1; j++){
+
+    	//TODO: Need to check if it is empty
         int left  = box_Adfull[j].left;
         int top   = box_Adfull[j].top;
         int right = box_Adfull[j].left+box_Adfull[j].width;
