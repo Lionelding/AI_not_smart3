@@ -165,7 +165,7 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
     cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    Opticalflow medianflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
+    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
     //cvShowImage("OpticalFlowFarneback", cflow);
     //cvWaitKey(0);
 
@@ -175,7 +175,7 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
 	cvReleaseMat(&flow);
 	cvReleaseMat(&cflow);
 
-    return medianflow;
+    return GMMflow;
 }
 
 Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff, int yoff){
@@ -357,14 +357,16 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
 	return median;
 }
 
-Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias){
+Opticalflow updateFlow(int preFlow, int preMag, Opticalflow average_result){
 
 	int upperLimit;
 	int lowerLimit;
+
 	int nowFlow=average_result.degree;
-	//float newFlow;
 	int newFlow;
 
+	int nowMag=average_result.magnitude;
+	int newMag;
 //	if(preFlow<180){
 //		upperLimit=preFlow+180;
 //		if (nowFlow<upperLimit){
@@ -394,8 +396,10 @@ Opticalflow updateFlow(Opticalflow average_result, int preFlow, float bias){
 
 
 	newFlow=addDegree(preFlow, nowFlow, 0.3);
+	newMag=addMagnitude(preMag, nowMag, 0.5);
 
 	average_result.degree=newFlow;
+	average_result.magnitude=newMag;
 	return average_result;
 
 }
@@ -488,9 +492,10 @@ int addDegree(int degree1, int degree2, double bias){
 
 }
 
-int addMagnitude(int m1, int m2){
-	int out=(m1+m2)/2;
-	return out;
+int addMagnitude(int m1, int m2, float bias){
+	float out=(m1*(1-bias)+m2*(bias));
+	int out2=(int)out;
+	return out2;
 
 }
 
@@ -520,7 +525,7 @@ Opticalflow degreeMedian(double* degreeStore, int end, int sScope){
     	}
 
     	mergedDegree=addDegree(mergedDegree, medianDegree, 0.5);
-    	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude);
+    	mergedMagnitude=addMagnitude(mergedMagnitude, medianMagnitude, 0.5);
 
     }
 

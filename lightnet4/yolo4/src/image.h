@@ -79,7 +79,7 @@ void initialize_idx_prestore(int size, int totalcell2);
 int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex);
 int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double tolerance);
 
-void saveUnmatched(IplImage *im_frame, Boxflow in);
+void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize);
 void draw_tracking(IplImage *im_frame, int left, int top, int width, int height, int color1, int color2, int color3, int objectIndex);
 void draw_detections(image im, int num, float thresh, box *boxes, float **probs, char **names, image **labels, int classes, int **box_para, int *idx_store, Boxflow *box_full);
 image image_distance(image a, image b);

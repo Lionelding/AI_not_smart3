@@ -44,6 +44,7 @@ static int saveOpticalflow=1;
 static int objectIndex=0;
 static Boxflow *box_tempfull;
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
+static int box_Adfull_size=10; //ADDED: the total number of objects that can be saved inside box_Adfull
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
@@ -222,8 +223,8 @@ int getframe_num(void *ptr)
 void initialize_idx_prestore(int size, int totalcell2){
 	idx_tempprestore=(int *)calloc(size, sizeof(int));
     box_tempfull=(Boxflow *)calloc(totalcell2, sizeof(Boxflow));
-    box_Adfull=(Boxflow *)calloc(3, sizeof(Boxflow));
-    clock_Adfull=(int *)calloc(3, sizeof(int));
+    box_Adfull=(Boxflow *)calloc(box_Adfull_size, sizeof(Boxflow));
+    clock_Adfull=(int *)calloc(box_Adfull_size, sizeof(int));
     //clock_Adfull[3]=5;
 	return;
 }
@@ -353,13 +354,12 @@ void draw_tracking(IplImage *im_frame, int left, int top, int width, int height,
 	return;
 }
 
-void saveUnmatched(IplImage *im_frame, Boxflow in){
+void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 
+		printf("\n");
 		printf("\t temporarily save object %i\n", in.objectIndex);
 
 		kalmanbox* temp_kalmanbox=hashsearch(hashArray, in.objectIndex)->element;
-		//kalmanbox* =temp_DataItem->element;
-
 
 		Boxflow temp=in;
 		int width=temp.width;
@@ -376,11 +376,35 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
  		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
 
+
+		//If temp is previously saved in the box_Adfull, then find it. Else, save the temp into the first empty index
+		int i;
+		int j=10000;
+		int jlock=0; //ADDED: find the first empty index to save temp
+		for(i=0;i<arraysize;i++){
+			if(box_Adfull[i].objectIndex==in.objectIndex){
+				printf("\t Find the object %i in box_Adfull\n", box_Adfull[i].objectIndex);
+				j=i;
+				break;
+			}
+			if(jlock==0 && box_Adfull[i].width==0 && box_Adfull[i].height==0){
+				j=i;
+				jlock=1;
+			}
+		}
+
+		if(j==10000){
+			assert(0 && "box_Adfull is full!\n");
+		}
+
+
+
 		//Case 1: get out of the boundary
 		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
 			printf("\t Discard object %i due to out of boundaries!\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
-			box_Adfull[0]=nullflow;
+			box_Adfull[j]=nullflow;
+			clock_Adfull[j]=0;
 
 			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
 			hashdelete(hashArray, in.objectIndex);
@@ -394,23 +418,15 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		temp.height=height;
 
 
-		//TODO
-//		int index=0;
-//		while(box_Adfull[index]!=NULL){
-//			index++;
-//		}
-
-
-
-
-		box_Adfull[0]=temp;
-		clock_Adfull[0]=clock_Adfull[0]+1;
+		box_Adfull[j]=temp;
+		clock_Adfull[j]=clock_Adfull[j]+1;
 
 		//Case 2: Time is up
-		if(clock_Adfull[0]>10){
+		if(clock_Adfull[j]>10){
 			printf("\t Discard object %i due to out of time\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
-			box_Adfull[0]=nullflow;
+			box_Adfull[j]=nullflow;
+			clock_Adfull[j]=0;
 
 			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
 			hashdelete(hashArray, in.objectIndex);
@@ -419,9 +435,82 @@ void saveUnmatched(IplImage *im_frame, Boxflow in){
 		}
 
 
-    	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, 5);
+    	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[j].objectIndex);
         //cvWaitKey(0);
         return;
+}
+
+void loopUnmatched(IplImage *im_frame, int arraysize){
+	int i;
+	printf("\n");
+	printf("\t temporaryly draw the previous unmatched\n");
+	for(i=0;i<arraysize;i++){
+		if(box_Adfull[i].width==0 && box_Adfull[i].height==0){
+			continue;
+		}
+
+		Boxflow in=box_Adfull[i];
+		kalmanbox* temp_kalmanbox=hashsearch(hashArray, in.objectIndex)->element;
+
+		Boxflow temp=box_Adfull[i];
+		int width=temp.width;
+		int height=temp.height;
+		int left=temp_kalmanbox->y_k->data.fl[0]-width/2;
+		int top=temp_kalmanbox->y_k->data.fl[1]-height/2;
+
+
+		printf("\t left: %i, top: %i, width: %i, height: %i\n", left, top, width, height);
+
+		//printf("3. Kalman Filter Update: \n");
+		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
+		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
+
+		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
+		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
+
+
+		//Case 1: get out of the boundary
+		if(left<0 || (left+width)>im_frame->width || top<0 || (top+height)>im_frame->height){
+			printf("\t Discard object %i due to out of boundaries!\n", in.objectIndex);
+			Boxflow nullflow=putNullInsideBox();
+			box_Adfull[i]=nullflow;
+			clock_Adfull[i]=0;
+
+			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
+			hashdelete(hashArray, in.objectIndex);
+
+			return;
+		}
+
+		temp.left=left;
+		temp.top=top;
+		temp.width=width;
+		temp.height=height;
+
+
+		box_Adfull[i]=temp;
+		clock_Adfull[i]=clock_Adfull[i]+1;
+
+		//Case 2: Time is up
+		if(clock_Adfull[i]>10){
+			printf("\t Discard object %i due to out of time\n", in.objectIndex);
+			Boxflow nullflow=putNullInsideBox();
+			box_Adfull[i]=nullflow;
+			clock_Adfull[i]=0;
+
+			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
+			hashdelete(hashArray, in.objectIndex);
+			return;
+
+		}
+
+
+		draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[i].objectIndex);
+		//cvWaitKey(0);
+
+
+	}
+	return;
 }
 
 int calculateOverlapping(Boxflow unmatched, int* current){
@@ -528,7 +617,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=3;
+    int debug_frame=13;
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -539,12 +628,18 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         im_frame=image_convert_IplImage(im, im_frame);
 
 
-        if(frame_num>debug_frame){
+        if(frame_num>=debug_frame){
             printf("Wake up!\n");
         }
 
+        //Calculate Optical Flow for Unmatched Objects
+        //TODO: optimize speed
+        int kk;
+        for(kk=0;kk<box_Adfull_size;kk++){
 
-        if(box_Adfull[0].objectIndex==5){
+        	if(box_Adfull[kk].width==0 && box_Adfull[kk].height==0){
+        		continue;
+        	}
         	printf("0. Calculate Optical Flow for Unmatched Objects\n");
             IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
             boxcrop2=image_convert_IplImage(im, boxcrop2);
@@ -552,10 +647,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             IplImage *pre_boxcrop2=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
             pre_boxcrop2=image_convert_IplImage(pre_im, pre_boxcrop2);
 
-            cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[0].left, box_Adfull[0].top, box_Adfull[0].width, box_Adfull[0].height));
-            cvSetImageROI(boxcrop2, cvRect(box_Adfull[0].left, box_Adfull[0].top, box_Adfull[0].width, box_Adfull[0].height));
+            cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
+            cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
             average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2);
-            box_Adfull[0].flow=average_Ad;
+            box_Adfull[kk].flow=average_Ad;
 
         	cvReleaseImage(&pre_boxcrop2);
         	cvReleaseImage(&boxcrop2);
@@ -602,27 +697,26 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		Boxflow nullflow=putNullInsideBox();
                 		printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], headnumber, box_full[headnumber].objectIndex);
 
-//                		if(box_full[headnumber].objectIndex==14){
-//                			probs[headnumber][0]=1;
-//                			probs[headnumber+676][0]=1;
-//                			probs[headnumber+676*2][0]=1;
-//                			probs[headnumber+676*3][0]=1;
-//                			probs[headnumber+676*4][0]=1;
-//
-//                		}
 
                 		box_full[headnumber]=nullflow;
                 		headconstant=remove_any(headconstant,headcount);
-                		average_result=updateFlow(average_result, preFlow, 0.5);
+                		average_result=updateFlow(preFlow, preMag, average_result);
                 		printf("\t degree updates to %0.0f\n", average_result.degree);
                 		object_prenum=object_prenum-1;
 
                 		break;
 
                 	}
-                	//TODO: try to match the optical flow inside box_Adfull
-                	overlap=calculateOverlapping(box_Adfull[0], box_para[idx_store[p]]);
-            		match2=objectMatch(num, average_Ad.degree, average_result.degree, average_Ad.magnitude, average_result.magnitude, box_Adfull[0].classtype, box_para[idx_store[p]][4], idx_store[p], idx_store[p]);
+                	//TODO: Optimize O(n)
+                	int ii;
+                	for(ii=0;ii<box_Adfull_size;ii++){
+                    	overlap=calculateOverlapping(box_Adfull[ii], box_para[idx_store[p]]);
+                    	if(overlap==1){
+                    		int fullIndex=(box_Adfull[ii].nn+1)*(box_Adfull[ii].row*(int)sqrt(num/5)+box_Adfull[ii].col);
+                    		match2=objectMatch(num, box_Adfull[ii].flow.degree, average_result.degree, box_Adfull[ii].flow.magnitude, average_result.magnitude, box_Adfull[ii].classtype, box_para[idx_store[p]][4], fullIndex, idx_store[p]);
+                    	}
+
+                	}
 
                 	if(overlap && match2){
 
@@ -707,9 +801,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	hashdisplay(hashArray);
 
     	//Draw any unmatched objects from previous frames
-    	if(box_Adfull[0].objectIndex==5){
-    		saveUnmatched(im_frame, box_Adfull[0]);
-    	}
+    	//if(box_Adfull[0].objectIndex==5){
+    	loopUnmatched(im_frame, box_Adfull_size);
+    	//}
 
     	printf("4. Process Unmatched Objects: \n");
     	if (object_prenum!=0){
@@ -725,7 +819,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         			printf("\t skip!\n");
         		}
         		else if((temptemp_kalmanbox->clock)>=3){
-        			saveUnmatched(im_frame, box_full[headnumber]);
+        			saveUnmatched(im_frame, box_full[headnumber], box_Adfull_size);
         		}
 
         		else{
