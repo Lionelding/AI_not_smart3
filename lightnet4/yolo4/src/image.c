@@ -32,7 +32,7 @@
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
 
-
+static int debug_frame=5;
 
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
@@ -272,10 +272,10 @@ int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int p
 		return compareFlowVector(preFlow, nowFlow, preMag,nowMag,6);
 	}
 
-	//Case 2: different index, and the previous optical flow is 0
-	else if(preMag==0 && (preIndex%totalcell!=nowIndex%totalcell)){
-		return 0;
-	}
+//	//Case 2: different index, and the previous optical flow is 0
+//	else if(preMag==0 && (preIndex%totalcell!=nowIndex%totalcell)){
+//		return 0;
+//	}
 
 	//Case 3: optical flow is the same, check if the index is within the range of 3*3*5
 	else if(compareFlowVector(preFlow, nowFlow, preMag,nowMag,1)){
@@ -373,8 +373,11 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
 		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
 
+		printf("\t magnitude: %0.0f, flow: %0.0f\n", in.flow.magnitude, in.flow.degree);
+
  		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
+		printf("\t magnitude: %0.0f, flow: %0.0f\n", in.flow.magnitude, in.flow.degree);
 
 
 		//If temp is previously saved in the box_Adfull, then find it. Else, save the temp into the first empty index
@@ -436,18 +439,20 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 
 
     	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[j].objectIndex);
-        //cvWaitKey(0);
+        if(frame_num>=debug_frame){
+        	cvWaitKey(0);
+        }
         return;
 }
 
 void loopUnmatched(IplImage *im_frame, int arraysize){
 	int i;
-	printf("\n");
-	printf("\t temporaryly draw the previous unmatched\n");
+
 	for(i=0;i<arraysize;i++){
 		if(box_Adfull[i].width==0 && box_Adfull[i].height==0){
 			continue;
 		}
+		printf("\n");
 
 		Boxflow in=box_Adfull[i];
 		kalmanbox* temp_kalmanbox=hashsearch(hashArray, in.objectIndex)->element;
@@ -459,14 +464,15 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 		int top=temp_kalmanbox->y_k->data.fl[1]-height/2;
 
 
-		printf("\t left: %i, top: %i, width: %i, height: %i\n", left, top, width, height);
+		printf("\t objectIndex: %i, left: %i, top: %i, width: %i, height: %i\n", temp.objectIndex, left, top, width, height);
 
-		//printf("3. Kalman Filter Update: \n");
 		CvPoint boxcenter=cvPoint(temp_kalmanbox->y_k->data.fl[0], temp_kalmanbox->y_k->data.fl[1]);
 		CvPoint boxvelocity=cvPoint(in.flow.magnitude*cos(in.flow.degree*3.1415926/180), -(in.flow.magnitude*sin(in.flow.degree*3.1415926/180)));
 
+
 		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
+		printf("\t magnitude: %0.0f, flow: %0.0f\n", in.flow.magnitude, in.flow.degree);
 
 
 		//Case 1: get out of the boundary
@@ -506,14 +512,19 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 
 
 		draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[i].objectIndex);
-		//cvWaitKey(0);
-
+        if(frame_num>=debug_frame){
+        	cvWaitKey(0);
+        }
 
 	}
 	return;
 }
 
 int calculateOverlapping(Boxflow unmatched, int* current){
+	if(unmatched.height==0 && unmatched.width==0){
+		return 0;
+	}
+	printf("\t Unmatched: degree: %0.0f, mag: %0.0f objectIndex: %i\n", unmatched.flow.degree, unmatched.flow.magnitude, unmatched.objectIndex);
 	int xleft=current[0];
 	int xtop=current[1];
 	int xright=current[0]+current[2];
@@ -617,7 +628,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
-    int debug_frame=13;
+
     //int debug_object_index=3;
     image screenshot=copy_image(im);
 
@@ -634,24 +645,29 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         //Calculate Optical Flow for Unmatched Objects
         //TODO: optimize speed
+    	printf("0. Calculate Optical Flow for Unmatched Objects\n");
         int kk;
         for(kk=0;kk<box_Adfull_size;kk++){
 
         	if(box_Adfull[kk].width==0 && box_Adfull[kk].height==0){
         		continue;
         	}
-        	printf("0. Calculate Optical Flow for Unmatched Objects\n");
+
             IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
             boxcrop2=image_convert_IplImage(im, boxcrop2);
 
             IplImage *pre_boxcrop2=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
             pre_boxcrop2=image_convert_IplImage(pre_im, pre_boxcrop2);
 
+            printf("\n");
+            printf("\t objectIndex: %i, preFlow: %0.0f, preMag: %0.0f\n", box_Adfull[kk].objectIndex, box_Adfull[kk].flow.magnitude, box_Adfull[kk].flow.degree);
             cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
             cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
+
+            //average_result=updateFlow(preFlow, preMag, average_result);
             average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2);
             box_Adfull[kk].flow=average_Ad;
-
+            printf("\t nowFlow: %0.0f, nowMag: %0.0f\n", box_Adfull[kk].flow.magnitude, box_Adfull[kk].flow.degree);
         	cvReleaseImage(&pre_boxcrop2);
         	cvReleaseImage(&boxcrop2);
         }
@@ -701,41 +717,50 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 		box_full[headnumber]=nullflow;
                 		headconstant=remove_any(headconstant,headcount);
                 		average_result=updateFlow(preFlow, preMag, average_result);
-                		printf("\t degree updates to %0.0f\n", average_result.degree);
+                		printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
+                		printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
                 		object_prenum=object_prenum-1;
 
                 		break;
 
                 	}
-                	//TODO: Optimize O(n)
-                	int ii;
-                	for(ii=0;ii<box_Adfull_size;ii++){
-                    	overlap=calculateOverlapping(box_Adfull[ii], box_para[idx_store[p]]);
-                    	if(overlap==1){
-                    		int fullIndex=(box_Adfull[ii].nn+1)*(box_Adfull[ii].row*(int)sqrt(num/5)+box_Adfull[ii].col);
-                    		match2=objectMatch(num, box_Adfull[ii].flow.degree, average_result.degree, box_Adfull[ii].flow.magnitude, average_result.magnitude, box_Adfull[ii].classtype, box_para[idx_store[p]][4], fullIndex, idx_store[p]);
-                    	}
 
-                	}
 
-                	if(overlap && match2){
-
-                		printf("\t %i REMATCHES with box_Adfull[%i], with objectIndex: %i\n", idx_store[p], 0, box_Adfull[0].objectIndex);
-                    	box_para[idx_store[p]][9]=box_Adfull[0].objectIndex;
-                    	Boxflow nullflow=putNullInsideBox();
-                    	box_Adfull[0]=nullflow;
-                    	clock_Adfull[0]=0;
-                    	printf("\t degree stays the same\n");
-                    	break;
-                	}
 
             		headcount=headcount->next;
         	}
 
+        	//If there is no match, compare with the previously unmatched ones inside box_Adfull
+        	if(match==0){
+            	//TODO: Optimize O(n)
+            	int ii;
+            	for(ii=0;ii<box_Adfull_size;ii++){
+                	overlap=calculateOverlapping(box_Adfull[ii], box_para[idx_store[p]]);
+                	if(overlap==1){
+                		int fullIndex=(box_Adfull[ii].nn+1)*(num/5)+(box_Adfull[ii].row*(int)sqrt(num/5)+box_Adfull[ii].col);
+                		match2=objectMatch(num, box_Adfull[ii].flow.degree, average_result.degree, box_Adfull[ii].flow.magnitude, average_result.magnitude, box_Adfull[ii].classtype, box_para[idx_store[p]][4], fullIndex, idx_store[p]);
+                		if(match2){
+                			break;
+                		}
+                	}
+
+            	}
+
+            	if(overlap && match2){
+            		printf("\t %i REMATCHES with box_Adfull[%i], with objectIndex: %i\n", idx_store[p], ii, box_Adfull[ii].objectIndex);
+                	box_para[idx_store[p]][9]=box_Adfull[ii].objectIndex;
+                	Boxflow nullflow=putNullInsideBox();
+                	box_Adfull[ii]=nullflow;
+                	clock_Adfull[ii]=0;
+                	printf("\t degree stays the same\n");
+            	}
+        	}
+
+
+
     		//The +y means going down, -y means going up
     		CvPoint boxcenter=cvPoint(box_para[idx_store[p]][0]+(box_para[idx_store[p]][2]/2), box_para[idx_store[p]][1]+(box_para[idx_store[p]][3])/2);
     		CvPoint boxvelocity=cvPoint(average_result.magnitude*cos(average_result.degree*3.1415926/180), -(average_result.magnitude*sin(average_result.degree*3.1415926/180)));
-
 
 
         	if(match || (match2 && overlap)){
@@ -802,10 +827,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     	//Draw any unmatched objects from previous frames
     	//if(box_Adfull[0].objectIndex==5){
+    	printf("4. Draw Previous Unmatched Objects\n");
     	loopUnmatched(im_frame, box_Adfull_size);
     	//}
 
-    	printf("4. Process Unmatched Objects: \n");
+    	printf("5. Process Current Unmatched Objects: \n");
     	if (object_prenum!=0){
     		snode* headcount=headconstant;
     		kalmanbox* temptemp_kalmanbox;
@@ -820,6 +846,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		}
         		else if((temptemp_kalmanbox->clock)>=3){
         			saveUnmatched(im_frame, box_full[headnumber], box_Adfull_size);
+
         		}
 
         		else{
