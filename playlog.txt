@@ -369,7 +369,7 @@ Re-train YOLO:
 	Test: 
 		detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/Topview/Brisk/Montreal_20160908_084200.mp4
 
-		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/Topview/BriskMontreal_20160908_084200.mp4
+		detector demo cfg/mio.data cfg/yolo-mio.cfg backup/yolo-mio_20000.weights /usr/local/data/vmrl/liqiang/Topview/Brisk/Montreal_20160908_084200.mp4
 
 	Train: 
 		detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
@@ -764,3 +764,10 @@ THESIS:
 		Differentiate: 
 		putting new objects into additional bounding boxes (new obejct goes to the next available index)
 		and updating objects inside additional bounding boxes (old object stays in the same index)
+
+
+#####	Week of 20171204	#####
+
+Due to low resolution, the number of elements inside the optical flow is very limited, therefore limiting the results in terms of degree and magnitude
+
+two objects with the same class, close to each other, traveling in the same direction, 

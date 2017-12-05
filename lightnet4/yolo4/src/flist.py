@@ -96,7 +96,7 @@ def showHistogram(inString):
 
 def findMaxMin(meanlist, bigmean):
 
-    absmin=0
+    absmin=10000
     absmax=0
     for x in range(len(meanlist[0])):
         if(abs(meanlist[0][x])>abs(absmax)):

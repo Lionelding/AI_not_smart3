@@ -42,7 +42,7 @@ kalmanbox* create_kalmanfilter(CvPoint boxcenter, CvPoint boxvelocity){
 
 
     //Initialization of other variables
-    float dt=10;
+    float dt=2;
     const float trans_data[16]={1,0,dt,0,0,1,0,dt,0,0,1,0,0,0,0,1};
     memcpy( kalmanbox_out->kalmanfilter->transition_matrix->data.fl, trans_data, sizeof(trans_data));
     cvSetIdentity( kalmanbox_out->kalmanfilter->measurement_matrix, cvRealScalar(1) );

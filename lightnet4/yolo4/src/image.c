@@ -32,7 +32,7 @@
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
 
-static int debug_frame=5;
+static int debug_frame=3;
 
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
@@ -44,7 +44,7 @@ static int saveOpticalflow=1;
 static int objectIndex=0;
 static Boxflow *box_tempfull;
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
-static int box_Adfull_size=10; //ADDED: the total number of objects that can be saved inside box_Adfull
+static int box_Adfull_size=30; //ADDED: the total number of objects that can be saved inside box_Adfull
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
@@ -983,7 +983,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             float nn=probs[i][83];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
-            if((right-left)>(im.w*0.6)&&(bot-top)>(im.h*0.6)){
+            if((right-left)>(im.w*0.4) || (bot-top)>(im.h*0.4)){
             	printf("\t False Positive: Giant Detection, width: %i, height: %i\n", (right-left), (bot-top));
             	continue;
             }
