@@ -20,7 +20,7 @@ typedef struct {
 void computHistorgram(int Array[]);
 void initializePython();
 Opticalflow compute_opticalflow(IplImage *imgA, IplImage *imgB, int xoff, int yoff);
-Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current);
+Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int frame_nu, int debug_frame);
 Opticalflow updateFlow(int preFlow, int preMag, Opticalflow average_result);
 Opticalflow create_opticalflow(CvPoint sum_p0, CvPoint sum_p1, CvPoint abs_p0, CvPoint abs_p1);
 Opticalflow create_opticalflowFB(int degree, int magnitude);

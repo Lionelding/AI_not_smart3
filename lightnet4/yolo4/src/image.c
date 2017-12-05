@@ -32,7 +32,7 @@
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
 
-static int debug_frame=3;
+static int debug_frame=50;
 
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
@@ -635,8 +635,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     if(object_num>0){//frame_num=2 and above
     	int p;
-        IplImage *im_frame=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
-        im_frame=image_convert_IplImage(im, im_frame);
+
+    	//pre_im_frame is for displaying the detected bounding boxes
+        IplImage *pre_im_frame=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
+        pre_im_frame=image_convert_IplImage(pre_im, pre_im_frame);
+
 
 
         if(frame_num>=debug_frame){
@@ -665,7 +668,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
 
             //average_result=updateFlow(preFlow, preMag, average_result);
-            average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2);
+            average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2, frame_num, debug_frame);
             box_Adfull[kk].flow=average_Ad;
             printf("\t nowFlow: %0.0f, nowMag: %0.0f\n", box_Adfull[kk].flow.magnitude, box_Adfull[kk].flow.degree);
         	cvReleaseImage(&pre_boxcrop2);
@@ -689,7 +692,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             printf("\n");
             printf("1. Calculate Optical Flow for Current Objects: \n");
         	//Opticalflow average_result=compute_opticalflow(pre_boxcrop, boxcrop, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
-        	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop);
+        	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop, frame_num, debug_frame);
 
 
         	int match=0; //current matches previous objects from box_full
@@ -769,7 +772,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		printf("3. Kalman Filter Update: \n");
         		temp_kalmanbox=hashsearch(hashArray, box_para[idx_store[p]][9])->element;
 
-        		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+        		update_kalmanfilter(pre_im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+
 
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
 
@@ -811,7 +815,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
 
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
-        	draw_tracking(im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
+        	draw_tracking(pre_im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
+
 
             if(frame_num>=debug_frame){
             	cvWaitKey(0);
@@ -826,10 +831,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	hashdisplay(hashArray);
 
     	//Draw any unmatched objects from previous frames
-    	//if(box_Adfull[0].objectIndex==5){
+
     	printf("4. Draw Previous Unmatched Objects\n");
-    	loopUnmatched(im_frame, box_Adfull_size);
-    	//}
+    	loopUnmatched(pre_im_frame, box_Adfull_size);
+
 
     	printf("5. Process Current Unmatched Objects: \n");
     	if (object_prenum!=0){
@@ -845,7 +850,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         			printf("\t skip!\n");
         		}
         		else if((temptemp_kalmanbox->clock)>=3){
-        			saveUnmatched(im_frame, box_full[headnumber], box_Adfull_size);
+        			saveUnmatched(pre_im_frame, box_full[headnumber], box_Adfull_size);
 
         		}
 
@@ -907,16 +912,16 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
         if(saveOpticalflow){
-        	CvSize size;{size.width = im_frame->width, size.height = im_frame->height;}
+        	CvSize size;{size.width = pre_im_frame->width, size.height = pre_im_frame->height;}
         	static CvVideoWriter* opticalflow_video = NULL;
         	if (opticalflow_video == NULL)
         	{
         		const char* output_name = "opticalflow.avi";
         		opticalflow_video = cvCreateVideoWriter(output_name, CV_FOURCC('D', 'I', 'V', 'X'), 5, size, 1);
         	}
-        	cvWriteFrame(opticalflow_video, im_frame);
+        	cvWriteFrame(opticalflow_video, pre_im_frame);
         }
-        cvReleaseImage(&im_frame);
+        cvReleaseImage(&pre_im_frame);
         object_prenum=object_num;
         object_num=0;
 

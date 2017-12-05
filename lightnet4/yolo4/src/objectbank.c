@@ -144,7 +144,7 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
 
 
-Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
+Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int frame_num, int debug_frame){
     //Convert the input from RGB to Grayscale
     IplImage *imgA= cvCreateImage(cvGetSize(previous),IPL_DEPTH_8U,1);
     cvCvtColor(previous,imgA,CV_RGB2GRAY);
@@ -165,9 +165,11 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current){
     cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
-    //cvShowImage("OpticalFlowFarneback", cflow);
-    //cvWaitKey(0);
+    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));
+    if(frame_num>=1000){
+    	cvShowImage("OpticalFlowFarneback", cflow);
+    	cvWaitKey(0);
+    }
 
 	cvReleaseImage(&imgA);
 	cvReleaseMat(&gray);
