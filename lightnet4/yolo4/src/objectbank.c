@@ -166,7 +166,7 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
     Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));
-    if(frame_num>=1000){
+    if(frame_num>=debug_frame){
     	cvShowImage("OpticalFlowFarneback", cflow);
     	cvWaitKey(0);
     }

@@ -77,7 +77,7 @@ void write_label(image a, int r, int c, image *characters, char *string, float *
 int getframe_num();
 void initialize_idx_prestore(int size, int totalcell2);
 int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex);
-int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double tolerance);
+double compareFlowVector(double preFlow, double nowFlow, double preMag, double nowMag, double thFlow, double thMag);
 
 void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize);
 void draw_tracking(IplImage *im_frame, int left, int top, int width, int height, int color1, int color2, int color3, int objectIndex);

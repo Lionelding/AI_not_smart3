@@ -32,7 +32,9 @@
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
 
-static int debug_frame=50;
+
+#define MISS -12345
+static int debug_frame=19;
 
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
@@ -229,15 +231,18 @@ void initialize_idx_prestore(int size, int totalcell2){
 	return;
 }
 
-int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double tolerance){
-	int thMag=tolerance;
-	int thFlow=30*tolerance;
+double compareFlowVector(double preFlow, double nowFlow, double preMag, double nowMag, double thFlow, double thMag){
 
-	if(abs(preMag-nowMag)<thMag){
-		return 1;
+
+	double diffFlow=abs(preFlow-nowFlow);
+	double diffMag=abs(preMag-nowMag)/preMag;
+
+	if(diffMag<thMag){
+		return diffMag;
+
 	}
-	else if (abs(preFlow-nowFlow)<thFlow){
-		return 1;
+	else if (diffFlow<thFlow){
+		return diffFlow;
 	}
 	else{
 		int maxnumber;
@@ -252,56 +257,139 @@ int compareFlowVector(int preFlow, int nowFlow, int preMag, int nowMag, double t
 
 		}
 
-		if(minnumber+360-maxnumber<thFlow){
-			return 1;
+		diffFlow=minnumber+360-maxnumber;
+		if(diffFlow<thFlow){
+			return diffFlow;
 		}
 
 	}
-	return 0;
+	return MISS;
 }
 
-int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex){
+
+int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowClass, Boxflow* box_full){
 	int totalcell=num/5;
 	int totalrow=(int)sqrt(totalcell);
-	if(preClass!=nowClass){
-		return 0;
-	}
+	int possibleIndex;
+	int bestIndex=num+1;
+	double bestResult=180;
+	double currentResult;
 
 	//Case 1: same index, check if the optical flow is the same
-	else if(preIndex%totalcell==nowIndex%totalcell){
-		return compareFlowVector(preFlow, nowFlow, preMag,nowMag,6);
-	}
+	if(box_full[nowIndex].classtype==nowClass && box_full[nowIndex].height!=0 && box_full[nowIndex].width!=0){
+		currentResult=compareFlowVector(box_full[nowIndex].flow.degree, nowFlow, box_full[nowIndex].flow.magnitude, nowMag, 100, 0.5);
+		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", nowIndex, box_full[nowIndex].flow.degree, box_full[nowIndex].flow.magnitude, box_full[nowIndex].objectIndex);
 
-//	//Case 2: different index, and the previous optical flow is 0
-//	else if(preMag==0 && (preIndex%totalcell!=nowIndex%totalcell)){
-//		return 0;
-//	}
-
-	//Case 3: optical flow is the same, check if the index is within the range of 3*3*5
-	else if(compareFlowVector(preFlow, nowFlow, preMag,nowMag,1)){
-		int base=preIndex%totalcell;
-		int nn_level;
-		for(nn_level=0;nn_level<5;nn_level++){
-			int row;
-			for (row=-1;row<2;row++){
-				int i;
-				for (i=-1;i<2;i++){
-					int possibleIndex=(base+i+totalrow*row)+totalcell*nn_level;
-
-					if(possibleIndex==nowIndex){
-						return 1;
-					}
-
-
-				}
-			}
+		if(currentResult!=MISS){
+			bestIndex=nowIndex;
+			return bestIndex;
 		}
 
 	}
 
+
+	int base=nowIndex%totalcell;
+	int nn_level;
+	for(nn_level=0;nn_level<5;nn_level++){
+		int row;
+		for (row=-1;row<2;row++){
+			int col;
+			for (col=-1;col<2;col++){
+				possibleIndex=(base+col+totalrow*row)+totalcell*nn_level;
+				if(possibleIndex==nowIndex){
+					continue;
+				}
+
+
+
+				if(box_full[possibleIndex].classtype==nowClass && box_full[possibleIndex].width!=0 && box_full[possibleIndex].height!=0){
+					printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", possibleIndex, box_full[possibleIndex].flow.degree, box_full[possibleIndex].flow.magnitude, box_full[possibleIndex].objectIndex);
+					currentResult=compareFlowVector(box_full[possibleIndex].flow.degree, nowFlow, box_full[possibleIndex].flow.magnitude, nowMag, 60, 0.5);
+					if(currentResult!=MISS && (currentResult<bestResult)){
+						bestIndex=possibleIndex;
+						bestResult=currentResult;
+
+					}
+
+				}
+
+			}
+		}
+	}
+
+
+
+	return bestIndex;
+}
+int matchIndex(int num, int preIndex, int nowIndex){
+	int totalcell=num/5;
+	int totalrow=(int)sqrt(totalcell);
+
+	int base=preIndex%totalcell;
+	int nn_level;
+	for(nn_level=0;nn_level<5;nn_level++){
+		int row;
+		for (row=-1;row<2;row++){
+			int i;
+			for (i=-1;i<2;i++){
+			int possibleIndex=(base+i+totalrow*row)+totalcell*nn_level;
+
+			if(possibleIndex==nowIndex){
+				return 1;
+			}
+
+
+			}
+		}
+	}
+
 	return 0;
 
+
 }
+
+//int objectMatch(int num, int preFlow, int nowFlow, int preMag, int nowMag, int preClass, int nowClass, int preIndex, int nowIndex){
+//	int totalcell=num/5;
+//	int totalrow=(int)sqrt(totalcell);
+//	if(preClass!=nowClass){
+//		return 0;
+//	}
+//
+//	//Case 1: same index, check if the optical flow is the same
+//	else if(preIndex%totalcell==nowIndex%totalcell){
+//		return compareFlowVector(preFlow, nowFlow, preMag,nowMag,6);
+//	}
+//
+////	//Case 2: different index, and the previous optical flow is 0
+////	else if(preMag==0 && (preIndex%totalcell!=nowIndex%totalcell)){
+////		return 0;
+////	}
+//
+//	//Case 3: optical flow is the same, check if the index is within the range of 3*3*5
+//	else if(compareFlowVector(preFlow, nowFlow, preMag,nowMag,1)){
+//		int base=preIndex%totalcell;
+//		int nn_level;
+//		for(nn_level=0;nn_level<5;nn_level++){
+//			int row;
+//			for (row=-1;row<2;row++){
+//				int i;
+//				for (i=-1;i<2;i++){
+//					int possibleIndex=(base+i+totalrow*row)+totalcell*nn_level;
+//
+//					if(possibleIndex==nowIndex){
+//						return 1;
+//					}
+//
+//
+//				}
+//			}
+//		}
+//
+//	}
+//
+//	return 0;
+//
+//}
 
 int lookAround(float** probsLastFrame, float** probs, int num, int prevIndex, int classIndex, float prevProb, float thresh, double prevDegree){
 	//prevIndex: location index from the previous frame
@@ -685,7 +773,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             IplImage *pre_boxcrop=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
             pre_boxcrop=image_convert_IplImage(pre_im, pre_boxcrop);
 
-
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
@@ -701,50 +788,94 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	printf("2. Match and Update: \n");
     		printf("\t Current: idx_store[p]: %i degree: %0.0f mag: %0.0f\n", idx_store[p], average_result.degree, average_result.magnitude);
     		snode* headcount=headconstant;
-
-        	while (headcount!=NULL){//frame>2
-        			int headnumber=headcount->data;
-            		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", headnumber, box_full[headnumber].flow.degree, box_full[headnumber].flow.magnitude, box_full[headnumber].objectIndex);
-
-            		int preFlow=box_full[headnumber].flow.degree;
-            		int preMag=box_full[headnumber].flow.magnitude;
-
-            		match=objectMatch(num, preFlow, average_result.degree, preMag, average_result.magnitude, box_full[headnumber].classtype, box_para[idx_store[p]][4], headnumber, idx_store[p]);
-                	if(match==1){
-                		box_para[idx_store[p]][9]=box_full[headnumber].objectIndex;
-
-                		Boxflow nullflow=putNullInsideBox();
-                		printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], headnumber, box_full[headnumber].objectIndex);
+    		int newIndex=idx_store[p];
 
 
-                		box_full[headnumber]=nullflow;
-                		headconstant=remove_any(headconstant,headcount);
-                		average_result=updateFlow(preFlow, preMag, average_result);
-                		printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
-                		printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
-                		object_prenum=object_prenum-1;
-
-                		break;
-
-                	}
+    		int bestIndex=objectMath45(num, average_result.degree, average_result.magnitude, newIndex, box_para[idx_store[p]][4], box_full);
+    		if(bestIndex!=num+1){
+            	match=1;
+            	box_para[idx_store[p]][9]=box_full[bestIndex].objectIndex;
 
 
+            	Boxflow nullflow=putNullInsideBox();
+            	printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], bestIndex, box_full[bestIndex].objectIndex);
 
+        		int preFlow=box_full[bestIndex].flow.degree;
+        		int preMag=box_full[bestIndex].flow.magnitude;
+
+            	box_full[bestIndex]=nullflow;
+
+
+            	average_result=updateFlow(preFlow, preMag, average_result);
+            	printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
+            	printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
+            	object_prenum=object_prenum-1;
+
+            	headcount=headconstant;
+            	while(headcount!=NULL){
+
+            		if(headcount->data==bestIndex){
+            			headconstant=remove_any(headconstant,headcount);
+            			break;
+            		}
             		headcount=headcount->next;
-        	}
+            	}
+
+    		}
+
+
+//        	while (headcount!=NULL){//frame>2
+//        			int headnumber=headcount->data;
+//            		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", headnumber, box_full[headnumber].flow.degree, box_full[headnumber].flow.magnitude, box_full[headnumber].objectIndex);
+//
+//            		int preFlow=box_full[headnumber].flow.degree;
+//            		int preMag=box_full[headnumber].flow.magnitude;
+//
+//
+//            		match=objectMatch(num, preFlow, average_result.degree, preMag, average_result.magnitude, box_full[headnumber].classtype, box_para[idx_store[p]][4], headnumber, idx_store[p]);
+//                	if(match==1){
+//                		box_para[idx_store[p]][9]=box_full[headnumber].objectIndex;
+//
+//                		Boxflow nullflow=putNullInsideBox();
+//                		printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], headnumber, box_full[headnumber].objectIndex);
+//
+//
+//                		box_full[headnumber]=nullflow;
+//                		headconstant=remove_any(headconstant,headcount);
+//                		average_result=updateFlow(preFlow, preMag, average_result);
+//                		printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
+//                		printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
+//                		object_prenum=object_prenum-1;
+//
+//                		break;
+//
+//                	}
+//
+//            		headcount=headcount->next;
+//        	}
 
         	//If there is no match, compare with the previously unmatched ones inside box_Adfull
+    		//TODO: if there is nothing inside, don't compare
         	if(match==0){
             	//TODO: Optimize O(n)
-            	int ii;
+        		double bestResult=180;
+        		double currentResult;
+
+            	int ii=box_Adfull_size+1;
             	for(ii=0;ii<box_Adfull_size;ii++){
                 	overlap=calculateOverlapping(box_Adfull[ii], box_para[idx_store[p]]);
-                	if(overlap==1){
-                		int fullIndex=(box_Adfull[ii].nn+1)*(num/5)+(box_Adfull[ii].row*(int)sqrt(num/5)+box_Adfull[ii].col);
-                		match2=objectMatch(num, box_Adfull[ii].flow.degree, average_result.degree, box_Adfull[ii].flow.magnitude, average_result.magnitude, box_Adfull[ii].classtype, box_para[idx_store[p]][4], fullIndex, idx_store[p]);
-                		if(match2){
-                			break;
-                		}
+                	int fullIndex=(box_Adfull[ii].nn+1)*(num/5)+(box_Adfull[ii].row*(int)sqrt(num/5)+box_Adfull[ii].col);
+
+                	if(overlap==1 && box_Adfull[ii].classtype==box_para[idx_store[p]][4]){
+
+                		currentResult=compareFlowVector(box_Adfull[ii].flow.degree, average_result.degree, box_Adfull[ii].flow.magnitude, average_result.magnitude, 100, 0.5);
+						if(currentResult!=MISS && currentResult<bestResult){
+	                		bestIndex=ii;
+	                		bestResult=currentResult;
+	                		match2=1;
+	                		break;
+						}
+
                 	}
 
             	}
