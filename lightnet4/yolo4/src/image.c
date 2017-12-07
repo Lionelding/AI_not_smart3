@@ -32,19 +32,17 @@
 #include "opencv2/legacy/compat.hpp"
 #include "opencv2/core/mat.hpp"
 
-
 #define MISS -12345
-static int debug_frame=19;
-
+static int debug_frame=50;
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
 static int object_prenum=0;
-static int *idx_tempprestore;
+static int *idx_tempprestore; //ADDED: store the index of valid bounding boxes
 static int saveDetection=1;
 static int saveOpticalflow=1;
 static int objectIndex=0;
-static Boxflow *box_tempfull;
+static Boxflow *box_tempfull; //ADDED: temporarily store the Boxflow vector, and copy it the box_full in the end
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
 static int box_Adfull_size=30; //ADDED: the total number of objects that can be saved inside box_Adfull
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
@@ -277,7 +275,7 @@ int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowCl
 
 	//Case 1: same index, check if the optical flow is the same
 	if(box_full[nowIndex].classtype==nowClass && box_full[nowIndex].height!=0 && box_full[nowIndex].width!=0){
-		currentResult=compareFlowVector(box_full[nowIndex].flow.degree, nowFlow, box_full[nowIndex].flow.magnitude, nowMag, 100, 0.5);
+		currentResult=compareFlowVector(box_full[nowIndex].flow.degree, nowFlow, box_full[nowIndex].flow.magnitude, nowMag, 180, 0.5);
 		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", nowIndex, box_full[nowIndex].flow.degree, box_full[nowIndex].flow.magnitude, box_full[nowIndex].objectIndex);
 
 		if(currentResult!=MISS){
@@ -304,7 +302,7 @@ int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowCl
 
 				if(box_full[possibleIndex].classtype==nowClass && box_full[possibleIndex].width!=0 && box_full[possibleIndex].height!=0){
 					printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", possibleIndex, box_full[possibleIndex].flow.degree, box_full[possibleIndex].flow.magnitude, box_full[possibleIndex].objectIndex);
-					currentResult=compareFlowVector(box_full[possibleIndex].flow.degree, nowFlow, box_full[possibleIndex].flow.magnitude, nowMag, 60, 0.5);
+					currentResult=compareFlowVector(box_full[possibleIndex].flow.degree, nowFlow, box_full[possibleIndex].flow.magnitude, nowMag, 90, 0.5);
 					if(currentResult!=MISS && (currentResult<bestResult)){
 						bestIndex=possibleIndex;
 						bestResult=currentResult;
@@ -803,12 +801,15 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		int preFlow=box_full[bestIndex].flow.degree;
         		int preMag=box_full[bestIndex].flow.magnitude;
 
+
+
             	box_full[bestIndex]=nullflow;
+
 
 
             	average_result=updateFlow(preFlow, preMag, average_result);
             	printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
-            	printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
+            	printf("\t magnitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
             	object_prenum=object_prenum-1;
 
             	headcount=headconstant;
@@ -823,36 +824,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     		}
 
-
-//        	while (headcount!=NULL){//frame>2
-//        			int headnumber=headcount->data;
-//            		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", headnumber, box_full[headnumber].flow.degree, box_full[headnumber].flow.magnitude, box_full[headnumber].objectIndex);
-//
-//            		int preFlow=box_full[headnumber].flow.degree;
-//            		int preMag=box_full[headnumber].flow.magnitude;
-//
-//
-//            		match=objectMatch(num, preFlow, average_result.degree, preMag, average_result.magnitude, box_full[headnumber].classtype, box_para[idx_store[p]][4], headnumber, idx_store[p]);
-//                	if(match==1){
-//                		box_para[idx_store[p]][9]=box_full[headnumber].objectIndex;
-//
-//                		Boxflow nullflow=putNullInsideBox();
-//                		printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], headnumber, box_full[headnumber].objectIndex);
-//
-//
-//                		box_full[headnumber]=nullflow;
-//                		headconstant=remove_any(headconstant,headcount);
-//                		average_result=updateFlow(preFlow, preMag, average_result);
-//                		printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
-//                		printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
-//                		object_prenum=object_prenum-1;
-//
-//                		break;
-//
-//                	}
-//
-//            		headcount=headcount->next;
-//        	}
 
         	//If there is no match, compare with the previously unmatched ones inside box_Adfull
     		//TODO: if there is nothing inside, don't compare
@@ -898,7 +869,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
         	if(match || (match2 && overlap)){
-
+        		//ADDED: store the index of valid bounding boxes
         		//if matched, update the each kalman filter in the hashtable
         		printf("3. Kalman Filter Update: \n");
         		temp_kalmanbox=hashsearch(hashArray, box_para[idx_store[p]][9])->element;
@@ -931,10 +902,12 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		int discard=calculateOverlappingRatio(num, idx_store[p], box_para, box_full, hashArray, 0.1);
         		if(discard==1){
             		printf("\t Discard!\n");
+                	cvReleaseImage(&pre_boxcrop);
+                	cvReleaseImage(&boxcrop);
         			continue;
         		}
 
-        		//if not matched, put the new kalman filter inside the hashtable
+        		//if not matched, put the new kalman filter inside the hashtable		snode* head=NULL;
         		box_tempfull[idx_store[p]]=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], objectIndex);
         		printf("\t new object: %i\n", objectIndex);
 
@@ -953,7 +926,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             	cvWaitKey(0);
             }
 
-            idx_tempprestore[p]=idx_store[p]; //ADDED: store the index of bouding boxes
+            idx_tempprestore[p]=idx_store[p];
         	cvReleaseImage(&pre_boxcrop);
         	cvReleaseImage(&boxcrop);
     	}
@@ -1003,14 +976,17 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	hashdisplay(hashArray);
 
 
-
+    	printf("Attention: %i\n", box_full[889].objectIndex);
     	//TODO: Optimize later
     	int pp;
       	for(pp=0;pp<object_num;pp++){
       		printf("%i\n",idx_store[pp]);
     		box_full[idx_store[pp]]=box_tempfull[idx_store[pp]];
+    		Boxflow nullflow=putNullInsideBox();
+    		box_tempfull[idx_store[pp]]=nullflow;
 
     	}
+    	printf("Attention: %i\n", box_full[889].objectIndex);
 
 
 		snode* head=NULL;

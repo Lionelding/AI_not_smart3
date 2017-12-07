@@ -165,7 +165,7 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
     cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));
+    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 4, 1.5, CV_RGB(0, 255, 0));
     if(frame_num>=debug_frame){
     	cvShowImage("OpticalFlowFarneback", cflow);
     	cvWaitKey(0);
@@ -344,7 +344,6 @@ Opticalflow compute_opticalflow(IplImage *previous, IplImage *current, int xoff,
 
     	CvPoint abs_p0=cvPoint(abs_0x,abs_0y);
     	CvPoint abs_p1=cvPoint(abs_1x,abs_1y);
-
     	average=create_opticalflow(sum_p0, sum_p1, abs_p0, abs_p1);
     }
 
