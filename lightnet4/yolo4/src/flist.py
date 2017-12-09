@@ -62,7 +62,7 @@ def showHistogram(inString):
 
 
     # Perform Maximum Clipping
-    listFloat, bigmean=maximumClipping(listFloat, 0);
+    listFloat, bigmean=maximumClipping(listFloat, 3);
     if(bigmean==2):
         ##fg is stationary, no need to compute GMM
         print ""
@@ -90,9 +90,9 @@ def showHistogram(inString):
 
 
     meanValue=findMaxMin(meanlist, bigmean)
-    print meanValue
+    #print meanValue
     print ""
-    return int(round(meanValue))   
+    return meanValue   
 
 def findMaxMin(meanlist, bigmean):
 
@@ -134,7 +134,8 @@ def maximumClipping(listFloat, diff):
 
 
     ## If the maximum value of key AA is larger than key BB by 10 or more, 
-    ## then we assign the value of key AA with value in BB + 10
+    ## then we assign the value of key AA with value in BB + diff (user input)
+    ## if extremeClipping, we assign the value of key AA with value of 1
     max3=heapq.nlargest(2, dictionary, key=dictionary.get)
     oldMax0=dictionary[max3[0]]
 
@@ -161,7 +162,7 @@ def maximumClipping(listFloat, diff):
     ## Case 2: Foreground move and background stops
     if (max3[0]==0 and (dictionary[max3[0]]-dictionary[max3[1]])>diff):
         if(extremeClipping):
-            dictionary[max3[0]]=0
+            dictionary[max3[0]]=1
         else:
             dictionary[max3[0]]=dictionary[max3[1]]+diff
         newMax0=dictionary[max3[0]]

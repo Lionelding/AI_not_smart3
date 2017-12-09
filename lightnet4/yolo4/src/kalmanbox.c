@@ -68,15 +68,32 @@ void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint o
 
 	//Update clock
 	kalmanbox_out->clock=1+kalmanbox_out->clock;
-	printf("\t clock: %i\n", kalmanbox_out->clock);
+	printf("\t Kalman filter clock: %i\n", kalmanbox_out->clock);
 
  	printf("\t Bounding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
-	//float observed_position[2]={observedPt.x, observedPt.y};
-	float observed_position[4]={observedPt.x, observedPt.y, observedV.x, observedV.y};
-	memcpy(kalmanbox_out->z_k->data.fl, observed_position, sizeof(observed_position));
-	printf("\t Current Measurement z_k x: %0.0f, y: %0.0f\n", kalmanbox_out->z_k->data.fl[0], kalmanbox_out->z_k->data.fl[1]);
+    float modified_observed_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
+
+//    if((kalmanbox_out->kalmanfilter->state_pre->data.fl[2]=!0 || kalmanbox_out->kalmanfilter->state_pre->data.fl[3]!=0) && (observedV.x==0 && observedV.y==0)){
+//    	//Add some offset from previous state_prediction
+//    	modified_observed_position[0]=observedPt.x;
+//    	modified_observed_position[1]=observedPt.y;
+//    	modified_observed_position[2]=(observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2;
+//    	modified_observed_position[3]=(observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2;
+//    	printf("\t Add offsets to observed\n");
+//
+//    }
+//    else{
+//    	modified_observed_position[0]=observedPt.x;
+//    	modified_observed_position[1]=observedPt.y;
+//    	modified_observed_position[2]=observedV.x;
+//    	modified_observed_position[3]=observedV.y;
+//    }
+
+
+ 	printf("\t Modified Measurement x: %0.1f, y: %0.1f, vx: %0.1f, vy: %0.1f\n", modified_observed_position[0], modified_observed_position[1], modified_observed_position[2], modified_observed_position[3]);
+ 	memcpy(kalmanbox_out->z_k->data.fl, modified_observed_position, sizeof(modified_observed_position));
 
 
 	kalmanbox_out->x_k=cvKalmanCorrect(kalmanbox_out->kalmanfilter, kalmanbox_out->z_k );

@@ -116,11 +116,12 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
 
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
-    xcomponent=PyInt_AsLong(pValue);
+    xcomponent=PyFloat_AsDouble(pValue);
     pValue = PyObject_CallObject(pFunc, pY);
     Py_DECREF(pY);
-    ycomponent=PyInt_AsLong(pValue);
+    ycomponent=PyFloat_AsDouble(pValue);
     printf("\txcomponent: %0.2f, ycomponent: %0.2f\n", xcomponent, ycomponent);
+
 
 //    Py_DECREF(pXArgs);
 //    Py_DECREF(pYArgs);
@@ -165,8 +166,10 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
     cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
 
     cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 4, 1.5, CV_RGB(0, 255, 0));
+    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));
     if(frame_num>=debug_frame){
+    	cvShowImage("prevgray", prevgray);
+    	cvShowImage("gray", gray);
     	cvShowImage("OpticalFlowFarneback", cflow);
     	cvWaitKey(0);
     }

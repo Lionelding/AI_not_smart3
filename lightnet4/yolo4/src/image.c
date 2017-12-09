@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=50;
+static int debug_frame=100;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -463,29 +463,34 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 
  		update_kalmanfilter(im_frame, temp_kalmanbox, boxcenter, boxvelocity, width, height);
 		hashUpdate(hashArray, in.objectIndex, temp_kalmanbox);
-		printf("\t magnitude: %0.0f, flow: %0.0f\n", in.flow.magnitude, in.flow.degree);
 
 
 		//If temp is previously saved in the box_Adfull, then find it. Else, save the temp into the first empty index
 		int i;
-		int j=10000;
-		int jlock=0; //ADDED: find the first empty index to save temp
+		int j=MISS;
+		int jlock=0;
 		for(i=0;i<arraysize;i++){
 			if(box_Adfull[i].objectIndex==in.objectIndex){
 				printf("\t Find the object %i in box_Adfull\n", box_Adfull[i].objectIndex);
 				j=i;
+				clock_Adfull[j]=clock_Adfull[j]+1;
+				printf("\t Increment temporary clock: %i\n", clock_Adfull[j]);
 				break;
 			}
+
+			//ADDED: find the first empty index to save temp
 			if(jlock==0 && box_Adfull[i].width==0 && box_Adfull[i].height==0){
 				j=i;
 				jlock=1;
+				clock_Adfull[j]=0;
+				printf("\t Initialize temporary clock: %i\n", clock_Adfull[i]);
+
 			}
 		}
 
-		if(j==10000){
+		if(j==MISS){
 			assert(0 && "box_Adfull is full!\n");
 		}
-
 
 
 		//Case 1: get out of the boundary
@@ -506,9 +511,8 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 		temp.width=width;
 		temp.height=height;
 
-
 		box_Adfull[j]=temp;
-		clock_Adfull[j]=clock_Adfull[j]+1;
+
 
 		//Case 2: Time is up
 		if(clock_Adfull[j]>10){
@@ -567,7 +571,6 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[i]=nullflow;
 			clock_Adfull[i]=0;
-
 			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
 			hashdelete(hashArray, in.objectIndex);
 
@@ -579,7 +582,6 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 		temp.width=width;
 		temp.height=height;
 
-
 		box_Adfull[i]=temp;
 		clock_Adfull[i]=clock_Adfull[i]+1;
 
@@ -589,7 +591,6 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[i]=nullflow;
 			clock_Adfull[i]=0;
-
 			cvReleaseKalman(&(temp_kalmanbox->kalmanfilter));
 			hashdelete(hashArray, in.objectIndex);
 			return;
@@ -610,7 +611,7 @@ int calculateOverlapping(Boxflow unmatched, int* current){
 	if(unmatched.height==0 && unmatched.width==0){
 		return 0;
 	}
-	printf("\t Unmatched: degree: %0.0f, mag: %0.0f objectIndex: %i\n", unmatched.flow.degree, unmatched.flow.magnitude, unmatched.objectIndex);
+	printf("\t Unmatched: box_Adfull[i], degree: %0.0f, mag: %0.0f objectIndex: %i\n", unmatched.flow.degree, unmatched.flow.magnitude, unmatched.objectIndex);
 	int xleft=current[0];
 	int xtop=current[1];
 	int xright=current[0]+current[2];
@@ -690,12 +691,11 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 				overLapRatio=(float)area/(w2*h2);
 
 
-
 				if(overLapRatio>threshold){
 
 				    int possibleObjectIndex=box_full[possibleIndex].objectIndex;
 				    int clock=hashsearch(hashArray, possibleObjectIndex)->element->clock;
-				    if(clock>=10){
+				    if(clock>=5){
 						printf("\t overlapping objectIndex: %i, possibelIndex: %i\n", possibleObjectIndex, possibleIndex);
 					    printf("\t overlapping area: %i, ratio: %0.02f\n", area, overLapRatio);
 				    	return 1;
@@ -734,32 +734,34 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         //Calculate Optical Flow for Unmatched Objects
         //TODO: optimize speed
-    	printf("0. Calculate Optical Flow for Unmatched Objects\n");
-        int kk;
-        for(kk=0;kk<box_Adfull_size;kk++){
-
-        	if(box_Adfull[kk].width==0 && box_Adfull[kk].height==0){
-        		continue;
-        	}
-
-            IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
-            boxcrop2=image_convert_IplImage(im, boxcrop2);
-
-            IplImage *pre_boxcrop2=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
-            pre_boxcrop2=image_convert_IplImage(pre_im, pre_boxcrop2);
-
-            printf("\n");
-            printf("\t objectIndex: %i, preFlow: %0.0f, preMag: %0.0f\n", box_Adfull[kk].objectIndex, box_Adfull[kk].flow.magnitude, box_Adfull[kk].flow.degree);
-            cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
-            cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
-
-            //average_result=updateFlow(preFlow, preMag, average_result);
-            average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2, frame_num, debug_frame);
-            box_Adfull[kk].flow=average_Ad;
-            printf("\t nowFlow: %0.0f, nowMag: %0.0f\n", box_Adfull[kk].flow.magnitude, box_Adfull[kk].flow.degree);
-        	cvReleaseImage(&pre_boxcrop2);
-        	cvReleaseImage(&boxcrop2);
-        }
+//    	printf("0. Calculate Optical Flow for Unmatched Objects\n");
+//        int kk;
+//        for(kk=0;kk<box_Adfull_size;kk++){
+//
+//        	if(box_Adfull[kk].width==0 && box_Adfull[kk].height==0){
+//        		continue;
+//        	}
+//
+//            IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
+//            boxcrop2=image_convert_IplImage(im, boxcrop2);
+//
+//            IplImage *pre_boxcrop2=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
+//            pre_boxcrop2=image_convert_IplImage(pre_im, pre_boxcrop2);
+//
+//            printf("\n");
+//            printf("\t objectIndex: %i, preFlow: %0.0f, preMag: %0.0f\n", box_Adfull[kk].objectIndex, box_Adfull[kk].flow.degree, box_Adfull[kk].flow.magnitude);
+//            cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
+//            cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
+//
+//            //average_result=updateFlow(preFlow, preMag, average_result);
+//            average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2, frame_num, debug_frame);
+//
+//
+//            box_Adfull[kk].flow=average_Ad;
+//            printf("\t nowFlow: %0.0f, nowMag: %0.0f\n", box_Adfull[kk].flow.degree, box_Adfull[kk].flow.magnitude);
+//        	cvReleaseImage(&pre_boxcrop2);
+//        	cvReleaseImage(&boxcrop2);
+//        }
 
 
     	for(p=0;p<object_num;p++){
@@ -780,9 +782,12 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	Opticalflow average_result=compute_opticalflowFB(pre_boxcrop, boxcrop, frame_num, debug_frame);
 
 
+
         	int match=0; //current matches previous objects from box_full
         	int match2=0; //current rematches saved objects from box_Adfull
         	int overlap=0;
+
+
         	printf("2. Match and Update: \n");
     		printf("\t Current: idx_store[p]: %i degree: %0.0f mag: %0.0f\n", idx_store[p], average_result.degree, average_result.magnitude);
     		snode* headcount=headconstant;
@@ -802,15 +807,15 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		int preMag=box_full[bestIndex].flow.magnitude;
 
 
-
+        		//Remove the object which is matched from the last frame
             	box_full[bestIndex]=nullflow;
-
 
 
             	average_result=updateFlow(preFlow, preMag, average_result);
             	printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
             	printf("\t magnitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
             	object_prenum=object_prenum-1;
+
 
             	headcount=headconstant;
             	while(headcount!=NULL){
@@ -895,6 +900,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		box_tempfull[idx_store[p]]=temp_boxflow;
 
 
+
         	}
         	else{
 
@@ -976,36 +982,38 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	hashdisplay(hashArray);
 
 
-    	printf("Attention: %i\n", box_full[889].objectIndex);
     	//TODO: Optimize later
+    	printf("\t All Detection from idx_store: ");
     	int pp;
       	for(pp=0;pp<object_num;pp++){
-      		printf("%i\n",idx_store[pp]);
+
+      		printf("%i ",idx_store[pp]);
     		box_full[idx_store[pp]]=box_tempfull[idx_store[pp]];
     		Boxflow nullflow=putNullInsideBox();
     		box_tempfull[idx_store[pp]]=nullflow;
 
     	}
-    	printf("Attention: %i\n", box_full[889].objectIndex);
+      	printf("\n");
 
 
 		snode* head=NULL;
 		head=prepend(head, 0);
 		headconstant=head;
 
+		printf("\t Valid Detection from idx_tempprestore: ");
     	int xx;
     	for(xx=0;xx<40;xx++){
 
     		if(idx_tempprestore[xx]!=0){
-    			printf("idx_tempprestore[xx] %i\n",idx_tempprestore[xx]);
+    			printf("%i ",idx_tempprestore[xx]);
     			head=append(head,idx_tempprestore[xx]);
     		}
 
     		idx_store[xx]=0;
     		idx_tempprestore[xx]=0;
 
-
     	}
+    	printf("\n");
 
     	//TODO: Optimize
     	int iic,jjc;
@@ -1014,7 +1022,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     			box_para[iic][jjc]=0;
     		}
     	}
-
 
 
 
@@ -1676,6 +1683,7 @@ image make_empty_image(int w, int h, int c)
     out.w = w;
     out.c = c;
     return out;
+
 }
 
 int computeDegree(double sum_p0_x, double sum_p0_y, double sum_p1_x, double sum_p1_y){
