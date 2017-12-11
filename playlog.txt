@@ -771,3 +771,26 @@ THESIS:
 Due to low resolution, the number of elements inside the optical flow is very limited, therefore limiting the results in terms of degree and magnitude
 
 two objects with the same class, close to each other, traveling in the same direction, 
+
+a new object with two bounding boxes 
+
+
+
+Optical flow calculation 
+
+THESIS:
+
+	1. Optical flow density
+
+	Case 1:
+		Small images,
+			compute optical flow every 4 pixel,
+			insufficient number of optical flow vectors, some important areas will be ignored, resulting in much less accurate result
+		Solution: make 4 to 8
+
+	Case 2: 
+		Large image,
+			compute optical flow every 8 pixel,
+			optical flow will also be calculated for the moving details, resulting in some unwanted optical flow
+			Espeically obvious for pedestrain classes
+

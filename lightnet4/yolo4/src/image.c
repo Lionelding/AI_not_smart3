@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=100;  //12
+static int debug_frame=48;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -656,7 +656,7 @@ int overLappingArea(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int 
     return area;
 }
 
-int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* box_full, DataItem* hashArray, float threshold){
+int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* box_full, Boxflow* box_tempfull, DataItem* hashArray, float threshold){
 
 
 	int totalcell=num/5;
@@ -692,11 +692,50 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 
 
 				if(overLapRatio>threshold){
+					int possibleObjectIndex=MISS; //first bounding box
+					int nowObjectIndex=MISS;	//second bounding box
+					int targetObjectIndex;
+					int targetIndex;
+					int testststs=box_full[191].objectIndex;
+					if((box_full[possibleIndex].height!=0)&&box_full[possibleIndex].width!=0){
+						possibleObjectIndex=box_full[possibleIndex].objectIndex;
+					}
 
-				    int possibleObjectIndex=box_full[possibleIndex].objectIndex;
-				    int clock=hashsearch(hashArray, possibleObjectIndex)->element->clock;
+					else if((box_tempfull[possibleIndex].height!=0)&&box_tempfull[possibleIndex].width!=0){
+						possibleObjectIndex=box_tempfull[possibleIndex].objectIndex;
+					}
+
+					if(box_full[nowIndex].height!=0&&box_full[nowIndex].width!=0){
+						nowObjectIndex=box_full[nowIndex].objectIndex;
+					}
+
+					else if((box_tempfull[nowIndex].height!=0)&&box_tempfull[nowIndex].width!=0){
+						nowObjectIndex=box_tempfull[nowIndex].objectIndex;
+					}
+
+					//Case 1: previously correct bbox matching, duplicated bounding boxes
+					if(possibleObjectIndex!=MISS && nowObjectIndex==MISS){
+						targetObjectIndex=possibleObjectIndex;
+						targetIndex=possibleIndex;
+					}
+
+					//Case 2: previously wrong bbox matching, duplicated bounding boxes
+					else if(possibleObjectIndex==MISS && nowObjectIndex!=MISS){
+						targetObjectIndex=nowObjectIndex;
+						targetIndex=nowIndex;
+					}
+
+					//Case 3: no previous bbox matching, duplcated bounding boxes
+					else if(possibleObjectIndex==MISS && nowObjectIndex==MISS){
+						//TODO: later
+						assert(0);
+					}
+
+
+
+				    int clock=hashsearch(hashArray, targetObjectIndex)->element->clock;
 				    if(clock>=5){
-						printf("\t overlapping objectIndex: %i, possibelIndex: %i\n", possibleObjectIndex, possibleIndex);
+						printf("\t overlapping objectIndex: %i, possibelIndex: %i\n", targetObjectIndex, targetIndex);
 					    printf("\t overlapping area: %i, ratio: %0.02f\n", area, overLapRatio);
 				    	return 1;
 				    }
@@ -793,7 +832,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     		snode* headcount=headconstant;
     		int newIndex=idx_store[p];
 
-
     		int bestIndex=objectMath45(num, average_result.degree, average_result.magnitude, newIndex, box_para[idx_store[p]][4], box_full);
     		if(bestIndex!=num+1){
             	match=1;
@@ -880,9 +918,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		temp_kalmanbox=hashsearch(hashArray, box_para[idx_store[p]][9])->element;
 
         		update_kalmanfilter(pre_im_frame, temp_kalmanbox, boxcenter, boxvelocity, box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
-
-
         		hashUpdate(hashArray, box_para[idx_store[p]][9], temp_kalmanbox);
+
 
 
 //        		if(frame_num>debug_frame&&box_para[idx_store[p]][9]==5){
@@ -899,13 +936,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
          		Boxflow temp_boxflow=putFlowInsideBox(average_result,box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][4], box_para[idx_store[p]][5], box_para[idx_store[p]][6], box_para[idx_store[p]][7], box_para[idx_store[p]][8], box_para[idx_store[p]][9]);
         		box_tempfull[idx_store[p]]=temp_boxflow;
 
-
-
         	}
         	else{
 
         		//Added a condition to get rid of the duplicated bounding boxes
-        		int discard=calculateOverlappingRatio(num, idx_store[p], box_para, box_full, hashArray, 0.1);
+        		int discard=calculateOverlappingRatio(num, idx_store[p], box_para, box_full, box_tempfull, hashArray, 0.1);
         		if(discard==1){
             		printf("\t Discard!\n");
                 	cvReleaseImage(&pre_boxcrop);
@@ -937,29 +972,24 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	cvReleaseImage(&boxcrop);
     	}
 
-    	printf("\t before processing unmatched\n");
-    	hashdisplay(hashArray);
-
-    	//Draw any unmatched objects from previous frames
-
     	printf("4. Draw Previous Unmatched Objects\n");
+    	//Draw any unmatched objects from previous frames
+    	hashdisplay(hashArray);
     	loopUnmatched(pre_im_frame, box_Adfull_size);
 
 
     	printf("5. Process Current Unmatched Objects: \n");
     	if (object_prenum!=0){
-    		snode* headcount=headconstant;
+    		snode* headcount=headconstant->next;
     		kalmanbox* temptemp_kalmanbox;
 
     		while(headcount!=NULL){
         		int headnumber=headcount->data;
+
         		Boxflow nullflow=putNullInsideBox();
         		temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
 
-        		if(headnumber==0){
-        			printf("\t skip!\n");
-        		}
-        		else if((temptemp_kalmanbox->clock)>=3){
+        		if((temptemp_kalmanbox->clock)>=3){
         			saveUnmatched(pre_im_frame, box_full[headnumber], box_Adfull_size);
 
         		}
@@ -984,7 +1014,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     	//TODO: Optimize later
     	printf("\t All Detection from idx_store: ");
+
+    	double a1=get_wall_time();
     	int pp;
+
       	for(pp=0;pp<object_num;pp++){
 
       		printf("%i ",idx_store[pp]);
@@ -994,10 +1027,17 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
     	}
       	printf("\n");
+    	double b1=get_wall_time();
+    	double timer1=b1-a1;
+    	printf("%0.3f\n", timer1);
+
+
+
+
 
 
 		snode* head=NULL;
-		head=prepend(head, 0);
+		head=prepend(head, MISS);
 		headconstant=head;
 
 		printf("\t Valid Detection from idx_tempprestore: ");
@@ -1015,13 +1055,21 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	}
     	printf("\n");
 
-    	//TODO: Optimize
-    	int iic,jjc;
+
+    	double a=get_wall_time();
+
+    	int iic;
     	for(iic=0;iic<num;iic++){
-    		for(jjc=0;jjc<13;jjc++){
-    			box_para[iic][jjc]=0;
-    		}
+
+    		memset(box_para[iic], 0, 13 * sizeof(int));
     	}
+
+    	double b=get_wall_time();
+    	double timer2=b-a;
+    	printf("%0.3f\n", timer2);
+
+
+
 
 
 

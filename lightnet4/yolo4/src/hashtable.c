@@ -42,8 +42,8 @@ DataItem* hashsearch(DataItem** hashArray, int key) {
       hashIndex %= SIZE;
       internalclock++;
    }
-
-   assert(0 && "Hashtable Fails to Search the Element!\n");
+   printf("objectIndex %i not found!\n", key);
+   assert(0 && "Hashtable Fails to Find the Element!\n");
    return NULL;
 }
 
