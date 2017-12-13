@@ -784,13 +784,49 @@ THESIS:
 
 	Case 1:
 		Small images,
-			compute optical flow every 4 pixel,
+			sample computed optical flow every 16 pixel,
 			insufficient number of optical flow vectors, some important areas will be ignored, resulting in much less accurate result
-		Solution: make 4 to 8
+		Solution: make 16 to 8
 
 	Case 2: 
-		Large image,
-			compute optical flow every 8 pixel,
-			optical flow will also be calculated for the moving details, resulting in some unwanted optical flow
-			Espeically obvious for pedestrain classes
+		Large images,
+			some moving details will introduce some unwanted optical flows (Espeically obvious for pedestrain classes)
+		Solution:
+			smooth the image by using a larger averaging window size of 25, and poly_n parameter: 
+
+			https://docs.opencv.org/2.4.8/modules/video/doc/motion_analysis_and_object_tracking.html
+
+			sample optical flow every 16 pixel,
+
+
+	2. Improved object matching algorithm 
+		Instead of comparing current detection with each detected object from last frame, we only look at surronding 45 bounding boxes in the neigheborhood.
+		This makes the overall process takes longer time. 
+		look at the center index first, and then surronding 44 boxes
+			
+	3. Improved the alogrithm to determine dupcliated bounding boxes
+
+
+			Case 1: previously correct bbox matching, duplicated bounding boxes
+
+			Case 2: previously wrong bbox matching, duplicated bounding boxes
+
+			Case 3: The class id of detection box changes, both detection bounding boxes are valid
+
+			Case 4: no previous bbox matching, duplcated bounding boxes
+
+	4. Display
+		tracking and detection 
+		tracking label is displayed on previous detection frame instead of current frame
+
+
+	5. Fixed bugs
+
+		1. conversion between float and integer in GMM
+		2. changed threhold for general usage
+		3. hashmap saving 
+
+	6. Issues:
+
+		1. Bounding box is not close to object (i.e. behind the object). Zero optical flow, Kalman filter prediction is 0 
 

@@ -162,19 +162,22 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
 
     CvMat* flow = cvCreateMat(height, width, CV_32FC2);
     CvMat* cflow = cvCreateMat(height, width, CV_8UC3);
+    Opticalflow GMMflow;
 
     if(height>150 && width>150){
-    	printf("LARGE!\n");
-        cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 25, 3, 9, 1.5, 0);
+    	printf("\t Large Image!!\n");
+        cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 30, 3, 9, 1.5, 0);
+        cvCvtColor(imgA, cflow, CV_GRAY2BGR);
+        GMMflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
     }
 
     else{
         cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 15, 3, 5, 1.2, 0);
+        cvCvtColor(imgA, cflow, CV_GRAY2BGR);
+        GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));
     }
 
 
-    cvCvtColor(imgA, cflow, CV_GRAY2BGR);
-    Opticalflow GMMflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
     if(frame_num>=debug_frame){
     	cvShowImage("prevgray", prevgray);
     	cvShowImage("gray", gray);

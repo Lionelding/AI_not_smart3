@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=48;  //12
+static int debug_frame=5;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -528,7 +528,7 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 		}
 
 
-    	draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[j].objectIndex);
+		draw_tracking(im_frame, left, top, width, height, 0, 0, 52, box_Adfull[j].objectIndex);
         if(frame_num>=debug_frame){
         	cvWaitKey(0);
         }
@@ -725,10 +725,17 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 						targetIndex=nowIndex;
 					}
 
-					//Case 3: no previous bbox matching, duplcated bounding boxes
+					//Case 3: The class id of detection box changes, both detection bounding boxes are valid
+					else if(possibleObjectIndex!=MISS && nowObjectIndex!=MISS){
+						continue;
+
+					}
+
+					//Case 4: no previous bbox matching, duplcated bounding boxes
 					else if(possibleObjectIndex==MISS && nowObjectIndex==MISS){
 						//TODO: later
-						assert(0);
+						//assert(0 && "Fix it!\n");
+						continue;
 					}
 
 
@@ -771,36 +778,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             printf("Wake up!\n");
         }
 
-        //Calculate Optical Flow for Unmatched Objects
-        //TODO: optimize speed
-//    	printf("0. Calculate Optical Flow for Unmatched Objects\n");
-//        int kk;
-//        for(kk=0;kk<box_Adfull_size;kk++){
-//
-//        	if(box_Adfull[kk].width==0 && box_Adfull[kk].height==0){
-//        		continue;
-//        	}
-//
-//            IplImage *boxcrop2=cvCreateImage(cvSize(im.w,im.h), IPL_DEPTH_8U, im.c);
-//            boxcrop2=image_convert_IplImage(im, boxcrop2);
-//
-//            IplImage *pre_boxcrop2=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
-//            pre_boxcrop2=image_convert_IplImage(pre_im, pre_boxcrop2);
-//
-//            printf("\n");
-//            printf("\t objectIndex: %i, preFlow: %0.0f, preMag: %0.0f\n", box_Adfull[kk].objectIndex, box_Adfull[kk].flow.degree, box_Adfull[kk].flow.magnitude);
-//            cvSetImageROI(pre_boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
-//            cvSetImageROI(boxcrop2, cvRect(box_Adfull[kk].left, box_Adfull[kk].top, box_Adfull[kk].width, box_Adfull[kk].height));
-//
-//            //average_result=updateFlow(preFlow, preMag, average_result);
-//            average_Ad=compute_opticalflowFB(pre_boxcrop2, boxcrop2, frame_num, debug_frame);
-//
-//
-//            box_Adfull[kk].flow=average_Ad;
-//            printf("\t nowFlow: %0.0f, nowMag: %0.0f\n", box_Adfull[kk].flow.degree, box_Adfull[kk].flow.magnitude);
-//        	cvReleaseImage(&pre_boxcrop2);
-//        	cvReleaseImage(&boxcrop2);
-//        }
 
 
     	for(p=0;p<object_num;p++){
@@ -853,7 +830,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             	printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
             	printf("\t magnitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
             	object_prenum=object_prenum-1;
-
 
             	headcount=headconstant;
             	while(headcount!=NULL){
