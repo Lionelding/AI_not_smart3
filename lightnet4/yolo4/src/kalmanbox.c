@@ -73,26 +73,26 @@ void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint o
  	printf("\t Bounding Box Measured Center x: %i, y: %i, vx: %i, vy: %i\n", observedPt.x, observedPt.y, observedV.x, observedV.y);
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
-    float input_position[4];
 
-    //float input_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
 
-    if((kalmanbox_out->kalmanfilter->state_pre->data.fl[2]=!0 || kalmanbox_out->kalmanfilter->state_pre->data.fl[3]!=0) && (observedV.x==0 && observedV.y==0)){
-    	//Add some offset from previous state_prediction
-        float modified_observed_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
-
-    	memcpy(input_position, modified_observed_position, sizeof(modified_observed_position));
-    	printf("\t Add Momentum to observed\n");
-    	cvWaitKey(0);
-
-    }
-    else{
-        float modified_observed_position[4]={observedPt.x, observedPt.y, observedV.x, observedV.y};
-
-    	memcpy(input_position, modified_observed_position, sizeof(modified_observed_position));
-    	printf("\t No Momentum to observed\n");
-
-    }
+    float input_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
+    //float input_position[4];
+//    if((kalmanbox_out->kalmanfilter->state_pre->data.fl[2]=!0 || kalmanbox_out->kalmanfilter->state_pre->data.fl[3]!=0) && (observedV.x==0 && observedV.y==0)){
+//    	//Add some offset from previous state_prediction
+//        float modified_observed_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
+//
+//    	memcpy(input_position, modified_observed_position, sizeof(modified_observed_position));
+//    	printf("\t Add Momentum to observed\n");
+//    	cvWaitKey(0);
+//
+//    }
+//    else{
+//        float modified_observed_position[4]={observedPt.x, observedPt.y, observedV.x, observedV.y};
+//
+//    	memcpy(input_position, modified_observed_position, sizeof(modified_observed_position));
+//    	printf("\t No Momentum to observed\n");
+//
+//    }
 
 
  	printf("\t Modified Measurement x: %0.1f, y: %0.1f, vx: %0.1f, vy: %0.1f\n", input_position[0], input_position[1], input_position[2], input_position[3]);

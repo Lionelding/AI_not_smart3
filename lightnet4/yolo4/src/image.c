@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=5;  //12
+static int debug_frame=100;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -772,11 +772,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         IplImage *pre_im_frame=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
         pre_im_frame=image_convert_IplImage(pre_im, pre_im_frame);
 
-
-
         if(frame_num>=debug_frame){
             printf("Wake up!\n");
         }
+
 
 
 
