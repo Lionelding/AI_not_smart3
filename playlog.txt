@@ -829,4 +829,5 @@ THESIS:
 	6. Issues:
 
 		1. Bounding box is not close to object (i.e. behind the object). Zero optical flow, Kalman filter prediction is 0 
+		2. color information 
 
