@@ -109,7 +109,6 @@ void *detect_in_thread(void *ptr)
 
     }
 
-
     if (nms > 0) {
     	do_nms_obj(boxes, probs, l.w*l.h*l.n, l.classes, nms);
     }

@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=100;  //12
+static int debug_frame=550;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -48,6 +48,7 @@ static int box_Adfull_size=30; //ADDED: the total number of objects that can be 
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
+static int trajectoryID=0; //ADDED: track the corner ID
 
 //TODO: Check static issue
 static kalmanbox* temp_kalmanbox;
@@ -427,7 +428,7 @@ void draw_tracking(IplImage *im_frame, int left, int top, int width, int height,
 	CvPoint lefttop=cvPoint(left, top);
 	CvPoint rightbot=cvPoint(left+width, top+height);
 	CvScalar color=CV_RGB(color1, color2, color3);
-	cvRectangle(im_frame, lefttop, rightbot, color, 3, 8, 0 );
+	cvRectangle(im_frame, lefttop, rightbot, color, 2, 8, 0 );
     char object[sizeof(objectIndex)];
     sprintf(object, "%d", objectIndex);
 	CvFont font;
@@ -659,7 +660,7 @@ int overLappingArea(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int 
 int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* box_full, Boxflow* box_tempfull, DataItem* hashArray, float threshold){
 
 
-	int totalcell=num/5;
+	int totalcell=num/5;    int trajectoryID=0;
 	int totalrow=(int)sqrt(totalcell);
 	int possibleIndex;
 	float overLapRatio;
@@ -691,7 +692,7 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 				overLapRatio=(float)area/(w2*h2);
 
 
-				if(overLapRatio>threshold){
+				if(overLapRatio>threshold){    int trajectoryID=0;
 					int possibleObjectIndex=MISS; //first bounding box
 					int nowObjectIndex=MISS;	//second bounding box
 					int targetObjectIndex;
@@ -760,6 +761,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 {
     int i;
     int idx_count=0;
+
 
     //int debug_object_index=3;
     image screenshot=copy_image(im);
@@ -932,10 +934,58 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
 
+    			FILE *f1 = fopen("table/objects.txt", "a");
+    			fprintf(f1, "%i, %i, %i\n", box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][4], 1);
+    			fclose(f1);
+
+
         	}
 
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
         	draw_tracking(pre_im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
+
+
+        	//objects Table
+        	//object id box_para[id_store[p]][9]
+        	//object class box_para[id_store[p]][4]
+        	//object number: 1
+
+        	//object features
+        	//object id
+        	//trajectory id
+
+			int cornerIndex;
+
+			FILE *f2 = fopen("table/objects_features.txt", "a");
+			FILE *f3 = fopen("table/Positions.txt", "a");
+
+
+
+			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
+			trajectoryID=trajectoryID+1;
+
+			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]);
+			trajectoryID=trajectoryID+1;
+
+			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
+			trajectoryID=trajectoryID+1;
+
+			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
+			trajectoryID=trajectoryID+1;
+
+			fclose(f2);
+			fclose(f3);
+
+        	//Positions
+        	//trajectory id
+        	//framenum:
+        	//x coordinates:
+        	//y coordinates:
+
 
 
             if(frame_num>=debug_frame){
@@ -1168,7 +1218,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             idx_store[idx_count]=i;
             idx_count=idx_count+1;
             object_num=object_num+1;
-
 
             printf("\t Frame: %s Class: %s %0.f%%, index: %i, row: %0.0f, col: %0.0f, n:%0.0f objectIndex: %d\n", fr, names[class], prob*100, i, probs[i][81], probs[i][82], probs[i][83], objectIndex2);
             draw_box_width(im, left, top, right, bot, width, red, green, blue);

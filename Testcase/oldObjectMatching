@@ -1,0 +1,29 @@
+//        	while (headcount!=NULL){//frame>2
+//        			int headnumber=headcount->data;
+//            		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", headnumber, box_full[headnumber].flow.degree, box_full[headnumber].flow.magnitude, box_full[headnumber].objectIndex);
+//
+//            		int preFlow=box_full[headnumber].flow.degree;
+//            		int preMag=box_full[headnumber].flow.magnitude;
+//
+//
+//            		match=objectMatch(num, preFlow, average_result.degree, preMag, average_result.magnitude, box_full[headnumber].classtype, box_para[idx_store[p]][4], headnumber, idx_store[p]);
+//                	if(match==1){
+//                		box_para[idx_store[p]][9]=box_full[headnumber].objectIndex;
+//
+//                		Boxflow nullflow=putNullInsideBox();
+//                		printf("\t %i matches with %i, with objectIndex: %i\n", idx_store[p], headnumber, box_full[headnumber].objectIndex);
+//
+//
+//                		box_full[headnumber]=nullflow;
+//                		headconstant=remove_any(headconstant,headcount);
+//                		average_result=updateFlow(preFlow, preMag, average_result);
+//                		printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);
+//                		printf("\t magitude updates from %i to %0.0f\n", preMag, average_result.magnitude);
+//                		object_prenum=object_prenum-1;
+//
+//                		break;
+//
+//                	}
+//
+//            		headcount=headcount->next;
+//        	}

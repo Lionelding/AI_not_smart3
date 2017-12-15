@@ -76,6 +76,7 @@ void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint o
 
 
     float input_position[4]={observedPt.x, observedPt.y, (observedV.x+kalmanbox_out->kalmanfilter->state_pre->data.fl[2])/2, (observedV.y+kalmanbox_out->kalmanfilter->state_pre->data.fl[3])/2};
+    //float input_position[4]={observedPt.x, observedPt.y, observedV.x, observedV.y};
     //float input_position[4];
 //    if((kalmanbox_out->kalmanfilter->state_pre->data.fl[2]=!0 || kalmanbox_out->kalmanfilter->state_pre->data.fl[3]!=0) && (observedV.x==0 && observedV.y==0)){
 //    	//Add some offset from previous state_prediction
@@ -119,7 +120,7 @@ void update_kalmanfilter(IplImage *im_frame, kalmanbox* kalmanbox_out, CvPoint o
 	float py=CV_MAT_ELEM(*(kalmanbox_out->kalmanfilter->state_pre), float, 1, 0);
 	CvPoint predictedlefttop=cvPoint(px-width/2, py-height/2);
 	CvPoint predictedrightbot=cvPoint(px+width/2, py+height/2);
-	cvRectangle(im_frame, predictedlefttop, predictedrightbot, CVX_WHITE, 3, 8, 0 );
+	cvRectangle(im_frame, predictedlefttop, predictedrightbot, CVX_WHITE, 2, 8, 0 );
     printf("\t state_pre x: %0.0f, y: %0.0f, vx: %0.0f, vy: %0.0f\n", kalmanbox_out->kalmanfilter->state_pre->data.fl[0], kalmanbox_out->kalmanfilter->state_pre->data.fl[1], kalmanbox_out->kalmanfilter->state_pre->data.fl[2], kalmanbox_out->kalmanfilter->state_pre->data.fl[3]);
 
 

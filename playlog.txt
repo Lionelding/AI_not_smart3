@@ -831,3 +831,9 @@ THESIS:
 		1. Bounding box is not close to object (i.e. behind the object). Zero optical flow, Kalman filter prediction is 0 
 		2. color information 
 
+
+#####	Week of 20171211	#####
+python ~/Desktop/gen2/TI/display-traj-class.py -i /home/liqiang/Topview/Brisk/Montreal_20160908_084200.mp4 -d sqliteTable/eat.sqlite
+
+
+python pt/TI/display-traj-class.py -i /home/liqiang/AI_not_smart3/lightnet4/yolo4/opticalflow.avi -d sqliteTable/eat.sqlite 
