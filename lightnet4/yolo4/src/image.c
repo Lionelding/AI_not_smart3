@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=550;  //12
+static int debug_frame=1200;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -41,6 +41,7 @@ static int object_prenum=0;
 static int *idx_tempprestore; //ADDED: store the index of valid bounding boxes
 static int saveDetection=1;
 static int saveOpticalflow=1;
+static int trajectory=0;  //ADDED: save the trajectory
 static int objectIndex=0;
 static Boxflow *box_tempfull; //ADDED: temporarily store the Boxflow vector, and copy it the box_full in the end
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
@@ -48,7 +49,10 @@ static int box_Adfull_size=30; //ADDED: the total number of objects that can be 
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
+
 static int trajectoryID=0; //ADDED: track the corner ID
+static int MOT=0; //ADDED: test MOT dataset
+static int URBEN=1; //ADDEDL test URBEN dataset
 
 //TODO: Check static issue
 static kalmanbox* temp_kalmanbox;
@@ -934,9 +938,36 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		hashinsert(hashArray, objectIndex, temp_kalmanbox);
         		objectIndex=objectIndex+1;
 
-    			FILE *f1 = fopen("table/objects.txt", "a");
-    			fprintf(f1, "%i, %i, %i\n", box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][4], 1);
-    			fclose(f1);
+        		if(trajectory==1){
+        			FILE *f1 = fopen("table/objects.txt", "a");
+        			fprintf(f1, "%i, %i, %i\n", box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][4], 1);
+        			fclose(f1);
+        		}
+
+        		if(box_para[idx_store[p]][4]==0){
+            		FILE *f6=fopen("Urben/objects.txt", "a");
+            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 2, "person");
+            		fclose(f6);
+        		}
+
+        		if(box_para[idx_store[p]][4]==2){
+            		FILE *f6=fopen("Urben/objects.txt", "a");
+            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 1, "car");
+            		fclose(f6);
+        		}
+
+        		if(box_para[idx_store[p]][4]==5){
+            		FILE *f6=fopen("Urben/objects.txt", "a");
+            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 5, "bus");
+            		fclose(f6);
+        		}
+
+        		if(box_para[idx_store[p]][4]==7){
+            		FILE *f6=fopen("Urben/objects.txt", "a");
+            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 6, "truck");
+            		fclose(f6);
+        		}
+
 
 
         	}
@@ -944,48 +975,60 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
         	draw_tracking(pre_im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
 
-
-        	//objects Table
-        	//object id box_para[id_store[p]][9]
-        	//object class box_para[id_store[p]][4]
-        	//object number: 1
-
-        	//object features
-        	//object id
-        	//trajectory id
-
-			int cornerIndex;
-
-			FILE *f2 = fopen("table/objects_features.txt", "a");
-			FILE *f3 = fopen("table/Positions.txt", "a");
+        	if(box_para[idx_store[p]][4]==2 || box_para[idx_store[p]][4]==0 || box_para[idx_store[p]][4]==5 || box_para[idx_store[p]][4]==7){
+        		FILE *f5=fopen("Urben/bounding_boxes.txt", "a");
+        		fprintf(f5, "%i,%i,%i,%i,%i,%i\n", box_tempfull[idx_store[p]].objectIndex, 2754+frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
+        		fclose(f5);
+        	}
 
 
+        	if(box_para[idx_store[p]][4]==0 && MOT==1){
+            	FILE *f4=fopen("out.txt", "a");
+            	fprintf(f4, "%i,%i,%i,%i,%i,%i,%i,%i,%i\n", frame_num-1, box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][5], box_para[idx_store[p]][4]+1, 1);
+    			fclose(f4);
 
-			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
-			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
-			trajectoryID=trajectoryID+1;
+            	FILE *f5=fopen("out2.txt", "a");
+            	fprintf(f5, "%i,%i,%i,%i,%i,%i,%i,%i,%i,%i,%i\n", frame_num-1, box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][5], -1, -1, -1, -1);
+    			fclose(f5);
 
-			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
-			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]);
-			trajectoryID=trajectoryID+1;
 
-			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
-			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
-			trajectoryID=trajectoryID+1;
+        	}
 
-			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
-			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
-			trajectoryID=trajectoryID+1;
 
-			fclose(f2);
-			fclose(f3);
+
+
+        	if(trajectory==1){
+
+    			FILE *f2 = fopen("table/objects_features.txt", "a");
+    			FILE *f3 = fopen("table/Positions.txt", "a");
+
+
+    			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+    			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]);
+    			trajectoryID=trajectoryID+1;
+
+    			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+    			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]);
+    			trajectoryID=trajectoryID+1;
+
+    			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+    			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
+    			trajectoryID=trajectoryID+1;
+
+    			fprintf(f2, "%i, %i\n", box_tempfull[idx_store[p]].objectIndex, trajectoryID);
+    			fprintf(f3, "%i, %i, %i, %i\n",trajectoryID, frame_num-2, box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
+    			trajectoryID=trajectoryID+1;
+
+    			fclose(f2);
+    			fclose(f3);
+        	}
+
 
         	//Positions
         	//trajectory id
         	//framenum:
         	//x coordinates:
         	//y coordinates:
-
 
 
             if(frame_num>=debug_frame){
@@ -1012,18 +1055,27 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         		int headnumber=headcount->data;
 
         		Boxflow nullflow=putNullInsideBox();
-        		temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
-
-        		if((temptemp_kalmanbox->clock)>=3){
-        			saveUnmatched(pre_im_frame, box_full[headnumber], box_Adfull_size);
-
+        		if(box_full[headnumber].objectIndex==0 && frame_num>=150){
+        			printf("Problems!\n");
+        			printf("headnumber: %i\n", headnumber);
         		}
 
         		else{
-        			//box_full[headnumber].
-        			printf("\t object: %i (cell: %i) does not have any match\n", box_full[headnumber].objectIndex, headnumber);
-        			cvReleaseKalman(&(temptemp_kalmanbox->kalmanfilter));
-        			hashdelete(hashArray, box_full[headnumber].objectIndex);
+            		temptemp_kalmanbox=hashsearch(hashArray, box_full[headnumber].objectIndex)->element;
+
+            		if((temptemp_kalmanbox->clock)>=3){
+            			saveUnmatched(pre_im_frame, box_full[headnumber], box_Adfull_size);
+
+            		}
+
+            		else{
+            			//box_full[headnumber].
+            			printf("\t object: %i (cell: %i) does not have any match\n", box_full[headnumber].objectIndex, headnumber);
+            			cvReleaseKalman(&(temptemp_kalmanbox->kalmanfilter));
+            			hashdelete(hashArray, box_full[headnumber].objectIndex);
+
+            		}
+
 
         		}
 
@@ -1055,9 +1107,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     	double b1=get_wall_time();
     	double timer1=b1-a1;
     	printf("%0.3f\n", timer1);
-
-
-
 
 
 
@@ -1096,8 +1145,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
 
-
-
         if(saveOpticalflow){
         	CvSize size;{size.width = pre_im_frame->width, size.height = pre_im_frame->height;}
         	static CvVideoWriter* opticalflow_video = NULL;
@@ -1131,11 +1178,19 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         draw_box_width(im, left, top, right, bot, width, 0.5, 0.5, 0.5);
     }
 
+    int temprow=11;
+    int colcol=sqrt(num/5);
     int objectIndex2=0;
     for(i = 0; i < num; ++i){
         int class = max_index(probs[i], classes);
         float prob = probs[i][class];
 
+//        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
+//        	continue;
+//        }
+        if(i==3379){
+        	printf("Wake UP\n");
+        }
         if(prob > thresh){
 
         	//width determines the thickness of the bounding boxes
@@ -1169,10 +1224,18 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             if(bot > im.h-1) bot = im.h-1;
 
 
+//			FILE *f = fopen("file.txt", "a");
+//			fprintf(f, "%s, %.0f%, %d, %d, %d, %d \n", names[class], prob * 100, left, right, top, bot);
+//			fclose(f);
+
             //Export the cell information to variables
             float row=probs[i][81];
             float col=probs[i][82];
             float nn=probs[i][83];
+
+//            float row=probs[i][8+1];
+//            float col=probs[i][8+2];
+//            float nn=probs[i][8+3];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
             if((right-left)>(im.w*0.4) || (bot-top)>(im.h*0.4)){
@@ -1244,6 +1307,11 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         }
         	objectIndex2=objectIndex2+1;
     }
+
+//	FILE *f = fopen("file.txt", "a");
+//	fprintf(f, "next_frame\n");
+//	fclose(f);
+
     free_image(pre_im);
     pre_im=copy_image(screenshot);
     free_image(screenshot);

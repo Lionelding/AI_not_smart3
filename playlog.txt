@@ -837,3 +837,8 @@ python ~/Desktop/gen2/TI/display-traj-class.py -i /home/liqiang/Topview/Brisk/Mo
 
 
 python pt/TI/display-traj-class.py -i /home/liqiang/AI_not_smart3/lightnet4/yolo4/opticalflow.avi -d sqliteTable/eat.sqlite 
+
+
+
+THESIS REF: http://opencvexamples.blogspot.com/2014/01/kalman-filter-implementation-tracking.html
+

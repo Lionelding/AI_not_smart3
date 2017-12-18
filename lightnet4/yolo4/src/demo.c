@@ -27,7 +27,7 @@ static image **demo_alphabet;
 static int demo_classes;
 
 static float **probs;
-static float **probsMore;
+//static float **probsMore;
 static box *boxes;
 static network net;
 static image buff [3];
@@ -68,9 +68,9 @@ double get_wall_time()
     return (double)time.tv_sec + (double)time.tv_usec * .000001;
 }
 
-float** getProbsMore(int number1){
-	return probsMore;
-}
+//float** getProbsMore(int number1){
+//	return probsMore;
+//}
 
 
 void *detect_in_thread(void *ptr)
@@ -155,10 +155,11 @@ void *detect_in_thread(void *ptr)
 
     draw_detections(display, demo_detections, demo_thresh, boxes, probs, demo_names, demo_alphabet, demo_classes, box_para, idx_store, box_full);
 
-    int ii;
-    for(ii=0;ii<l.w*l.h*l.n;ii++){
-    	memcpy(probsMore[ii], &probs[ii][0], 84*sizeof(float));
-    }
+//    int ii;
+//    for(ii=0;ii<l.w*l.h*l.n;ii++){
+//    	//memcpy(probsMore[ii], &probs[ii][0], 84*sizeof(float));
+//    	memcpy(probsMore[ii], &probs[ii][0], 12*sizeof(float));
+//    }
 
     demo_index = (demo_index + 1)%demo_frame;
     running = 0;
@@ -273,9 +274,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     for(j = 0; j < l.w*l.h*l.n; ++j) probs[j] = (float *)calloc(l.classes+1+3, sizeof(float));
 
 
-    probsMore = (float **)calloc(l.w*l.h*l.n, sizeof(float *));
-    //ADDED: 3 more addresses to probs
-    for(j = 0; j < l.w*l.h*l.n; ++j) probsMore[j] = (float *)calloc(l.classes+1+3, sizeof(float));
+//    probsMore = (float **)calloc(l.w*l.h*l.n, sizeof(float *));
+//    //ADDED: 3 more addresses to probs
+//    for(j = 0; j < l.w*l.h*l.n; ++j) probsMore[j] = (float *)calloc(l.classes+1+3, sizeof(float));
 
 
 
