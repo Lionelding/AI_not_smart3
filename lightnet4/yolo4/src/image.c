@@ -794,6 +794,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             IplImage *pre_boxcrop=cvCreateImage(cvSize(pre_im.w,pre_im.h), IPL_DEPTH_8U, pre_im.c);
             pre_boxcrop=image_convert_IplImage(pre_im, pre_boxcrop);
 
+//        	cvShowImage("prevgray", pre_boxcrop);
+//        	cvWaitKey(0);
+
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
             cvSetImageROI(boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
 
@@ -1024,12 +1027,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	}
 
 
-        	//Positions
-        	//trajectory id
-        	//framenum:
-        	//x coordinates:
-        	//y coordinates:
-
 
             if(frame_num>=debug_frame){
             	cvWaitKey(0);
@@ -1183,14 +1180,12 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     int objectIndex2=0;
     for(i = 0; i < num; ++i){
         int class = max_index(probs[i], classes);
+        //printf("%0.2f, %i, %0.3f, %0.2f, %0.2f, %0.2f, %0.2f, %0.2f\n", probs[i][0], probs[i][1],probs[i][2],probs[i][3], probs[i][4], probs[i][5], probs[i][6], probs[i][7]);
         float prob = probs[i][class];
 
 //        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
 //        	continue;
 //        }
-        if(i==3379){
-        	printf("Wake UP\n");
-        }
         if(prob > thresh){
 
         	//width determines the thickness of the bounding boxes
