@@ -1,0 +1,110 @@
+1001 Frames:
+
+Ground Truth
+================================= Metrics ============================
+GT Tracks                                         20
+System Tracks                                     20
+Correct Detected Track (CDT)                      20
+False Alarm Track (FAT)                           0
+Track Detection Failure (TDF)                     0
+Track Fragmentation (TF)                          0
+ID Change (IDC)                                   0
+Latency of System track(LT)                       0
+Closeness of Track Average (CTM)                  1
+Closeness of Track Deviation (CTD)                0
+Track Matching Error Average (TMEMT)              0
+Track Matching Error Deviation(TMEMTD)            0
+Track Completeness Average(TCM)                   1
+Track Completeness Deviation(TCD)                 0
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              1
+MOTP (absolute)                                   0px
+Misses Ratio                                      0
+False Positive Ratio                              0
+Mismatches Ratio (id change)                      0
+======================================================================
+
+
+
+Resolution: 416*416
+Not consider additional bounding boxes location 
+================================= Metrics ============================
+GT Tracks                                         20
+System Tracks                                     60
+Correct Detected Track (CDT)                      14
+False Alarm Track (FAT)                           19
+Track Detection Failure (TDF)                     4
+Track Fragmentation (TF)                          9
+ID Change (IDC)                                   9
+Latency of System track(LT)                       20.3571
+Closeness of Track Average (CTM)                  0.632102
+Closeness of Track Deviation (CTD)                0.170192
+Track Matching Error Average (TMEMT)              12.7085
+Track Matching Error Deviation(TMEMTD)            21.5504
+Track Completeness Average(TCM)                   0.6453
+Track Completeness Deviation(TCD)                 0.0183585
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              -0.20998
+MOTP (absolute)                                   5.61763px
+Misses Ratio                                      0.729058
+False Positive Ratio                              0.480018
+Mismatches Ratio (id change)                      0.000903138
+======================================================================
+
+
+
+Resolution: 832*832
+Not consider additional bounding boxes location 
+Remove the first detection results from first 10 rows
+================================= Metrics ============================
+GT Tracks                                         20
+System Tracks                                     74
+Correct Detected Track (CDT)                      16
+False Alarm Track (FAT)                           19
+Track Detection Failure (TDF)                     3
+Track Fragmentation (TF)                          10
+ID Change (IDC)                                   26
+Latency of System track(LT)                       14.25
+Closeness of Track Average (CTM)                  0.677887
+Closeness of Track Deviation (CTD)                0.162339
+Track Matching Error Average (TMEMT)              10.8133
+Track Matching Error Deviation(TMEMTD)            16.2011
+Track Completeness Average(TCM)                   0.695332
+Track Completeness Deviation(TCD)                 0.0145387
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              -0.246331
+MOTP (absolute)                                   4.41503px
+Misses Ratio                                      0.572138
+False Positive Ratio                              0.673064
+Mismatches Ratio (id change)                      0.00112892
+======================================================================
+
+Resolution: 832*832
+Not consider additional bounding boxes location 
+Remove the first detection results from first 11 rows
+================================= Metrics ============================
+GT Tracks                                         20
+System Tracks                                     40
+Correct Detected Track (CDT)                      17
+False Alarm Track (FAT)                           10
+Track Detection Failure (TDF)                     2
+Track Fragmentation (TF)                          6
+ID Change (IDC)                                   7
+Latency of System track(LT)                       14.4706
+Closeness of Track Average (CTM)                  0.748618
+Closeness of Track Deviation (CTD)                0.109665
+Track Matching Error Average (TMEMT)              7.99723
+Track Matching Error Deviation(TMEMTD)            13.3542
+Track Completeness Average(TCM)                   0.548571
+Track Completeness Deviation(TCD)                 0.0132389
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.125762
+MOTP (absolute)                                   4.2525px
+Misses Ratio                                      0.636487
+False Positive Ratio                              0.237525
+Mismatches Ratio (id change)                      0.000225785
+======================================================================

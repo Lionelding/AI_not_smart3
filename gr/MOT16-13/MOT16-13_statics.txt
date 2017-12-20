@@ -1,0 +1,32 @@
+MOT16-13 Ground Truth:
+
+
+512 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 13.4 65.9  7.4| 16.4  86.3  0.40|  107   5   23   79|   297  9569    33    38|  13.5  73.0  13.8 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 13.4 65.9  7.4| 16.4  86.3  0.40|  107   5   23   79|   297  9569    33    38|  13.5  73.0  13.8 
+
+
+
+MINE:
+
+
+
+499 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.1 28.3  4.7| 17.7  63.2  1.57|  107   3   31   73|  1181  9420   338   378|   4.4  67.5   7.4 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.1 28.3  4.7| 17.7  63.2  1.57|  107   3   31   73|  1181  9420   338   378|   4.4  67.5   7.4 

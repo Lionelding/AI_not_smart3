@@ -1,0 +1,133 @@
+MOT16-04 Ground Truth:
+
+1050 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 19.7 65.3 11.6| 35.2  87.5  2.28|   83   8   35   40|  2392 30831   104   134|  29.9  77.0  30.1 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 19.7 65.3 11.6| 35.2  87.5  2.28|   83   8   35   40|  2392 30831   104   134|  29.9  77.0  30.1 
+
+
+501 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 11.5 67.2  6.3| 18.5  87.5  1.20|   83   0   24   59|  1260 38742    61    72|  15.8  76.7  15.9 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	 11.5 67.2  6.3| 18.5  87.5  1.20|   83   0   24   59|  1260 38742    61    72|  15.8  76.7  15.9 
+
+
+200 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  4.7 70.8  2.4|  6.6  84.0  0.57|   83   0    6   77|   594 44432    29    29|   5.3  77.2   5.3 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  4.7 70.8  2.4|  6.6  84.0  0.57|   83   0    6   77|   594 44432    29    29|   5.3  77.2   5.3 
+
+
+100 Frames:
+
+	Removing 0 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 77.3  1.3|  3.2  83.8  0.28|   83   0    2   81|   297 46018    14    12|   2.6  77.5   2.6 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 77.3  1.3|  3.2  83.8  0.28|   83   0    2   81|   297 46018    14    12|   2.6  77.5   2.6
+
+
+MINE:
+100 Frames: 
+
+
+	Removing 33 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 54.6  1.4|  4.2  75.9  0.60|   83   0    4   79|   626 45581    77    37|   2.7  73.2   2.8 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 54.6  1.4|  4.2  75.9  0.60|   83   0    4   79|   626 45581    77    37|   2.7  73.2   2.8 
+
+Extra two -1:
+
+	Removing 30 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 56.3  1.4|  4.1  76.0  0.59|   83   0    4   79|   622 45585    82    41|   2.7  73.3   2.8 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 56.3  1.4|  4.1  76.0  0.59|   83   0    4   79|   622 45585    82    41|   2.7  73.3   2.8 
+
+
+
+Last four -1:
+
+	Removing 30 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 56.3  1.4|  4.1  76.0  0.59|   83   0    4   79|   622 45585    82    41|   2.7  73.3   2.8 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  2.6 56.3  1.4|  4.1  76.0  0.59|   83   0    4   79|   622 45585    82    41|   2.7  73.3   2.8 
+
+
+
+188 Frames:
+
+	Removing 46 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  4.8 53.7  2.5|  8.2  78.0  1.05|   83   0   11   72|  1103 43650   129    91|   5.6  73.2   5.9 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  4.8 53.7  2.5|  8.2  78.0  1.05|   83   0   11   72|  1103 43650   129    91|   5.6  73.2   5.9 
+ 
+394 Frames: 
+
+	Removing 46 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.3 44.2  4.6| 18.6  79.2  2.21|   83   0   31   52|  2321 38697   296   204|  13.1  73.0  13.7 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.3 44.2  4.6| 18.6  79.2  2.21|   83   0   31   52|  2321 38697   296   204|  13.1  73.0  13.7 
+
+
+420 Frames:
+
+	Removing 46 boxes from solution...
+	*** 2D (Bounding Box overlap) ***
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.5 42.6  4.7| 19.7  78.2  2.48|   83   0   31   52|  2608 38190   317   218|  13.5  73.1  14.2 
+
+
+	 ********************* Your Benchmark Results (2D) ***********************
+	 IDF1  IDP  IDR| Rcll  Prcn   FAR|   GT  MT   PT   ML|    FP    FN   IDs    FM|  MOTA  MOTP MOTAL 
+	  8.5 42.6  4.7| 19.7  78.2  2.48|   83   0   31   52|  2608 38190   317   218|  13.5  73.1  14.2 
+
