@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=500;  //12
+static int debug_frame=3000;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -41,7 +41,7 @@ static int object_prenum=0;
 static int *idx_tempprestore; //ADDED: store the index of valid bounding boxes
 static int saveDetection=1;
 static int saveOpticalflow=1;
-static int trajectory=1;  //ADDED: save the trajectory
+static int clock_Adfull_thres=5; //ADDED: after this number, the additional bounding boxes will be thrown away
 static int objectIndex=0;
 static Boxflow *box_tempfull; //ADDED: temporarily store the Boxflow vector, and copy it the box_full in the end
 static Boxflow *box_Adfull;	//ADDED: additional storage place to store those previous objects for a certain frame duration
@@ -49,8 +49,10 @@ static int box_Adfull_size=30; //ADDED: the total number of objects that can be 
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
-
 static int trajectoryID=0; //ADDED: track the corner ID
+
+static int trajectory=1;  //ADDED: save the trajectory
+
 static int MOT=0; //ADDED: test MOT dataset
 static int URBEN=1; //ADDEDL test URBEN dataset
 
@@ -520,7 +522,7 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 
 
 		//Case 2: Time is up
-		if(clock_Adfull[j]>10){
+		if(clock_Adfull[j]>clock_Adfull_thres){
 			printf("\t Discard object %i due to out of time\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[j]=nullflow;
@@ -537,6 +539,9 @@ void saveUnmatched(IplImage *im_frame, Boxflow in, int arraysize){
 		if(trajectory==1){
 			trajectoryID=draw_trajectory2(box_Adfull[j].objectIndex, trajectoryID, frame_num-2, left, top, width, height);
 
+		}
+		if(URBEN==1){
+    		testAgainstUrben1(box_Adfull[j].classtype, box_Adfull[j].objectIndex, 20+frame_num-2, left, top, width, height);
 		}
 
         if(frame_num>=debug_frame){
@@ -595,7 +600,7 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 		clock_Adfull[i]=clock_Adfull[i]+1;
 
 		//Case 2: Time is up
-		if(clock_Adfull[i]>10){
+		if(clock_Adfull[i]>clock_Adfull_thres){
 			printf("\t Discard object %i due to out of time\n", in.objectIndex);
 			Boxflow nullflow=putNullInsideBox();
 			box_Adfull[i]=nullflow;
@@ -611,6 +616,10 @@ void loopUnmatched(IplImage *im_frame, int arraysize){
 		if(trajectory==1){
 			trajectoryID=draw_trajectory2(box_Adfull[i].objectIndex, trajectoryID, frame_num-2, left, top, width, height);
 
+		}
+
+		if(URBEN==1){
+    		testAgainstUrben1(box_Adfull[i].classtype, box_Adfull[i].objectIndex, 20+frame_num-2, left, top, width, height);
 		}
         if(frame_num>=debug_frame){
         	cvWaitKey(0);
@@ -672,7 +681,7 @@ int overLappingArea(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int 
 int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* box_full, Boxflow* box_tempfull, DataItem* hashArray, float threshold){
 
 
-	int totalcell=num/5;    int trajectoryID=0;
+	int totalcell=num/5;
 	int totalrow=(int)sqrt(totalcell);
 	int possibleIndex;
 	float overLapRatio;
@@ -704,7 +713,8 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 				overLapRatio=(float)area/(w2*h2);
 
 
-				if(overLapRatio>threshold){    int trajectoryID=0;
+				if(overLapRatio>threshold){
+					int trajectoryID=0;
 					int possibleObjectIndex=MISS; //first bounding box
 					int nowObjectIndex=MISS;	//second bounding box
 					int targetObjectIndex;
@@ -798,6 +808,50 @@ int draw_trajectory2(int object, int trajectoryID, int frame_num_minus2, int top
 	fclose(f2);
 	fclose(f3);
 	return trajectoryID;
+}
+
+void testAgainstUrben1(int objcetClass, int objectIndex, int frame_num_minus2, int topleftx, int toplefty, int width, int height){
+
+	if(objcetClass==7 || objcetClass==3 || objcetClass==2 || objcetClass==0 || objcetClass==0){
+		if(objectIndex!=0 && objectIndex!=2 && objectIndex!=3){
+			FILE *f5=fopen("Urben/bounding_boxes.txt", "a");
+			fprintf(f5, "%i,%i,%i,%i,%i,%i\n", objectIndex, frame_num_minus2, topleftx, toplefty, topleftx+width, toplefty+height);
+			fclose(f5);
+		}
+	}
+	return;
+}
+void testAgainstUrben2(int objcetClass, int objectIndex){
+	if(objcetClass==7){
+		FILE *f6=fopen("Urben/objects.txt", "a");
+		fprintf(f6, "%i,%i,%s\n", objectIndex, 2, "person");
+		fclose(f6);
+	}
+
+	else if(objcetClass==3 && objectIndex!=0 && objectIndex!=2 && objectIndex!=3){
+		FILE *f6=fopen("Urben/objects.txt", "a");
+		fprintf(f6, "%i,%i,%s\n", objectIndex, 1, "car");
+		fclose(f6);
+	}
+
+	else if(objcetClass==2){
+		FILE *f6=fopen("Urben/objects.txt", "a");
+		fprintf(f6, "%i,%i,%s\n", objectIndex, 5, "bus");
+		fclose(f6);
+	}
+
+	else if(objcetClass==0){
+		FILE *f6=fopen("Urben/objects.txt", "a");
+		fprintf(f6, "%i,%i,%s\n", objectIndex, 6, "truck");
+		fclose(f6);
+	}
+
+	else if(objcetClass==1){
+		FILE *f6=fopen("Urben/objects.txt", "a");
+		fprintf(f6, "%i,%i,%s\n", objectIndex, 4, "cyclist");
+		fclose(f6);
+	}
+	return;
 }
 
 void draw_detections(image im, int num, float thresh, box *boxes, float **probs, char **names, image **alphabet, int classes, int **box_para, int *idx_store, Boxflow *box_full)
@@ -983,29 +1037,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         			draw_trajectory1(box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][4]);
         		}
 
-//        		if(box_para[idx_store[p]][4]==0){
-//            		FILE *f6=fopen("Urben/objects.txt", "a");
-//            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 2, "person");
-//            		fclose(f6);
-//        		}
-//
-//        		if(box_para[idx_store[p]][4]==2){
-//            		FILE *f6=fopen("Urben/objects.txt", "a");
-//            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 1, "car");
-//            		fclose(f6);
-//        		}
-//
-//        		if(box_para[idx_store[p]][4]==5){
-//            		FILE *f6=fopen("Urben/objects.txt", "a");
-//            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 5, "bus");
-//            		fclose(f6);
-//        		}
-//
-//        		if(box_para[idx_store[p]][4]==7){
-//            		FILE *f6=fopen("Urben/objects.txt", "a");
-//            		fprintf(f6, "%i,%i,%s\n", box_tempfull[idx_store[p]].objectIndex, 6, "truck");
-//            		fclose(f6);
-//        		}
+        		if(URBEN==1){
+        			testAgainstUrben2(box_para[idx_store[p]][4], box_tempfull[idx_store[p]].objectIndex);
+        		}
 
 
 
@@ -1014,11 +1048,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         	//drawArrow(im_frame, average_result.abs_p0, average_result.abs_p1, CV_RGB(box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12]), 10, 2, 9, 0);
         	draw_tracking(pre_im_frame, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][10], box_para[idx_store[p]][11], box_para[idx_store[p]][12], box_tempfull[idx_store[p]].objectIndex);
 
-//        	if(box_para[idx_store[p]][4]==2 || box_para[idx_store[p]][4]==0 || box_para[idx_store[p]][4]==5 || box_para[idx_store[p]][4]==7){
-//        		FILE *f5=fopen("Urben/bounding_boxes.txt", "a");
-//        		fprintf(f5, "%i,%i,%i,%i,%i,%i\n", box_tempfull[idx_store[p]].objectIndex, 2754+frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][0]+box_para[idx_store[p]][2], box_para[idx_store[p]][1]+box_para[idx_store[p]][3]);
-//        		fclose(f5);
-//        	}
+        	if(URBEN==1){
+        		testAgainstUrben1(box_para[idx_store[p]][4], box_tempfull[idx_store[p]].objectIndex, 20+frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
+    		}
+
 
 
         	if(box_para[idx_store[p]][4]==0 && MOT==1){
@@ -1174,18 +1207,18 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
 
     printf("7. Detection: \n");
-    int j;
-    for(j=0; j<1; j++){
-
-    	//TODO: Need to check if it is empty
-        int left  = box_Adfull[j].left;
-        int top   = box_Adfull[j].top;
-        int right = box_Adfull[j].left+box_Adfull[j].width;
-        int bot   = box_Adfull[j].top+box_Adfull[j].height;
-        int width = im.h * .012*0.25;
-
-        draw_box_width(im, left, top, right, bot, width, 0.5, 0.5, 0.5);
-    }
+//    int j;box_para[idx_store[p]][9]!=0 && box_para[idx_store[p]][9]!=2 && box_para[idx_store[p]][9]!=3
+//    for(j=0; j<1; j++){
+//
+//    	//TODO: Need to check if it is empty
+//        int left  = box_Adfull[j].left;
+//        int top   = box_Adfull[j].top;
+//        int right = box_Adfull[j].left+box_Adfull[j].width;
+//        int bot   = box_Adfull[j].top+box_Adfull[j].height;
+//        int width = im.h * .012*0.25;
+//
+//        draw_box_width(im, left, top, right, bot, width, 0.5, 0.5, 0.5);
+//    }
 
     int temprow=11;
     int colcol=sqrt(num/5);
@@ -1236,13 +1269,13 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 //			fclose(f);
 
             //Export the cell information to variables
-            float row=probs[i][81];
-            float col=probs[i][82];
-            float nn=probs[i][83];
+//            float row=probs[i][81];
+//            float col=probs[i][82];
+//            float nn=probs[i][83];
 
-//            float row=probs[i][8+1];
-//            float col=probs[i][8+2];
-//            float nn=probs[i][8+3];
+            float row=probs[i][8+1];
+            float col=probs[i][8+2];
+            float nn=probs[i][8+3];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
             if((right-left)>(im.w*0.4) || (bot-top)>(im.h*0.4)){
@@ -1263,8 +1296,8 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             sprintf(obj,"%d", objectIndex2);
 
 
-//            char classtype[sizeof(names[class])];
-//            sprintf(classtype, "%s", names[class]);
+            char classtype[sizeof(names[class])];
+            sprintf(classtype, "%s", names[class]);
 
             box_para[i][0]=left;
             box_para[i][1]=top;
@@ -1275,7 +1308,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             box_para[i][6]=(int)row;
             box_para[i][7]=(int)col;
             box_para[i][8]=(int)nn;
-            //box_para[i][9]=objectIndex2;
+            box_para[i][9]=objectIndex2;
 
             int RED=cvRound(red*255);
             int GREEN=cvRound(green*255);
@@ -1294,6 +1327,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             if (alphabet) {
             	//Print the frame number, bbox number, object number to each label
             	char label_frame_bbox[sizeof(fr)+sizeof(names[class])+sizeof(row)+sizeof(cl)+sizeof(n)+sizeof(obj)];
+            	//char label_frame_bbox[sizeof(fr)+sizeof(names[class])];
                 strcpy( label_frame_bbox, names[class] );
                 strcat( label_frame_bbox, "_" );
                 strcat( label_frame_bbox, fr );

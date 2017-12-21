@@ -386,9 +386,13 @@ void get_region_boxes(layer l, int w, int h, int netw, int neth, float thresh, f
             }
 
             //add row, col and n to the last 3 three address
-            probs[index][81]=row;
-            probs[index][82]=col;
-            probs[index][83]=n;
+//            probs[index][81]=row;
+//            probs[index][82]=col;
+//            probs[index][83]=n;
+
+            probs[index][9]=row;
+            probs[index][10]=col;
+            probs[index][11]=n;
 
             //printf("index %i, row: %0.0f col: %0.0f n: %0.0f\n", index, probs[index][81], probs[index][82], probs[index][83]);
             //printf("row: %d, col: %d, n: %d\n", row, col, n);
