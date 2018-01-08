@@ -33,7 +33,7 @@ with open(data_file_name3) as f3:
 for i in range(0, len(content1)):
 	line=content1[i][:-1].split(",")
 	line=map(int, line)
-	#print line
+	print line
 	c.execute('INSERT INTO bounding_boxes VALUES (?, ?, ?, ?, ?, ?)', [line[0], line[1], line[2], line[3], line[4], line[5]])
 
 
@@ -46,15 +46,17 @@ for j in range(0, len(content2)):
 	list2_1=int(line2_1)
 	#print line2_1
 	line2_2=int(line2_2)
-	#print line2_3
+	print line2_3
 
 	c.execute('INSERT INTO objects VALUES (?, ?, ?)', [line2_1, line2_2, line2_3])
 
 for k in range(0, len(content3)):
 	line3=content3[k][:-1].split(",")
+	print line3
 	line3_int=line3[0]
 	line3_txt=line3[1]
 	line3=map(int, line3_int)
+	print line3_txt
 	c.execute('INSERT INTO objects_type VALUES (?, ?)', [line3_int, line3_txt])
 
 

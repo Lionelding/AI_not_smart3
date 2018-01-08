@@ -842,3 +842,67 @@ python pt/TI/display-traj-class.py -i /home/liqiang/AI_not_smart3/lightnet4/yolo
 
 THESIS REF: http://opencvexamples.blogspot.com/2014/01/kalman-filter-implementation-tracking.html
 
+
+#####	Week of 20180108	#####
+
+Time optimization:
+
+TOTAL: 1.390837 seconds
+
+Complete Image Optical Flow Computation: 0.819069 seconds
+
+For each object: 
+	1. Optical Flow Computation: 0.101948 seconds
+	2. Object Matching and Optical Flow Update: 0.000015 seconds
+	3. Discrete Kalman Filter: 0.000166 seconds
+
+	1. Optical Flow Computation: 0.095217 seconds
+	2. Object Matching and Optical Flow Update: 0.000019 seconds
+	3. Discrete Kalman Filter: 0.000098 seconds
+
+	1. Optical Flow Computation: 0.099070 seconds
+	2. Object Matching and Optical Flow Update: 0.000014 seconds
+	3. Discrete Kalman Filter: 0.000165 seconds
+
+	1. Optical Flow Computation: 0.093923 seconds
+	2. Object Matching and Optical Flow Update: 0.000013 seconds
+	3. Discrete Kalman Filter: 0.000157 seconds
+
+	1. Optical Flow Computation: 0.096698 seconds
+	2. Object Matching and Optical Flow Update: 0.000013 seconds
+	3. Discrete Kalman Filter: 0.000156 seconds
+
+	1. Optical Flow Computation: 0.098108 seconds
+	2. Object Matching and Optical Flow Update: 0.000036 seconds
+	3. Discrete Kalman Filter: 0.000080 seconds
+
+	1. Optical Flow Computation: 0.099330 seconds
+	2. Object Matching and Optical Flow Update: 0.000014 seconds
+	3. Discrete Kalman Filter: 0.000161 seconds
+
+	1. Optical Flow Computation: 0.094820 seconds
+	2. Object Matching and Optical Flow Update: 0.000040 seconds
+	3. Discrete Kalman Filter: 0.000078 seconds
+
+	1. Optical Flow Computation: 0.095583 seconds
+	2. Object Matching and Optical Flow Update: 0.000014 seconds
+	3. Discrete Kalman Filter: 0.000126 seconds
+
+	1. Optical Flow Computation: 0.102940 seconds
+	2. Object Matching and Optical Flow Update: 0.000031 seconds
+	3. Discrete Kalman Filter: 0.000081 seconds
+
+	1. Optical Flow Computation: 0.108105 seconds
+	2. Object Matching and Optical Flow Update: 0.000030 seconds
+	3. Discrete Kalman Filter: 0.000085 seconds
+
+	1. Optical Flow Computation: 0.109163 seconds
+	2. Object Matching and Optical Flow Update: 0.000013 seconds
+	3. Discrete Kalman Filter: 0.000147 seconds
+
+4. Draw Previous Unmatched Objects in 0.000040 seconds
+5. Process Current Unmatched Objects in 0.000030 seconds
+6. Temporary Variable Clean-up in 0.000086 seconds
+7. Detections: 0.093805 seconds
+
+
