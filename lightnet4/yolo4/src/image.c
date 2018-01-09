@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=10;  //12
+static int debug_frame=100000;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -885,8 +885,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         }
 
 
-
-
     	for(p=0;p<object_num;p++){
 
             printf("\n1. Calculate Optical Flow for Current Objects: \n");
@@ -901,9 +899,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             pre_boxcrop=image_convert_IplImage(pre_im, pre_boxcrop);
 
             //TIME:
-//            clock_t time6=clock();
-//        	Opticalflow total_result=compute_opticalflowFB(pre_boxcrop, boxcrop, frame_num, debug_frame);
-//        	printf("Complete Image Optical Flow Computation: %lf seconds\n", sec(clock()-time6));
+            //clock_t time6=clock();
+        	//Opticalflow total_result=compute_opticalflowFB(pre_boxcrop, boxcrop, frame_num, debug_frame);
+        	//printf("Complete Image Optical Flow Computation: %lf seconds\n", sec(clock()-time6));
 
 
             cvSetImageROI(pre_boxcrop, cvRect(box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]));
@@ -944,7 +942,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         		//Remove the object which is matched from the last frame
             	box_full[bestIndex]=nullflow;
-
 
             	average_result=updateFlow(preFlow, preMag, average_result);
             	printf("\t degree updates from %i to %0.0f\n", preFlow, average_result.degree);

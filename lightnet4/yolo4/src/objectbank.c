@@ -164,9 +164,14 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
     CvMat* cflow = cvCreateMat(height, width, CV_8UC3);
     Opticalflow GMMflow;
 
+
     if(height>150 && width>150){
     	printf("\t Large Image!!\n");
+
+        //clock_t time6=clock();
         cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 30, 3, 9, 1.5, 0);
+    	//printf("Complete Image Optical Flow Computation: %lf seconds\n", sec(clock()-time6));
+
         cvCvtColor(imgA, cflow, CV_GRAY2BGR);
         GMMflow=drawOptFlowMap(flow, cflow, 16, 1.5, CV_RGB(0, 255, 0));
     }

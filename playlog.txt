@@ -905,4 +905,19 @@ For each object:
 6. Temporary Variable Clean-up in 0.000086 seconds
 7. Detections: 0.093805 seconds
 
+1. tracking with our re-trained yolo 
+2. complete trajectories for tracked objects 
+3. outputs are in Brisk formats
+4. Going to deploy the program on Brisk AWS and optimziation 
+5. evualtion metrics, make the overlapping threshold smaller?
 
+
+
+THESIS: 
+
+
+
+1. acknologment to Brisk and NRSIC funding opportunitiy?
+2. litterature review, reivew of MOT
+3. in two weeks 
+4. 
