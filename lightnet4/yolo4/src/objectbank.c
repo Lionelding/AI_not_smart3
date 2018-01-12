@@ -79,13 +79,27 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
     Py_DECREF(pName);
 
     pFunc = PyObject_GetAttrString(pModule, "showHistogram");
-    pXArgs = PyTuple_New(tr*tc);
-    pYArgs = PyTuple_New(tr*tc);
+
     pX= PyTuple_New(1);
     pY= PyTuple_New(1);
 
-	for(y = 0; y <cflowmap->rows; y= step+y){
-		for(x = 0; x <cflowmap->cols; x=step+x){
+    int xJ,yJ;
+    if(tc*tc<=40){
+    	xJ=0;
+    	yJ=0;
+    }
+    else{
+    	xJ=0;
+    	yJ=0;
+    }
+
+
+
+    pYArgs = PyTuple_New((tr-yJ*2)*(tc-xJ*2));
+    pXArgs = PyTuple_New((tr-yJ*2)*(tc-xJ*2));
+
+	for(y = step*yJ; y <(cflowmap->rows)-(step*yJ); y= step+y){
+		for(x = step*xJ; x <(cflowmap->cols)-(step*xJ); x=step+x){
 
 			CvPoint2D32f fxy = CV_MAT_ELEM(*flow, CvPoint2D32f, y, x);
 			CvPoint start=cvPoint(x, y);
@@ -117,6 +131,7 @@ Opticalflow drawOptFlowMap(CvMat* flow, CvMat *cflowmap, int step, double scale,
     pValue = PyObject_CallObject(pFunc, pX);
     Py_DECREF(pX);
     xcomponent=PyFloat_AsDouble(pValue);
+
     pValue = PyObject_CallObject(pFunc, pY);
     Py_DECREF(pY);
     ycomponent=PyFloat_AsDouble(pValue);
@@ -177,6 +192,7 @@ Opticalflow compute_opticalflowFB(IplImage *previous, IplImage *current, int fra
     }
 
     else{
+    	//cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 30, 3, 9, 1.5, 0);
         cvCalcOpticalFlowFarneback(prevgray, gray, flow, 0.5, 5, 15, 3, 5, 1.2, 0);
         cvCvtColor(imgA, cflow, CV_GRAY2BGR);
         GMMflow=drawOptFlowMap(flow, cflow, 8, 1.5, CV_RGB(0, 255, 0));

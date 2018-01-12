@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=100000;  //12
+static int debug_frame=20;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -51,10 +51,10 @@ static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
 static int trajectoryID=0; //ADDED: track the corner ID
 
-static int trajectory=1;  //ADDED: save the trajectory
+static int trajectory=1;  //ADDED: save the trajectory191
 
 static int MOT=0; //ADDED: test MOT dataset
-static int URBEN=1; //ADDED: test URBEN dataset
+static int URBEN=0; //ADDED: test URBEN dataset
 
 
 //TODO: Check static issue
@@ -274,6 +274,7 @@ double compareFlowVector(double preFlow, double nowFlow, double preMag, double n
 
 
 int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowClass, Boxflow* box_full){
+	int classMatch=0;
 	int totalcell=num/5;
 	int totalrow=(int)sqrt(totalcell);
 	int possibleIndex;
@@ -281,8 +282,19 @@ int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowCl
 	double bestResult=180;
 	double currentResult;
 
+	//Check if two objects belong to the same group
+	if((box_full[nowIndex].classtype==1 || box_full[nowIndex].classtype==4 || box_full[nowIndex].classtype==7) && (nowClass==1 || nowClass==4 || nowClass==7)){
+		classMatch=1;
+	}
+	else if((box_full[nowIndex].classtype==0 || box_full[nowIndex].classtype==2 || box_full[nowIndex].classtype==3 || box_full[nowIndex].classtype==5 || box_full[nowIndex].classtype==6) && (nowClass==0 || nowClass==2 || nowClass==3 || nowClass==5 || nowClass==6)){
+		classMatch=1;
+	}
+	else{
+		classMatch=0;;
+	}
+
 	//Case 1: same index, check if the optical flow is the same
-	if(box_full[nowIndex].classtype==nowClass && box_full[nowIndex].height!=0 && box_full[nowIndex].width!=0){
+	if(classMatch==1 && box_full[nowIndex].height!=0 && box_full[nowIndex].width!=0){
 		currentResult=compareFlowVector(box_full[nowIndex].flow.degree, nowFlow, box_full[nowIndex].flow.magnitude, nowMag, 180, 0.5);
 		printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", nowIndex, box_full[nowIndex].flow.degree, box_full[nowIndex].flow.magnitude, box_full[nowIndex].objectIndex);
 
@@ -293,7 +305,7 @@ int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowCl
 
 	}
 
-
+	//Case 2: compare with the surronding 45 boxes
 	int base=nowIndex%totalcell;
 	int nn_level;
 	for(nn_level=0;nn_level<5;nn_level++){
@@ -306,9 +318,20 @@ int objectMath45(int num, double nowFlow, double nowMag, int nowIndex, int nowCl
 					continue;
 				}
 
+				//Check if two objects belong to the same group
+				if((box_full[possibleIndex].classtype==1 || box_full[possibleIndex].classtype==4 || box_full[possibleIndex].classtype==7) && (nowClass==1 || nowClass==4 || nowClass==7)){
+					classMatch=1;
+				}
+				else if((box_full[possibleIndex].classtype==0 || box_full[possibleIndex].classtype==2 || box_full[possibleIndex].classtype==3 || box_full[possibleIndex].classtype==5 || box_full[possibleIndex].classtype==6) && (nowClass==0 || nowClass==2 || nowClass==3 || nowClass==5 || nowClass==6)){
+					classMatch=1;
+				}
+
+				else{
+					classMatch=0;
+				}
 
 
-				if(box_full[possibleIndex].classtype==nowClass && box_full[possibleIndex].width!=0 && box_full[possibleIndex].height!=0){
+				if(classMatch==1 && box_full[possibleIndex].width!=0 && box_full[possibleIndex].height!=0){
 					printf("\t Pre: idx_prestore[p]: %i degree: %0.0f mag: %0.0f objectIndex: %i\n", possibleIndex, box_full[possibleIndex].flow.degree, box_full[possibleIndex].flow.magnitude, box_full[possibleIndex].objectIndex);
 					currentResult=compareFlowVector(box_full[possibleIndex].flow.degree, nowFlow, box_full[possibleIndex].flow.magnitude, nowMag, 90, 0.5);
 					if(currentResult!=MISS && (currentResult<bestResult)){
@@ -762,8 +785,6 @@ int calculateOverlappingRatio(int num, int nowIndex, int **box_para, Boxflow* bo
 						continue;
 					}
 
-
-
 				    int clock=hashsearch(hashArray, targetObjectIndex)->element->clock;
 				    if(clock>=5){
 						printf("\t overlapping objectIndex: %i, possibelIndex: %i\n", targetObjectIndex, targetIndex);
@@ -918,8 +939,6 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 
         	printf("Optical Flow Computation: %lf seconds\n", sec(clock()-time3));
 
-
-
         	printf("\n2. Match and Update: \n");
         	//TIME:
         	time3=clock();
@@ -959,6 +978,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             	}
 
     		}
+
+
+
 
 
         	//If there is no match, compare with the previously unmatched ones inside box_Adfull
@@ -1087,15 +1109,14 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             	fprintf(f5, "%i,%i,%i,%i,%i,%i,%i,%i,%i,%i,%i\n", frame_num-1, box_tempfull[idx_store[p]].objectIndex, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3], box_para[idx_store[p]][5], -1, -1, -1, -1);
     			fclose(f5);
 
-
         	}
+
+
 
         	//Plot the tracking result in terms of tracjectories
         	if(trajectory==1){
         		trajectoryID=draw_trajectory2(box_tempfull[idx_store[p]].objectIndex, trajectoryID, frame_num-2, box_para[idx_store[p]][0], box_para[idx_store[p]][1], box_para[idx_store[p]][2], box_para[idx_store[p]][3]);
         	}
-
-
 
             if(frame_num>=debug_frame){
             	cvWaitKey(0);
@@ -1241,7 +1262,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 //    }
     //int temprow=10;
     //
-    int temprow=7;
+    //int temprow=7;
     //
     int colcol=sqrt(num/5);
     int objectIndex2=0;
@@ -1250,9 +1271,33 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         //printf("%0.2f, %i, %0.3f, %0.2f, %0.2f, %0.2f, %0.2f, %0.2f\n", probs[i][0], probs[i][1],probs[i][2],probs[i][3], probs[i][4], probs[i][5], probs[i][6], probs[i][7]);
         float prob = probs[i][class];
 
-        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
-        	continue;
-        }
+//        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
+//        	continue;
+//        }
+
+        //For drawing bboxes
+//        if(frame_num==debug_frame){
+//            int tempi;
+//            int center=215;
+//            //191
+//            for(tempi=0;tempi<5;tempi++){
+////
+////            	probs[center-27+(676)*tempi][3]=1;
+////            	probs[center-26+(676)*tempi][3]=1;
+////            	probs[center-25+(676)*tempi][3]=1;
+//
+//            	//probs[center-1+(676)*tempi][3]=1;
+//                //probs[center+(676)*tempi][3]=1;
+////                probs[center+1+(676)*tempi][3]=1;
+//
+////                probs[center+25+(676)*tempi][3]=1;
+////                probs[center+26+(676)*tempi][3]=1;
+////                probs[center+27+(676)*tempi][3]=1;
+//            }
+//        }
+
+
+
         if(prob > thresh){
 
         	//width determines the thickness of the bounding boxes
@@ -1363,7 +1408,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 strcat( label_frame_bbox, obj );
 
                 image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
-                draw_label(im, top + width, left, label, rgb);
+                //draw_label(im, top + width, left, label, rgb);
                 free_image(label);
             }
 
