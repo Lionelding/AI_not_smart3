@@ -934,7 +934,7 @@ pedestrian 				7
 
 
 
-        if(frame_num=debug_frame){
+<!--         if(frame_num=debug_frame){
             int tempi;
             int center=191;
             for(tempi=0;tempi<5;tempi++){
@@ -951,4 +951,52 @@ pedestrian 				7
                 probs[center+26][3]=1;
                 probs[center+27][3]=1;
             }
-        }
+        } -->
+
+
+#####	Week of 20180115	#####
+
+illustrate the trajectory, and number of screen shots
+
+
+
+Experiement and Result Section:
+
+Theory: generating the graph
+
+Literature review:
+
+explain some of exampling models in my own words
+
+
+
+
+Quantitative
+
+CLEAR metrics: MOTA, MOTP, FN, FP, IDswitches by Prof bilodeau
+manually modify the tracking result since the ground truth does not have it 
+
+
+Other metrics: track completenss average
+
+Qualitative 
+
+trajectory:
+
+	crowded, anlge&height
+
+Detection: 
+
+	detection response 
+
+
+
+Brisk: 
+work on the paper and thesis, 
+propose some potential improvements 
+last time, we disucss the extenstion of the contract 
+
+
+
+
+
