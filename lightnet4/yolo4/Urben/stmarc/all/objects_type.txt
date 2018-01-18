@@ -1,0 +1,7 @@
+0,unknown
+1,car
+2,pedestrians
+3,motorcycle
+4,bicycle
+5,bus
+6,truck

@@ -7,7 +7,8 @@ import sqlite3
 data_file_name1 = 'bounding_boxes.txt'
 data_file_name2 = 'objects.txt'
 data_file_name3 = 'objects_type.txt'
-
+myset1 = set()
+myset2 = set()
 
 database_name = 'eat.sqlite'
 if os.path.isfile(database_name):
@@ -37,6 +38,10 @@ for i in range(0, len(content1)):
 	c.execute('INSERT INTO bounding_boxes VALUES (?, ?, ?, ?, ?, ?)', [line[0], line[1], line[2], line[3], line[4], line[5]])
 
 
+	myset1.add(line[0])
+
+print myset1
+
 for j in range(0, len(content2)):
 	line2=content2[j][:-1].split(",")
 	#print line2
@@ -45,18 +50,29 @@ for j in range(0, len(content2)):
 	line2_3=line2[2]
 	list2_1=int(line2_1)
 	#print line2_1
+
 	line2_2=int(line2_2)
-	print line2_3
+	#print line2_3
 
 	c.execute('INSERT INTO objects VALUES (?, ?, ?)', [line2_1, line2_2, line2_3])
 
+
+	myset2.add(int(line2_1))
+
+print myset2
+
+print myset2-myset1
+print myset1-myset2
+
+
+
 for k in range(0, len(content3)):
 	line3=content3[k][:-1].split(",")
-	print line3
+	#print line3
 	line3_int=line3[0]
 	line3_txt=line3[1]
 	line3=map(int, line3_int)
-	print line3_txt
+	#print line3_txt
 	c.execute('INSERT INTO objects_type VALUES (?, ?)', [line3_int, line3_txt])
 
 
@@ -68,3 +84,6 @@ conn.commit()
 conn.close()
 
 print "Finished importing txt files to sqltables"
+
+
+
