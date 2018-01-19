@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=10000;  //12
+static int debug_frame=200;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -49,12 +49,12 @@ static int box_Adfull_size=30; //ADDED: the total number of objects that can be 
 static int *clock_Adfull;	//ADDED: when there is a element in box_Adfull initialized, the respective index will count down from 10
 static snode* headconstant;
 Opticalflow average_Ad; //ADDED: the optical flow vector computed about box_Adfull[i]
-static int trajectoryID=0; //ADDED: track the corner ID
+static int trajectoryID=1; //ADDED: track the corner ID
 
 static int trajectory=1;  //ADDED: save the trajectory191
 
 static int MOT=0; //ADDED: test MOT dataset
-static int URBEN=1; //ADDED: test URBEN dataset
+static int URBEN=0; //ADDED: test URBEN dataset
 
 
 //TODO: Check static issue
@@ -1270,10 +1270,10 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
 //    }
     //int temprow=10;
     //int temprow=0;
-    int temprow=7;
+    //int temprow=7;
     //int temprow=20; int tempcol1=20; int tempcol2=40;
 
-    //int temprow=0;
+    int temprow=0; int tempcol1=10; int tempcol2=50;
     int colcol=sqrt(num/5);
     int objectIndex2=0;
     for(i = 0; i < num; ++i){
@@ -1353,9 +1353,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             float row=probs[i][8+1];
             float col=probs[i][8+2];
 
-//            if(col>=tempcol2 || col<=tempcol1){
-//            	continue;
-//            }
+            if(col>=tempcol2 || col<=tempcol1){
+            	continue;
+            }
             float nn=probs[i][8+3];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
@@ -1422,7 +1422,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
                 strcat( label_frame_bbox, obj );
 
                 image label = get_label(alphabet, label_frame_bbox, (im.h*.03*0.5)/10);
-                //draw_label(im, top + width, left, label, rgb);
+                draw_label(im, top + width, left, label, rgb);
                 free_image(label);
             }
 
