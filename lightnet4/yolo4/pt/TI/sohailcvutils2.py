@@ -182,7 +182,7 @@ if opencvExists:
                                     obj.projectedPositions = obj.positions.project(homography)
                                 else:
                                     obj.projectedPositions = obj.positions
-                            draw(img, obj.projectedPositions, cvRed, fps, frameNum-obj.getFirstInstant())
+                            draw(img, obj.projectedPositions, cvBlue, fps, frameNum-obj.getFirstInstant())
                             #inst_speed = ((((obj.getVelocityAtInstant(frameNum).x)**2)+((obj.getVelocityAtInstant(frameNum).y)**2))**.5)*3.6*fps
                             # mean_speed = np.median(obj.getSpeeds())*3.6*fps
                             if obj.userType == moving.userType2Num['pedestrian']:

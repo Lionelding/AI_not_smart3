@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=200;  //12
+static int debug_frame=300;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -1359,7 +1359,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             float nn=probs[i][8+3];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
-            if((right-left)>(im.w*0.4) || (bot-top)>(im.h*0.4)){
+            if((right-left)>(im.w*0.2) || (bot-top)>(im.h*0.2)){
             	printf("\t False Positive: Giant Detection, width: %i, height: %i\n", (right-left), (bot-top));
             	continue;
             }
