@@ -997,6 +997,23 @@ propose some potential improvements
 last time, we disucss the extenstion of the contract 
 
 
+#####	Week of 20180122	#####
+
+
+Object detection benchmark not finished
+two more trajectories are not drawn
+
+show trajectoreis, pick up some good ones, compare with traffic intelligence 
+
+
+Urban tracker dataset problems vidoe 1 and vidoe 3
+
+
+thesis
+
+SURE student
+
+
 
 
 
