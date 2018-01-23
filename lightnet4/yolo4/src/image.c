@@ -33,7 +33,7 @@
 #include "opencv2/core/mat.hpp"
 
 #define MISS -12345
-static int debug_frame=500;  //12
+static int debug_frame=3500;  //12
 static int frame_num=0;  //ADDED: count for the frame number
 static image pre_im;	 //ADDED: store the previous image
 static int object_num=0; //ADDED: count for the number of objects in previous frame
@@ -1273,7 +1273,7 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
     //int temprow=7;
     //int temprow=20; int tempcol1=20; int tempcol2=40;
 
-    int temprow=10; int temprow2=42; int tempcol1=10; int tempcol2=66;
+    //int temprow=10; int temprow2=42; int tempcol1=10; int tempcol2=66;
     int colcol=sqrt(num/5);
     int objectIndex2=0;
     for(i = 0; i < num; ++i){
@@ -1281,9 +1281,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
         //printf("%0.2f, %i, %0.3f, %0.2f, %0.2f, %0.2f, %0.2f, %0.2f\n", probs[i][0], probs[i][1],probs[i][2],probs[i][3], probs[i][4], probs[i][5], probs[i][6], probs[i][7]);
         float prob = probs[i][class];
 
-        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
-        	continue;
-        }
+//        if((i>=0 && i<temprow*colcol)||(i>=num/5*1 && i<temprow*colcol+num/5*1)||(i>=num/5*2 && i<temprow*colcol+num/5*2)||(i>num/5*3 && i<temprow*colcol+num/5*3)||(i>=num/5*4 && i<temprow*colcol+num/5*4)){
+//        	continue;
+//        }
 
         //For drawing bboxes
 //        if(frame_num==debug_frame){
@@ -1353,9 +1353,9 @@ void draw_detections(image im, int num, float thresh, box *boxes, float **probs,
             float row=probs[i][8+1];
             float col=probs[i][8+2];
 
-            if(col>=tempcol2 || col<=tempcol1 || row>temprow2){
-            	continue;
-            }
+//            if(col>=tempcol2 || col<=tempcol1 || row>temprow2){
+//            	continue;
+//            }
             float nn=probs[i][8+3];
 
             //ADDED: If the bounding box exceeds certain size, we discard it
