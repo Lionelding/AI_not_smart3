@@ -1,0 +1,16 @@
+
+
+1. install CUDA
+
+	http://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html#compiling-examples__valid-results-from-sample-cuda-bandwidthtest-program
+	
+2. install cuDNN
+
+	flow this:
+		http://blog.nitishmutha.com/tensorflow/2017/01/22/TensorFlow-with-gpu-for-windows.html
+	download:
+		https://developer.nvidia.com/rdp/cudnn-download
+	install:
+		look at the pdf
+	
+3. instal Tensorflow

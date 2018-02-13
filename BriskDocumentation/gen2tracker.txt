@@ -1,0 +1,50 @@
+## Running environment
+	Python 2.7.12
+	Ubuntu 16.04.3 LTS
+	OpenCV 2.4.8
+	CUDA Version 7.5.18
+	CUDNN 6021
+
+## Run gen2tracker
+	./darknet detector demo cfg/mio.data cfg/yolo-mio.cfg weigths/yolo-mio4.weights vidoe.mp4
+
+
+
+## The complete tracking pipelien 
+	For each object:
+		1. optical flow extraction 
+		2. optimal value selection 
+		3. data assocation based on optical flow, object category, and object spatial positions.
+
+	4. optical flow updating
+	5. Kalman filter updating
+	6. process the previous unmatched objects from previous 10 frames
+	7. process the unmatched objects at current frame 
+
+## Enable Guassian mixture model for the optimal value selection step
+	Note: we want to enable an external python interpretor to create a GMM model because it is faster and more accurate
+	install sklearn library: http://scikit-learn.org/stable/
+	enabel PYTHON from 0 to 1 in Makefile
+	make sure "#include "/usr/include/python2.7/Python.h"" is included in the beginning of objectbank.c
+
+
+
+## Test with the Urban tracker dataset
+	enable the function by switching "static int URBEN" from 0 to 1
+	run the videos in the Urban tracker dataset with gen2tracker
+	three output files will show up in the Urben folder
+	run Urben/read.py to compile the three files into a sqlite file
+	go to download the evluation metrices from: https://www.jpjodoin.com/urbantracker/dataset.html
+	compare our resulst with the ground truth  
+
+
+
+## Draw the tracking trajectory
+	enable the function by switching "static int trajectoryID" from 0 to 1, and "static int trajectory" from 0 to 1
+	run the video with gen2tracker
+	three files will show up in table folder
+	run read.py to comple the three files into a sqlite file which is in sqliteTable
+	run "python pt/TI/display-traj-class.py -i /home/liqiang/AI_not_smart3/lightnet4/yolo4/opticalflow.avi -d sqliteTable/eat.sqlite" 
+
+
+

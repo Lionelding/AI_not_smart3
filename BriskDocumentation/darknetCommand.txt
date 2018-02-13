@@ -1,0 +1,101 @@
+## Windows Darknet version
+https://github.com/AlexeyAB/darknet
+
+## Detect image 
+./darknet detect cfg/yolo.cfg weights/yolo.weights data/dog.jpg
+./darknet detector test cfg/coco.data cfg/yolo.cfg weights/yolo.weights data/dog.jpg
+
+
+## Detect video
+./darknet detector demo cfg/coco.data cfg/yolo.cfg weights/yolo.weights /usr/local/data/vmrl/liqiang/brisk/Montreal_20160908_084200.mp4
+./darknet detector demo cfg/mio.data cfg/yolo-mio.cfg weigths/yolo-mio4.weights vidoe.mp4
+
+
+## Changing the detection threshold
+./darknet detect cfg/yolo.cfg weights/yolo.weights data/dog.jpg -thresh 0
+
+
+## Change the input image resolution 
+https://groups.google.com/forum/#!searchin/darknet/video$20output|sort:relevance/darknet/6dmjtQZPPrc/Cn7yQnE6AwAJ
+
+
+
+## Train the Darknet with new dataset
+1. create three folders and unzip the MIOTCD_SPIDTrainingToolkit
+	1. label
+	2. train
+	3. test
+
+2. For the MIO-TCD dataset:
+	download the localization challenge of the MIO-TCD dataset 
+	make sure gt_train.csv which is the ground truth file from the MIO-TCD dataset is in the current folder
+	run MIOlabel.py to create training labels, and train.txt
+	manually cut the last 20 percentage of the total rows to another file called test.txt
+
+
+3. For the SPID dataset:
+	repeat the similar steps, but with SPIDlabel.py
+
+4. manually merge the two train.txt files and two test.files together to form one train.txt and one test.txt file
+
+5. run shuffle.py on both lists to shuffle the order of examples in each list. 
+
+6. create three new files based on the existing versions:
+	 cfg/mio.data
+		Specify the training image folder 
+	 cfg/yolo-mio.cfg:
+		Change the last region layer from 20 classes to 8
+		Change the last convol layer from 125 to 65, this is a valid change because 5*(8+4+1)=65
+	 mio.names	
+
+7. ./darknet detector train cfg/mio.data cfg/yolo-mio.cfg darknet18_448.conv.23
+
+8. New weights will be saved into backup folder every 1000 iterations, you can specify the total iterations for training
+
+9. takes one week to train. 
+
+
+
+## Test the Darknet with new dataset
+NOTE: everything is based on the assumption that the origianl 11 categories (not 8) were used to train the model. The following assumes your model is trained with these category
+
+0. unzip the MIO-TCD dataset
+
+1. unzip the DarknetTestingToolkit
+
+2. put the individual file and your weight to the cfg, data or weight folders
+
+3. For validating with training images (for the neural network fine-tuning): 
+	edit the root folder inside the yolotest.py, and then run it
+	afterwards, run localization_evaluation.py inside the MIO-TCD-Localization-Code
+
+4. For validating with testing images (for comparing with other state-of-art methods): 
+	edit the root folder inside the yolotest.py, and then run it
+	upload the resulting file named "mycsv.csv" to the website called http://podoce.dinf.usherbrooke.ca/challenge/upload/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
+
+
+
