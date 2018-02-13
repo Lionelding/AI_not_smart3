@@ -75,26 +75,7 @@ NOTE: everything is based on the assumption that the origianl 11 categories (not
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## zip everything 
 tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
 
 
