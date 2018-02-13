@@ -1,0 +1,216 @@
+sherbrooke all 
+
+================================= Metrics ============================
+GT Tracks                                         20
+System Tracks                                     68
+Correct Detected Track (CDT)                      17
+False Alarm Track (FAT)                           10
+Track Detection Failure (TDF)                     2
+Track Fragmentation (TF)                          0
+ID Change (IDC)                                   4
+Latency of System track(LT)                       17.8824
+Closeness of Track Average (CTM)                  0.706244
+Closeness of Track Deviation (CTD)                0.127499
+Track Matching Error Average (TMEMT)              7.53211
+Track Matching Error Deviation(TMEMTD)            13.3544
+Track Completeness Average(TCM)                   0.771417
+Track Completeness Deviation(TCD)                 0.0118595
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.52224
+MOTP (overlap)                                    0.667237
+Misses Ratio                                      0.354482
+False Positive Ratio                              0.118988
+Mismatches Ratio (id change)                      0.00428991
+======================================================================
+
+sherbrooke car
+
+Some observation in the dataset were outside the ground truth annotation range and they were not considered
+================================= Metrics ============================
+GT Tracks                                         15
+System Tracks                                     31
+Correct Detected Track (CDT)                      14
+False Alarm Track (FAT)                           3
+Track Detection Failure (TDF)                     0
+Track Fragmentation (TF)                          0
+ID Change (IDC)                                   2
+Latency of System track(LT)                       15.2143
+Closeness of Track Average (CTM)                  0.794701
+Closeness of Track Deviation (CTD)                0.122651
+Track Matching Error Average (TMEMT)              9.23816
+Track Matching Error Deviation(TMEMTD)            20.3924
+Track Completeness Average(TCM)                   0.790202
+Track Completeness Deviation(TCD)                 0.0132737
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.615385
+MOTP (overlap)                                    0.735585
+Misses Ratio                                      0.12804
+False Positive Ratio                              0.256079
+Mismatches Ratio (id change)                      0.000496278
+======================================================================
+
+
+sherbrooke people
+
+================================= Metrics ============================
+GT Tracks                                         5
+System Tracks                                     37
+Correct Detected Track (CDT)                      3
+False Alarm Track (FAT)                           7
+Track Detection Failure (TDF)                     2
+Track Fragmentation (TF)                          0
+ID Change (IDC)                                   2
+Latency of System track(LT)                       30.3333
+Closeness of Track Average (CTM)                  0.569671
+Closeness of Track Deviation (CTD)                0.134983
+Track Matching Error Average (TMEMT)              4.89805
+Track Matching Error Deviation(TMEMTD)            2.48813
+Track Completeness Average(TCM)                   0.685361
+Track Completeness Deviation(TCD)                 0.0808231
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.447947
+MOTP (overlap)                                    0.557003
+Misses Ratio                                      0.541684
+False Positive Ratio                              0.00290336
+Mismatches Ratio (id change)                      0.00746578
+======================================================================
+
+rouen all
+================================= Metrics ============================
+GT Tracks                                         16
+System Tracks                                     64
+Correct Detected Track (CDT)                      16
+False Alarm Track (FAT)                           10
+Track Detection Failure (TDF)                     0
+Track Fragmentation (TF)                          9
+ID Change (IDC)                                   24
+Latency of System track(LT)                       25.125
+Closeness of Track Average (CTM)                  0.549826
+Closeness of Track Deviation (CTD)                0.169804
+Track Matching Error Average (TMEMT)              25.9768
+Track Matching Error Deviation(TMEMTD)            25.2774
+Track Completeness Average(TCM)                   0.478387
+Track Completeness Deviation(TCD)                 0.014368
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.624286
+MOTP (overlap)                                    0.616683
+Misses Ratio                                      0.308717
+False Positive Ratio                              0.0567187
+Mismatches Ratio (id change)                      0.0102779
+======================================================================
+
+
+rouen car
+================================= Metrics ============================
+GT Tracks                                         4
+System Tracks                                     8
+Correct Detected Track (CDT)                      4
+False Alarm Track (FAT)                           3
+Track Detection Failure (TDF)                     0
+Track Fragmentation (TF)                          0
+ID Change (IDC)                                   0
+Latency of System track(LT)                       8.5
+Closeness of Track Average (CTM)                  0.78025
+Closeness of Track Deviation (CTD)                0.0668111
+Track Matching Error Average (TMEMT)              17.3646
+Track Matching Error Deviation(TMEMTD)            7.20917
+Track Completeness Average(TCM)                   0.761002
+Track Completeness Deviation(TCD)                 0.0106068
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.749319
+MOTP (overlap)                                    0.778512
+Misses Ratio                                      0.234332
+False Positive Ratio                              0.0163488
+Mismatches Ratio (id change)                      0
+======================================================================
+
+rouen pedestrian
+================================= Metrics ============================
+GT Tracks                                         11
+System Tracks                                     54
+Correct Detected Track (CDT)                      11
+False Alarm Track (FAT)                           8
+Track Detection Failure (TDF)                     0
+Track Fragmentation (TF)                          9
+ID Change (IDC)                                   24
+Latency of System track(LT)                       29.1818
+Closeness of Track Average (CTM)                  0.488335
+Closeness of Track Deviation (CTD)                0.197129
+Track Matching Error Average (TMEMT)              28.9865
+Track Matching Error Deviation(TMEMTD)            30.9446
+Track Completeness Average(TCM)                   0.368677
+Track Completeness Deviation(TCD)                 0.0169113
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.596326
+MOTP (overlap)                                    0.583657
+Misses Ratio                                      0.320772
+False Positive Ratio                              0.0701837
+Mismatches Ratio (id change)                      0.0127179
+======================================================================
+
+Press ENTER to continue...
+
+
+
+stmarc all
+
+================================= Metrics ============================
+GT Tracks                                         28
+System Tracks                                     133
+Correct Detected Track (CDT)                      19
+False Alarm Track (FAT)                           12
+Track Detection Failure (TDF)                     8
+Track Fragmentation (TF)                          16
+ID Change (IDC)                                   45
+Latency of System track(LT)                       56.4737
+Closeness of Track Average (CTM)                  0.523066
+Closeness of Track Deviation (CTD)                0.164732
+Track Matching Error Average (TMEMT)              20.0537
+Track Matching Error Deviation(TMEMTD)            16.5765
+Track Completeness Average(TCM)                   0.461958
+Track Completeness Deviation(TCD)                 0.0136711
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.431522
+MOTP (overlap)                                    0.579628
+Misses Ratio                                      0.479522
+False Positive Ratio                              0.0808358
+Mismatches Ratio (id change)                      0.0081194
+======================================================================
+
+
+stmarc car
+
+
+
+stmarc people 
+
+================================= Metrics ============================
+GT Tracks                                         18
+System Tracks                                     74
+Correct Detected Track (CDT)                      10
+False Alarm Track (FAT)                           13
+Track Detection Failure (TDF)                     7
+Track Fragmentation (TF)                          4
+ID Change (IDC)                                   27
+Latency of System track(LT)                       144.2
+Closeness of Track Average (CTM)                  0.415325
+Closeness of Track Deviation (CTD)                0.182989
+Track Matching Error Average (TMEMT)              22.4466
+Track Matching Error Deviation(TMEMTD)            18.8942
+Track Completeness Average(TCM)                   0.303119
+Track Completeness Deviation(TCD)                 0.014106
+======================================================================
+=========================== CLEAR Metrics ============================
+MOTA                                              0.337358
+MOTP (overlap)                                    0.512324
+Misses Ratio                                      0.625255
+False Positive Ratio                              0.0270585
+Mismatches Ratio (id change)                      0.0103288
+======================================================================
